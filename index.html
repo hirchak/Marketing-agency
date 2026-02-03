@@ -3,267 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAV. MARKETING STRATEGY</title>
+    <title>SAV. CREATIVE STRATEGY</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Manrope:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- PREMIUM CSS VARIABLES --- */
+        /* --- CORE VARIABLES --- */
         :root {
-            --bg-color: #08080a;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --text-main: #f0f0f0;
-            --text-muted: #a0a0a0;
-            --accent: #d4af37; /* Champagne Gold (Subtle) */
-            --accent-glow: rgba(212, 175, 55, 0.2);
-            --border: rgba(255, 255, 255, 0.08);
-            --font-head: 'Cormorant Garamond', serif;
-            --font-body: 'Manrope', sans-serif;
+            --bg: #050505;
+            --text: #ffffff;
+            --text-gray: #a1a1aa;
+            --accent: #6d28d9; /* Deep Purple */
+            --accent-light: #c084fc;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --font-head: 'Syne', sans-serif;
+            --font-body: 'Inter', sans-serif;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            background-color: var(--bg);
+            color: var(--text);
             font-family: var(--font-body);
             line-height: 1.6;
             overflow-x: hidden;
+            width: 100vw;
         }
 
-        /* --- AMBIENT BACKGROUND ANIMATION --- */
-        .ambient-light {
+        /* --- BACKGROUND AURORA ANIMATION --- */
+        .aurora-bg {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(30, 30, 40, 0.4), transparent 70%);
+            top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -1;
-            pointer-events: none;
-            animation: pulseLight 10s infinite alternate;
+            background: var(--bg);
+            overflow: hidden;
         }
-
-        @keyframes pulseLight {
-            0% { opacity: 0.5; transform: scale(1); }
-            100% { opacity: 0.8; transform: scale(1.1); }
+        .aurora-blob {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s infinite alternate;
         }
+        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: #4c1d95; animation-delay: 0s; }
+        .blob-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: #0f766e; animation-delay: -5s; }
+        .blob-3 { top: 40%; left: 30%; width: 40vw; height: 40vw; background: #be185d; opacity: 0.2; animation-delay: -10s; }
 
-        a { text-decoration: none; color: inherit; transition: 0.3s; }
-        ul { list-style: none; }
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 50px) scale(1.1); }
+        }
 
         /* --- TYPOGRAPHY --- */
-        h1, h2, h3 { font-family: var(--font-head); font-weight: 600; line-height: 1.1; }
-        .text-gold { color: var(--accent); }
+        h1, h2, h3 { font-family: var(--font-head); font-weight: 700; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
         
-        /* --- UTILITIES & ANIMATIONS --- */
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 25px; }
-        
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
 
-        /* --- HEADER & NAV --- */
+        /* --- HEADER --- */
         header {
-            padding: 25px 0;
+            padding: 24px 0;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(15px);
-            background: rgba(8, 8, 10, 0.7);
-            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         .nav-flex { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.5rem; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; }
+        .logo { font-family: var(--font-head); font-weight: 800; font-size: 1.5rem; letter-spacing: -1px; }
         
-        /* Language Switcher */
-        .lang-switch { display: flex; gap: 20px; font-size: 0.9rem; letter-spacing: 1px; }
-        .lang-btn { opacity: 0.4; cursor: pointer; position: relative; }
-        .lang-btn.active, .lang-btn:hover { opacity: 1; color: var(--accent); }
-        .lang-btn.active::after {
-            content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 1px; background: var(--accent);
-        }
+        .lang-switch { display: flex; gap: 15px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; }
+        .lang-btn { opacity: 0.5; cursor: pointer; transition: 0.3s; position: relative; }
+        .lang-btn.active, .lang-btn:hover { opacity: 1; }
+        .lang-btn.active::after { content: '•'; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); color: var(--accent-light); }
 
-        /* --- HERO SECTION --- */
+        /* --- HERO --- */
         .hero {
             min-height: 90vh;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
             text-align: center;
             padding-top: 80px;
         }
         .hero h1 {
-            font-size: clamp(3.5rem, 8vw, 6rem);
+            font-size: clamp(3.5rem, 8vw, 6.5rem);
+            line-height: 0.95;
+            letter-spacing: -2px;
             margin-bottom: 30px;
-            background: linear-gradient(to right, #fff, #999);
+            background: linear-gradient(to bottom, #fff, #a1a1aa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            opacity: 0; 
+            animation: slideUp 1s forwards 0.2s;
         }
         .hero p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            max-width: 650px;
-            margin: 0 auto 50px;
-            font-weight: 300;
+            max-width: 500px;
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: slideUp 1s forwards 0.5s;
         }
 
-        /* --- PREMIUM BUTTON --- */
-        .btn-premium {
-            display: inline-flex;
-            align-items: center;
-            padding: 18px 45px;
-            border: 1px solid var(--border);
-            border-radius: 50px; /* Pill shape */
-            background: rgba(255,255,255,0.02);
-            color: var(--text-main);
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- CREATIVE BUTTON --- */
+        .btn-glow {
+            padding: 16px 40px;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            transition: all 0.4s ease;
+            transition: 0.4s;
+            opacity: 0;
+            animation: slideUp 1s forwards 0.8s;
         }
-        
-        .btn-premium:hover {
-            border-color: var(--accent);
-            background: var(--accent-glow);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        .btn-glow:hover {
+            background: #fff;
+            color: #000;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
         }
 
-        /* --- SERVICES (GLASS CARDS) --- */
-        .section-title {
-            text-align: center;
-            font-size: 3rem;
+        /* --- SERVICES (ACCORDION STYLE) --- */
+        .section-header { text-align: center; margin: 120px 0 60px; }
+        .section-header h2 { font-size: 3rem; margin-bottom: 15px; }
+        .section-header p { color: var(--text-gray); }
+
+        .service-item {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
             margin-bottom: 20px;
-            margin-top: 100px;
-        }
-        .section-subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            margin-bottom: 80px;
-            font-size: 1.1rem;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            margin-bottom: 100px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            padding: 50px 40px;
-            border-radius: 4px; /* Slightly soft corners, but professional */
+            padding: 30px;
+            cursor: pointer;
             transition: 0.4s;
             position: relative;
             overflow: hidden;
         }
-
-        .card:hover {
-            border-color: rgba(255,255,255,0.2);
-            background: rgba(255,255,255,0.05);
-            transform: translateY(-5px);
-        }
-
-        .card-num {
-            font-family: var(--font-head);
-            font-size: 4rem;
-            opacity: 0.1;
-            position: absolute;
-            top: 20px; right: 30px;
-        }
-
-        .card h3 { font-size: 2rem; margin-bottom: 20px; font-weight: 400; }
-        .card p { color: var(--text-muted); font-size: 1rem; margin-bottom: 30px; font-weight: 300; }
         
-        .card-link {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .card-link::after { content: '→'; transition: 0.3s; }
-        .card:hover .card-link::after { transform: translateX(5px); }
-
-        /* --- COMPLEX BUNDLES (Horizontal) --- */
-        .bundle-wrapper {
-            border-top: 1px solid var(--border);
-            padding: 100px 0;
+        .service-item:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.2);
         }
 
-        .bundle-card {
+        .service-head {
             display: flex;
-            flex-direction: column;
-            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 100%);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 60px;
-            margin-bottom: 40px;
-            position: relative;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .service-title { font-size: 1.8rem; font-family: var(--font-head); }
+        .service-icon { 
+            font-size: 1.5rem; 
+            transition: 0.3s; 
+            width: 40px; height: 40px; 
+            border-radius: 50%; 
+            border: 1px solid var(--glass-border);
+            display: flex; align-items: center; justify-content: center;
         }
 
-        @media(min-width: 900px) {
-            .bundle-card { flex-direction: row; justify-content: space-between; align-items: center; }
-            .bundle-content { width: 55%; }
-            .bundle-action { width: 40%; text-align: right; }
+        /* Expanded Content */
+        .service-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, opacity 0.5s ease;
+            opacity: 0;
         }
-
-        .bundle-price {
-            font-family: var(--font-head);
-            font-size: 2.5rem;
-            color: var(--text-main);
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .ai-badge {
-            display: inline-block;
-            padding: 5px 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #888;
+        
+        .service-item.open .service-details {
+            max-height: 600px; /* достатньо для контенту */
+            opacity: 1;
             margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid var(--glass-border);
+        }
+        
+        .service-item.open .service-icon { transform: rotate(45deg); background: #fff; color: #000; }
+        .service-item.open { background: rgba(20, 20, 25, 0.8); border-color: var(--accent-light); }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .details-col h4 { font-size: 0.9rem; text-transform: uppercase; color: var(--text-gray); margin-bottom: 10px; letter-spacing: 1px; }
+        .details-col ul li { margin-bottom: 8px; font-size: 0.95rem; color: #ddd; display: flex; align-items: flex-start; gap: 10px; }
+        .details-col ul li::before { content: '→'; color: var(--accent-light); }
+        
+        .price-tag { 
+            display: inline-block; 
+            margin-top: 20px; 
+            font-family: var(--font-head); 
+            font-size: 1.2rem; 
+            color: var(--accent-light); 
         }
 
+        /* --- BUNDLES (Horizontal Cards) --- */
+        .bundles-section { margin-bottom: 120px; }
+        .bundle-card {
+            background: linear-gradient(120deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 50px;
+            margin-bottom: 30px;
+            position: relative;
+            transition: 0.3s;
+        }
+        .bundle-card:hover { transform: translateY(-5px); border-color: var(--accent-light); }
+        
+        .bundle-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+        .bundle-badge { background: #fff; color: #000; padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        .bundle-desc { max-width: 600px; color: var(--text-gray); margin-bottom: 30px; }
+        
         /* --- FOOTER --- */
         footer {
             padding: 80px 0;
             text-align: center;
-            border-top: 1px solid var(--border);
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            border-top: 1px solid var(--glass-border);
+            position: relative;
+            z-index: 10;
         }
         
-        /* Mobile tweaks */
+        /* Mobile */
         @media (max-width: 768px) {
             .hero h1 { font-size: 3rem; }
-            .bundle-action { margin-top: 40px; text-align: left; }
-            .nav-cta { display: none; }
+            .details-grid { grid-template-columns: 1fr; }
+            .bundle-top { flex-direction: column; gap: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="ambient-light"></div>
+    <div class="aurora-bg">
+        <div class="aurora-blob blob-1"></div>
+        <div class="aurora-blob blob-2"></div>
+        <div class="aurora-blob blob-3"></div>
+    </div>
 
     <header>
         <div class="container nav-flex">
-            <div class="logo">SAV<span style="opacity:0.5">.AGENCY</span></div>
-            
+            <div class="logo">SAV.AGENCY</div>
             <div class="lang-switch">
                 <span class="lang-btn active" onclick="setLang('ua')">UA</span>
                 <span class="lang-btn" onclick="setLang('en')">EN</span>
@@ -272,208 +265,260 @@
         </div>
     </header>
 
-    <section class="hero fade-in">
+    <section class="hero">
         <div class="container">
-            <h1 id="hero_title">Стратегія, що<br> <span style="font-style: italic;">випереджає</span> час.</h1>
+            <h1 id="hero_title">Креатив,<br>посилений логікою.</h1>
             <p id="hero_desc">
-                Ми перетворюємо хаос на чітку систему. Глибинна аналітика та GTM-рішення, посилені інтелектуальними AI-агентами.
+                Ми об'єднуємо глибоку аналітику з проривним дизайном, щоб створювати стратегії, які не просто працюють, а домінують.
             </p>
-            <a href="https://t.me/andrisav" target="_blank" class="btn-premium" id="hero_btn">ОБГОВОРИТИ ПРОЄКТ</a>
+            <a href="https://t.me/andrisav" target="_blank" class="btn-glow" id="hero_btn">ОБГОВОРИТИ ПРОЄКТ</a>
         </div>
     </section>
 
-    <section class="container">
-        <h2 class="section-title fade-in" id="sec_single_title">Експертні Рішення</h2>
-        <p class="section-subtitle fade-in" id="sec_single_desc">Точкові інструменти для вирішення конкретних бізнес-задач</p>
+    <section class="container" style="margin-bottom: 100px;">
+        <div class="section-header">
+            <h2 id="services_title">Наші Послуги</h2>
+            <p id="services_sub">Натисніть на картку, щоб дізнатися деталі</p>
+        </div>
 
-        <div class="services-grid">
-            <div class="card fade-in">
-                <div class="card-num">01</div>
-                <h3 id="srv1_title">Deep Research</h3>
-                <p id="srv1_desc">Ми бачимо те, що приховано. Глибинний аналіз ринку, конкурентів та психології вашого клієнта. Фундамент для безпомилкових рішень.</p>
-                <a href="https://t.me/andrisav" target="_blank" class="card-link" id="srv1_btn">Замовити дослідження</a>
+        <div class="service-item" onclick="toggleService(this)">
+            <div class="service-head">
+                <span class="service-title" id="srv1_title">Deep Research & Strategy</span>
+                <div class="service-icon">+</div>
             </div>
-
-            <div class="card fade-in">
-                <div class="card-num">02</div>
-                <h3 id="srv2_title">Interactive Assets</h3>
-                <p id="srv2_desc">Забудьте про нудні PDF. Ми розробляємо калькулятори та ботів, які приносять цінність клієнту і генерують гарячі ліди для вас.</p>
-                <a href="https://t.me/andrisav" target="_blank" class="card-link" id="srv2_btn">Створити інструмент</a>
-            </div>
-
-            <div class="card fade-in">
-                <div class="card-num">03</div>
-                <h3 id="srv3_title">Content & Creative</h3>
-                <p id="srv3_desc">Слова та візуали, що резонують. Персоналізований контент, створений для різних сегментів аудиторії з хірургічною точністю.</p>
-                <a href="https://t.me/andrisav" target="_blank" class="card-link" id="srv3_btn">Отримати креативи</a>
+            <div class="service-details">
+                <div class="details-grid">
+                    <div class="details-col">
+                        <h4 id="srv1_h_why">ЧОМУ ЦЕ ПОТРІБНО</h4>
+                        <p style="color:#bbb; font-size:0.95rem; line-height:1.6;" id="srv1_why_txt">
+                            Маркетинг наосліп спалює 60% бюджету. Без розуміння глибинних мотивів клієнта та "сліпих зон" конкурентів, ви просто кричите в пустоту. Ми замінюємо здогадки фактами.
+                        </p>
+                    </div>
+                    <div class="details-col">
+                        <h4 id="srv1_h_what">ЩО ВХОДИТЬ</h4>
+                        <ul>
+                            <li id="srv1_li1">Аналіз цифрових слідів (Reddit, Twitter, Forums) для виявлення реальних болів.</li>
+                            <li id="srv1_li2">Розвідка конкурентів: їх трафік, креативи та слабкі місця.</li>
+                            <li id="srv1_li3">Стратегічна карта: покроковий план дій на 6 місяців.</li>
+                        </ul>
+                        <div class="price-tag" id="srv1_price">Інвестиція: від $800</div>
+                        <div style="margin-top:15px;">
+                            <a href="https://t.me/andrisav" target="_blank" style="text-decoration:underline; font-size:0.9rem; color:#fff;">Замовити дослідження -></a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
 
-    <section class="bundle-wrapper">
-        <div class="container">
-            <h2 class="section-title fade-in" id="sec_complex_title" style="margin-top:0;">Комплексний Підхід</h2>
-            <p class="section-subtitle fade-in" id="sec_complex_desc">Повноцінний супровід від ідеї до масштабування</p>
-
-            <div class="bundle-card fade-in">
-                <div class="bundle-content">
-                    <h3 id="bund1_title">GTM Launch Strategy</h3>
-                    <p id="bund1_desc" style="margin-top: 20px; font-size: 1.1rem;">
-                        Ваша дорожня карта до перших 100 клієнтів. Ідеально для стартапів та нових продуктів. 
-                        Ми розробляємо сценарій виходу на ринок, який неможливо ігнорувати.
-                    </p>
-                    <div class="ai-badge" id="ai_badge">Powered by AI Analytics Agents</div>
-                </div>
-                <div class="bundle-action">
-                    <span class="bundle-price" id="bund1_price">$2,200</span>
-                    <a href="https://t.me/andrisav" target="_blank" class="btn-premium" id="bund1_btn">РОЗПОЧАТИ ЗАПУСК</a>
+        <div class="service-item" onclick="toggleService(this)">
+            <div class="service-head">
+                <span class="service-title" id="srv2_title">GTM Launch (Startups)</span>
+                <div class="service-icon">+</div>
+            </div>
+            <div class="service-details">
+                <div class="details-grid">
+                    <div class="details-col">
+                        <h4 id="srv2_h_why">ЦІННІСТЬ ПОСЛУГИ</h4>
+                        <p style="color:#bbb; font-size:0.95rem; line-height:1.6;" id="srv2_why_txt">
+                            Найбільший ризик стартапу — зробити продукт, який нікому не потрібен. Наша мета — отримати перших 100 платіжних клієнтів за 90 днів, використовуючи агресивні та розумні тактики.
+                        </p>
+                    </div>
+                    <div class="details-col">
+                        <h4 id="srv2_h_what">КЛЮЧОВІ ЕТАПИ</h4>
+                        <ul>
+                            <li id="srv2_li1">Розробка ідеального профілю клієнта (ICP).</li>
+                            <li id="srv2_li2">Створення Value Proposition, від якого важко відмовитись.</li>
+                            <li id="srv2_li3">Запуск каналів залучення (Outbound, Ads, Partners).</li>
+                        </ul>
+                        <div class="price-tag" id="srv2_price">Інвестиція: $2,200 - $3,500</div>
+                        <div style="margin-top:15px;">
+                            <a href="https://t.me/andrisav" target="_blank" style="text-decoration:underline; font-size:0.9rem; color:#fff;">Запустити стартап -></a>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div class="bundle-card fade-in">
-                <div class="bundle-content">
-                    <h3 id="bund2_title">Marketing Ecosystem</h3>
-                    <p id="bund2_desc" style="margin-top: 20px; font-size: 1.1rem;">
-                        Фундаментальна стратегія на 6-12 місяців. Побудова бренду, каналів трафіку та комунікації. 
-                        Система, яка працює на вас довгостроково.
-                    </p>
-                </div>
-                <div class="bundle-action">
-                    <span class="bundle-price" id="bund2_price">$3,500+</span>
-                    <a href="https://t.me/andrisav" target="_blank" class="btn-premium" id="bund2_btn">ОБГОВОРИТИ СТРАТЕГІЮ</a>
+        <div class="service-item" onclick="toggleService(this)">
+            <div class="service-head">
+                <span class="service-title" id="srv3_title">Interactive Lead Magnets</span>
+                <div class="service-icon">+</div>
+            </div>
+            <div class="service-details">
+                <div class="details-grid">
+                    <div class="details-col">
+                        <h4 id="srv3_h_why">В ЧОМУ СУТЬ</h4>
+                        <p style="color:#bbb; font-size:0.95rem; line-height:1.6;" id="srv3_why_txt">
+                            Люди втомилися від "безкоштовних гайдів". Ми створюємо корисні інструменти (калькулятори, квізи, боти), які дають миттєву користь клієнту в обмін на контакт. Це створює довіру.
+                        </p>
+                    </div>
+                    <div class="details-col">
+                        <h4 id="srv3_h_what">ПРИКЛАДИ РІШЕНЬ</h4>
+                        <ul>
+                            <li id="srv3_li1">Калькулятор ROI або економії коштів.</li>
+                            <li id="srv3_li2">Telegram-бот для автоматичної консультації.</li>
+                            <li id="srv3_li3">Персоналізований аудит за 2 хвилини.</li>
+                        </ul>
+                        <div class="price-tag" id="srv3_price">Інвестиція: від $1,500</div>
+                        <div style="margin-top:15px;">
+                            <a href="https://t.me/andrisav" target="_blank" style="text-decoration:underline; font-size:0.9rem; color:#fff;">Створити магніт -></a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <footer>
-        <div class="container fade-in">
-            <h2 style="color: #fff; margin-bottom: 30px; font-size: 2rem;" id="footer_quote">Створюємо майбутнє вашого бізнесу.</h2>
-            <a href="https://t.me/andrisav" target="_blank" style="font-size: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 5px;">@andrisav</a>
-            <p style="margin-top: 50px; opacity: 0.3;">© 2026 SAV. AGENCY</p>
+        <div class="container">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px;" id="footer_title">Готові до результату?</h2>
+            <p style="color: #888; margin-bottom: 40px;" id="footer_sub">
+                Ми не продаємо години. Ми продаємо ріст.
+            </p>
+            <a href="https://t.me/andrisav" target="_blank" class="btn-glow" id="footer_btn">ЗВ'ЯЗАТИСЬ В TELEGRAM</a>
+            
+            <div style="margin-top: 80px; opacity: 0.3; font-size: 0.8rem;">
+                © 2026 SAV. CREATIVE AGENCY
+            </div>
         </div>
     </footer>
 
     <script>
-        // 1. SCROLL ANIMATION
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+        // 1. Accordion Logic
+        function toggleService(element) {
+            // Close all others
+            const allItems = document.querySelectorAll('.service-item');
+            allItems.forEach(item => {
+                if (item !== element) {
+                    item.classList.remove('open');
                 }
             });
-        }, { threshold: 0.1 });
+            // Toggle clicked
+            element.classList.toggle('open');
+        }
 
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-        // 2. TRANSLATIONS
+        // 2. Translations
         const translations = {
             ua: {
-                hero_title: `Стратегія, що<br> <span style="font-style: italic;">випереджає</span> час.`,
-                hero_desc: "Ми перетворюємо хаос на чітку систему. Глибинна аналітика та GTM-рішення, посилені інтелектуальними AI-агентами.",
+                hero_title: "Креатив,<br>посилений логікою.",
+                hero_desc: "Ми об'єднуємо глибоку аналітику з проривним дизайном, щоб створювати стратегії, які не просто працюють, а домінують.",
                 hero_btn: "ОБГОВОРИТИ ПРОЄКТ",
+                services_title: "Наші Послуги",
+                services_sub: "Натисніть на картку, щоб дізнатися деталі",
                 
-                sec_single_title: "Експертні Рішення",
-                sec_single_desc: "Точкові інструменти для вирішення конкретних бізнес-задач",
-                
-                srv1_title: "Deep Research",
-                srv1_desc: "Ми бачимо те, що приховано. Глибинний аналіз ринку, конкурентів та психології вашого клієнта. Фундамент для безпомилкових рішень.",
-                srv1_btn: "Замовити дослідження",
+                // Service 1
+                srv1_title: "Deep Research & Strategy",
+                srv1_h_why: "ЧОМУ ЦЕ ПОТРІБНО",
+                srv1_why_txt: "Маркетинг наосліп спалює 60% бюджету. Без розуміння глибинних мотивів клієнта та 'сліпих зон' конкурентів, ви просто кричите в пустоту. Ми замінюємо здогадки фактами.",
+                srv1_h_what: "ЩО ВХОДИТЬ",
+                srv1_li1: "Аналіз цифрових слідів (Reddit, Twitter) для виявлення реальних болів.",
+                srv1_li2: "Розвідка конкурентів: їх трафік, креативи та слабкі місця.",
+                srv1_li3: "Стратегічна карта: покроковий план дій на 6 місяців.",
+                srv1_price: "Інвестиція: від $800",
 
-                srv2_title: "Interactive Assets",
-                srv2_desc: "Забудьте про нудні PDF. Ми розробляємо калькулятори та ботів, які приносять цінність клієнту і генерують гарячі ліди для вас.",
-                srv2_btn: "Створити інструмент",
+                // Service 2
+                srv2_title: "GTM Launch (Startups)",
+                srv2_h_why: "ЦІННІСТЬ ПОСЛУГИ",
+                srv2_why_txt: "Найбільший ризик стартапу — зробити продукт, який нікому не потрібен. Наша мета — отримати перших 100 платіжних клієнтів за 90 днів.",
+                srv2_h_what: "КЛЮЧОВІ ЕТАПИ",
+                srv2_li1: "Розробка ідеального профілю клієнта (ICP).",
+                srv2_li2: "Створення Value Proposition, від якого важко відмовитись.",
+                srv2_li3: "Запуск каналів залучення (Outbound, Ads, Partners).",
+                srv2_price: "Інвестиція: $2,200 - $3,500",
 
-                srv3_title: "Content & Creative",
-                srv3_desc: "Слова та візуали, що резонують. Персоналізований контент, створений для різних сегментів аудиторії з хірургічною точністю.",
-                srv3_btn: "Отримати креативи",
+                // Service 3
+                srv3_title: "Interactive Lead Magnets",
+                srv3_h_why: "В ЧОМУ СУТЬ",
+                srv3_why_txt: "Люди втомилися від 'безкоштовних гайдів'. Ми створюємо інструменти, які дають миттєву користь клієнту в обмін на контакт.",
+                srv3_h_what: "ПРИКЛАДИ РІШЕНЬ",
+                srv3_li1: "Калькулятор ROI або економії коштів.",
+                srv3_li2: "Telegram-бот для автоматичної консультації.",
+                srv3_li3: "Персоналізований аудит за 2 хвилини.",
+                srv3_price: "Інвестиція: від $1,500",
 
-                sec_complex_title: "Комплексний Підхід",
-                sec_complex_desc: "Повноцінний супровід від ідеї до масштабування",
-
-                bund1_title: "GTM Launch Strategy",
-                bund1_desc: "Ваша дорожня карта до перших 100 клієнтів. Ідеально для стартапів та нових продуктів. Ми розробляємо сценарій виходу на ринок, який неможливо ігнорувати.",
-                bund1_btn: "РОЗПОЧАТИ ЗАПУСК",
-                ai_badge: "Посилено AI-аналітикою",
-
-                bund2_title: "Marketing Ecosystem",
-                bund2_desc: "Фундаментальна стратегія на 6-12 місяців. Побудова бренду, каналів трафіку та комунікації. Система, яка працює на вас довгостроково.",
-                bund2_btn: "ОБГОВОРИТИ СТРАТЕГІЮ",
-
-                footer_quote: "Створюємо майбутнє вашого бізнесу."
+                footer_title: "Готові до результату?",
+                footer_sub: "Ми не продаємо години. Ми продаємо ріст.",
+                footer_btn: "ЗВ'ЯЗАТИСЬ В TELEGRAM"
             },
             en: {
-                hero_title: `Strategy Ahead<br> <span style="font-style: italic;">of the Curve.</span>`,
-                hero_desc: "We turn chaos into clarity. Deep analytics and GTM solutions, amplified by intelligent AI agents.",
+                hero_title: "Creativity,<br>Amplified by Logic.",
+                hero_desc: "We combine deep analytics with breakthrough design to create strategies that don't just work—they dominate.",
                 hero_btn: "DISCUSS PROJECT",
+                services_title: "Our Services",
+                services_sub: "Click on a card to reveal details",
                 
-                sec_single_title: "Expert Solutions",
-                sec_single_desc: "Precise tools to solve specific business challenges",
-                
-                srv1_title: "Deep Research",
-                srv1_desc: "We see the invisible. In-depth analysis of the market, competitors, and customer psychology. The foundation for flawless decisions.",
-                srv1_btn: "Order Research",
+                srv1_title: "Deep Research & Strategy",
+                srv1_h_why: "WHY IT MATTERS",
+                srv1_why_txt: "Blind marketing burns 60% of the budget. Without understanding client motives and competitor blind spots, you're shouting into the void. We replace guesses with facts.",
+                srv1_h_what: "WHAT'S INCLUDED",
+                srv1_li1: "Digital footprint analysis (Reddit, Twitter) to uncover real pains.",
+                srv1_li2: "Competitor Intelligence: traffic, creatives, and weaknesses.",
+                srv1_li3: "Strategic Map: step-by-step action plan for 6 months.",
+                srv1_price: "Investment: from $800",
 
-                srv2_title: "Interactive Assets",
-                srv2_desc: "Forget boring PDFs. We build calculators and bots that deliver value to the client and generate hot leads for you.",
-                srv2_btn: "Create Tool",
+                srv2_title: "GTM Launch (Startups)",
+                srv2_h_why: "VALUE PROPOSITION",
+                srv2_why_txt: "The biggest startup risk is building something nobody wants. Our goal is to get the first 100 paying customers in 90 days.",
+                srv2_h_what: "KEY STAGES",
+                srv2_li1: "Ideal Customer Profile (ICP) development.",
+                srv2_li2: "Creating a Value Proposition that's hard to refuse.",
+                srv2_li3: "Launching acquisition channels (Outbound, Ads, Partners).",
+                srv2_price: "Investment: $2,200 - $3,500",
 
-                srv3_title: "Content & Creative",
-                srv3_desc: "Words and visuals that resonate. Personalized content created for different audience segments with surgical precision.",
-                srv3_btn: "Get Creatives",
+                srv3_title: "Interactive Lead Magnets",
+                srv3_h_why: "THE ESSENCE",
+                srv3_why_txt: "People are tired of 'free guides'. We build tools that provide instant value to the client in exchange for contact info.",
+                srv3_h_what: "EXAMPLES",
+                srv3_li1: "ROI or Cost Savings Calculator.",
+                srv3_li2: "Telegram bot for automated consulting.",
+                srv3_li3: "Personalized audit in 2 minutes.",
+                srv3_price: "Investment: from $1,500",
 
-                sec_complex_title: "Holistic Approach",
-                sec_complex_desc: "Full support from idea to scaling",
-
-                bund1_title: "GTM Launch Strategy",
-                bund1_desc: "Your roadmap to the first 100 clients. Ideal for startups and new products. We engineer a market entry scenario impossible to ignore.",
-                bund1_btn: "START LAUNCH",
-                ai_badge: "Powered by AI Analytics",
-
-                bund2_title: "Marketing Ecosystem",
-                bund2_desc: "Fundamental strategy for 6-12 months. Brand building, traffic channels, and communication. A system that works for you long-term.",
-                bund2_btn: "DISCUSS STRATEGY",
-
-                footer_quote: "Building the future of your business."
+                footer_title: "Ready for Results?",
+                footer_sub: "We don't sell hours. We sell growth.",
+                footer_btn: "CONTACT ON TELEGRAM"
             },
             cs: {
-                hero_title: `Strategie, která<br> <span style="font-style: italic;">předbíhá dobu.</span>`,
-                hero_desc: "Měníme chaos v jasný systém. Hloubková analytika a GTM řešení, posílená inteligentními AI agenty.",
+                hero_title: "Kreativita,<br>Posílená Logikou.",
+                hero_desc: "Spojujeme hlubokou analytiku s průlomovým designem a vytváříme strategie, které nejen fungují, ale dominují.",
                 hero_btn: "PROJEDNAT PROJEKT",
+                services_title: "Naše Služby",
+                services_sub: "Klikněte na kartu pro detaily",
                 
-                sec_single_title: "Expertní Řešení",
-                sec_single_desc: "Přesné nástroje pro řešení konkrétních obchodních výzev",
-                
-                srv1_title: "Hloubkový Výzkum",
-                srv1_desc: "Vidíme to, co je skryté. Hloubková analýza trhu, konkurence a psychologie zákazníka. Základ pro bezchybná rozhodnutí.",
-                srv1_btn: "Objednat výzkum",
+                srv1_title: "Hloubkový Výzkum & Strategie",
+                srv1_h_why: "PROČ JE TO TŘEBA",
+                srv1_why_txt: "Marketing naslepo spaluje 60 % rozpočtu. Bez pochopení motivů klienta a slepých míst konkurence jen křičíte do prázdna. Nahrazujeme dohady fakty.",
+                srv1_h_what: "CO JE SOUČÁSTÍ",
+                srv1_li1: "Analýza digitálních stop (Reddit, Twitter) pro odhalení skutečných bolestí.",
+                srv1_li2: "Zpravodajství o konkurenci: návštěvnost, kreativa a slabiny.",
+                srv1_li3: "Strategická mapa: krok za krokem plán na 6 měsíců.",
+                srv1_price: "Investice: od $800",
 
-                srv2_title: "Interaktivní Nástroje",
-                srv2_desc: "Zapomeňte na nudná PDF. Vytváříme kalkulačky a boty, kteří přinášejí hodnotu klientovi a generují vám horké leady.",
-                srv2_btn: "Vytvořit nástroj",
+                srv2_title: "GTM Start (Startupy)",
+                srv2_h_why: "HODNOTA SLUŽBY",
+                srv2_why_txt: "Největším rizikem startupu je vytvořit produkt, který nikdo nechce. Náš cíl: prvních 100 platících klientů za 90 dní.",
+                srv2_h_what: "KLÍČOVÉ FÁZE",
+                srv2_li1: "Vývoj ideálního profilu zákazníka (ICP).",
+                srv2_li2: "Vytvoření Value Proposition, které nelze odmítnout.",
+                srv2_li3: "Spuštění akvizičních kanálů (Outbound, Ads, Partneři).",
+                srv2_price: "Investice: $2,200 - $3,500",
 
-                srv3_title: "Obsah a Kreativa",
-                srv3_desc: "Slova a vizuály, které rezonují. Personalizovaný obsah vytvořený pro různé segmenty publika s chirurgickou přesností.",
-                srv3_btn: "Získat kreativu",
+                srv3_title: "Interaktivní Lead Magnety",
+                srv3_h_why: "V ČEM JE PODSTATA",
+                srv3_why_txt: "Lidé jsou unaveni z 'bezplatných příruček'. Vytváříme nástroje, které přinášejí okamžitou hodnotu výměnou za kontakt.",
+                srv3_h_what: "PŘÍKLADY",
+                srv3_li1: "Kalkulačka ROI nebo úspor.",
+                srv3_li2: "Telegram bot pro automatické konzultace.",
+                srv3_li3: "Personalizovaný audit za 2 minuty.",
+                srv3_price: "Investice: od $1,500",
 
-                sec_complex_title: "Komplexní Přístup",
-                sec_complex_desc: "Plná podpora od nápadu po škálování",
-
-                bund1_title: "GTM Start Strategie",
-                bund1_desc: "Vaše cestovní mapa k prvním 100 klientům. Ideální pro startupy a nové produkty. Navrhujeme scénář vstupu na trh, který nelze ignorovat.",
-                bund1_btn: "ZAČÍT START",
-                ai_badge: "Posíleno AI Analytikou",
-
-                bund2_title: "Marketingový Ekosystém",
-                bund2_desc: "Základní strategie na 6-12 měsíců. Budování značky, kanály návštěvnosti a komunikace. Systém, který pro vás pracuje dlouhodobě.",
-                bund2_btn: "PROJEDNAT STRATEGII",
-
-                footer_quote: "Tvoříme budoucnost vašeho podnikání."
+                footer_title: "Jste připraveni?",
+                footer_sub: "Neprodáváme hodiny. Prodáváme růst.",
+                footer_btn: "KONTAKT TELEGRAM"
             }
         };
 
         function setLang(lang) {
-            // Update Content
             const keys = Object.keys(translations[lang]);
             keys.forEach(key => {
                 const element = document.getElementById(key);
@@ -481,8 +526,6 @@
                     element.innerHTML = translations[lang][key];
                 }
             });
-
-            // Update Active State
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
         }
