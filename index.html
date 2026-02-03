@@ -3,428 +3,477 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI MARKETING AGENCY</title>
+    <title>SAV. MARKETING STRATEGY</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Teko:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Manrope:wght@300;500;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- CSS STYLES (BRUTALISM) --- */
+        /* --- PREMIUM CSS VARIABLES --- */
         :root {
-            --bg-color: #050505;
-            --text-color: #E0E0E0;
-            --accent-color: #CCFF00; /* Neon Lime */
-            --border-color: #333333;
-            --secondary-bg: #111;
+            --bg-color: #08080a;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --text-main: #f0f0f0;
+            --text-muted: #a0a0a0;
+            --accent: #d4af37; /* Champagne Gold (Subtle) */
+            --accent-glow: rgba(212, 175, 55, 0.2);
+            --border: rgba(255, 255, 255, 0.08);
+            --font-head: 'Cormorant Garamond', serif;
+            --font-body: 'Manrope', sans-serif;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Space Grotesk', sans-serif;
-            line-height: 1.5;
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        h1, h2, h3, .teko-font {
-            font-family: 'Teko', sans-serif;
-            text-transform: uppercase;
-            line-height: 0.95;
+        /* --- AMBIENT BACKGROUND ANIMATION --- */
+        .ambient-light {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(30, 30, 40, 0.4), transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+            animation: pulseLight 10s infinite alternate;
         }
 
-        a { text-decoration: none; color: inherit; cursor: pointer;}
+        @keyframes pulseLight {
+            0% { opacity: 0.5; transform: scale(1); }
+            100% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; }
 
-        /* --- UTILITIES --- */
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .text-accent { color: var(--accent-color); }
-        .mt-50 { margin-top: 50px; }
-        .mb-20 { margin-bottom: 20px; }
-
-        /* --- BUTTONS --- */
-        .btn {
-            display: inline-block;
-            background: transparent;
-            color: var(--accent-color);
-            border: 1px solid var(--accent-color);
-            padding: 12px 30px;
-            font-family: 'Teko', sans-serif;
-            font-size: 1.3rem;
-            text-transform: uppercase;
-            transition: 0.2s;
-            cursor: pointer;
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3 { font-family: var(--font-head); font-weight: 600; line-height: 1.1; }
+        .text-gold { color: var(--accent); }
+        
+        /* --- UTILITIES & ANIMATIONS --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 25px; }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-        .btn:hover { background: var(--accent-color); color: #000; box-shadow: 0 0 15px rgba(204,255,0,0.3); }
-        .btn-fill { background: var(--accent-color); color: #000; }
-        .btn-fill:hover { background: #fff; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-        /* --- HEADER & LANG SWITCHER --- */
+        /* --- HEADER & NAV --- */
         header {
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border-color);
+            padding: 25px 0;
             position: fixed;
             width: 100%;
             top: 0;
-            background: rgba(5, 5, 5, 0.95);
-            backdrop-filter: blur(5px);
             z-index: 100;
+            backdrop-filter: blur(15px);
+            background: rgba(8, 8, 10, 0.7);
+            border-bottom: 1px solid var(--border);
         }
         .nav-flex { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: 'Teko', sans-serif; font-size: 1.8rem; font-weight: 700; }
+        .logo { font-size: 1.5rem; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; }
         
-        .lang-switch { display: flex; gap: 15px; font-family: 'Teko', sans-serif; font-size: 1.2rem; }
-        .lang-btn { opacity: 0.5; cursor: pointer; transition: 0.2s; }
-        .lang-btn:hover, .lang-btn.active { opacity: 1; color: var(--accent-color); text-decoration: underline; }
-
-        /* --- HERO --- */
-        .hero { padding: 160px 0 80px; text-align: center; }
-        .hero h1 { font-size: clamp(3rem, 10vw, 8rem); margin-bottom: 20px; }
-        .hero p { max-width: 600px; margin: 0 auto 30px; color: #888; }
-
-        /* --- SEPARATORS --- */
-        .section-header {
-            border-top: 1px solid var(--border-color);
-            padding: 60px 0 30px;
-            text-align: center;
+        /* Language Switcher */
+        .lang-switch { display: flex; gap: 20px; font-size: 0.9rem; letter-spacing: 1px; }
+        .lang-btn { opacity: 0.4; cursor: pointer; position: relative; }
+        .lang-btn.active, .lang-btn:hover { opacity: 1; color: var(--accent); }
+        .lang-btn.active::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 1px; background: var(--accent);
         }
-        .section-header h2 { font-size: 3rem; margin-bottom: 10px; }
-        .section-header p { color: #666; font-size: 1rem; }
 
-        /* --- SINGLE SERVICES (GRID) --- */
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px;
+        }
+        .hero h1 {
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            margin-bottom: 30px;
+            background: linear-gradient(to right, #fff, #999);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto 50px;
+            font-weight: 300;
+        }
+
+        /* --- PREMIUM BUTTON --- */
+        .btn-premium {
+            display: inline-flex;
+            align-items: center;
+            padding: 18px 45px;
+            border: 1px solid var(--border);
+            border-radius: 50px; /* Pill shape */
+            background: rgba(255,255,255,0.02);
+            color: var(--text-main);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .btn-premium:hover {
+            border-color: var(--accent);
+            background: var(--accent-glow);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* --- SERVICES (GLASS CARDS) --- */
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            margin-top: 100px;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 80px;
+            font-size: 1.1rem;
+        }
+
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 1px;
-            background: var(--border-color);
-            border-bottom: 1px solid var(--border-color);
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 100px;
         }
-        .service-card {
-            background: var(--bg-color);
-            padding: 40px;
-            transition: 0.3s;
-        }
-        .service-card:hover { background: #0f0f0f; }
-        .service-price { font-family: 'Teko', sans-serif; font-size: 1.8rem; color: var(--accent-color); margin-top: 15px; }
 
-        /* --- COMPLEX BUNDLES (FLEX) --- */
-        .bundles-section { padding: 50px 0 100px; }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 50px 40px;
+            border-radius: 4px; /* Slightly soft corners, but professional */
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.05);
+            transform: translateY(-5px);
+        }
+
+        .card-num {
+            font-family: var(--font-head);
+            font-size: 4rem;
+            opacity: 0.1;
+            position: absolute;
+            top: 20px; right: 30px;
+        }
+
+        .card h3 { font-size: 2rem; margin-bottom: 20px; font-weight: 400; }
+        .card p { color: var(--text-muted); font-size: 1rem; margin-bottom: 30px; font-weight: 300; }
+        
+        .card-link {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-link::after { content: '→'; transition: 0.3s; }
+        .card:hover .card-link::after { transform: translateX(5px); }
+
+        /* --- COMPLEX BUNDLES (Horizontal) --- */
+        .bundle-wrapper {
+            border-top: 1px solid var(--border);
+            padding: 100px 0;
+        }
+
         .bundle-card {
-            border: 1px solid var(--border-color);
-            padding: 40px;
-            margin-bottom: 20px;
             display: flex;
             flex-direction: column;
-            background: #080808;
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 100%);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 60px;
+            margin-bottom: 40px;
             position: relative;
         }
-        
-        @media(min-width: 768px) {
+
+        @media(min-width: 900px) {
             .bundle-card { flex-direction: row; justify-content: space-between; align-items: center; }
-            .bundle-content { width: 60%; }
-            .bundle-action { width: 35%; text-align: right; border-left: 1px solid var(--border-color); padding-left: 30px;}
+            .bundle-content { width: 55%; }
+            .bundle-action { width: 40%; text-align: right; }
         }
 
-        .bundle-card.featured { border: 1px solid var(--accent-color); }
-        .bundle-tag { 
-            position: absolute; top: 0; right: 0; 
-            background: var(--accent-color); color: #000; 
-            padding: 5px 15px; font-weight: bold; font-size: 0.8rem; 
+        .bundle-price {
+            font-family: var(--font-head);
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .ai-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #888;
+            margin-top: 30px;
         }
 
         /* --- FOOTER --- */
-        footer { padding: 60px 0; text-align: center; border-top: 1px solid var(--border-color); }
-
-        /* --- MOBILE --- */
+        footer {
+            padding: 80px 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        /* Mobile tweaks */
         @media (max-width: 768px) {
-            .hero { padding-top: 120px; }
-            .bundle-action { margin-top: 20px; text-align: left; padding-left: 0; border-left: none; border-top: 1px solid #222; padding-top: 20px;}
-            .services-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 3rem; }
+            .bundle-action { margin-top: 40px; text-align: left; }
+            .nav-cta { display: none; }
         }
     </style>
 </head>
 <body>
 
+    <div class="ambient-light"></div>
+
     <header>
         <div class="container nav-flex">
-            <div class="logo">AI_AGENCY<span class="text-accent">.UA</span></div>
+            <div class="logo">SAV<span style="opacity:0.5">.AGENCY</span></div>
             
             <div class="lang-switch">
                 <span class="lang-btn active" onclick="setLang('ua')">UA</span>
                 <span class="lang-btn" onclick="setLang('en')">EN</span>
                 <span class="lang-btn" onclick="setLang('cs')">CZ</span>
             </div>
-
-            <a href="#contact" class="btn" id="nav_cta" style="display:none; /* hidden on mobile tiny screens if needed */">Contact</a>
         </div>
     </header>
 
-    <section class="hero">
+    <section class="hero fade-in">
         <div class="container">
-            <h1 id="hero_title">
-                МАРКЕТИНГ <span style="color:#444">МЕРТВИЙ.</span><br>
-                ХАЙ ЖИВЕ <span class="text-accent">AI.</span>
-            </h1>
+            <h1 id="hero_title">Стратегія, що<br> <span style="font-style: italic;">випереджає</span> час.</h1>
             <p id="hero_desc">
-                Ми замінюємо маркетинговий відділ штучним інтелектом. 
-                Deep Research. GTM стратегії. Без води.
+                Ми перетворюємо хаос на чітку систему. Глибинна аналітика та GTM-рішення, посилені інтелектуальними AI-агентами.
             </p>
-            <a href="#services_single" class="btn btn-fill" id="hero_btn">ДИВИТИСЯ ПОСЛУГИ -></a>
+            <a href="https://t.me/andrisav" target="_blank" class="btn-premium" id="hero_btn">ОБГОВОРИТИ ПРОЄКТ</a>
         </div>
     </section>
 
-    <section id="services_single">
-        <div class="section-header">
-            <div class="container">
-                <h2 id="sec_single_title">ТОЧКОВІ ПОСЛУГИ</h2>
-                <p id="sec_single_desc">Виберіть конкретне рішення для вашої задачі</p>
-            </div>
-        </div>
+    <section class="container">
+        <h2 class="section-title fade-in" id="sec_single_title">Експертні Рішення</h2>
+        <p class="section-subtitle fade-in" id="sec_single_desc">Точкові інструменти для вирішення конкретних бізнес-задач</p>
 
         <div class="services-grid">
-            <div class="service-card">
-                <h3 id="srv1_title">DEEP RESEARCH</h3>
-                <p id="srv1_desc">Глибинний аналіз ринку, конкурентів та болів клієнтів. Ви дізнаєтесь те, що приховують ваші конкуренти.</p>
-                <ul style="margin-top:20px; color:#888; font-size:0.9rem;">
-                    <li id="srv1_li1">- Аналіз 5-10 конкурентів</li>
-                    <li id="srv1_li2">- "Карта болів" клієнта (Reddit/Twitter)</li>
-                    <li id="srv1_li3">- Звіт 30-50 сторінок</li>
-                </ul>
-                <div class="service-price" id="srv1_price">від $800</div>
+            <div class="card fade-in">
+                <div class="card-num">01</div>
+                <h3 id="srv1_title">Deep Research</h3>
+                <p id="srv1_desc">Ми бачимо те, що приховано. Глибинний аналіз ринку, конкурентів та психології вашого клієнта. Фундамент для безпомилкових рішень.</p>
+                <a href="https://t.me/andrisav" target="_blank" class="card-link" id="srv1_btn">Замовити дослідження</a>
             </div>
 
-            <div class="service-card">
-                <h3 id="srv2_title">AI LEAD MAGNETS</h3>
-                <p id="srv2_desc">Ми не робимо PDF. Ми створюємо міні-продукти: калькулятори, Telegram-боти, які генерують ліди.</p>
-                <ul style="margin-top:20px; color:#888; font-size:0.9rem;">
-                    <li id="srv2_li1">- Калькулятори ROI/Прибутку</li>
-                    <li id="srv2_li2">- Telegram Боти-консультанти</li>
-                    <li id="srv2_li3">- Інтеграція з CRM</li>
-                </ul>
-                <div class="service-price" id="srv2_price">від $1,500</div>
+            <div class="card fade-in">
+                <div class="card-num">02</div>
+                <h3 id="srv2_title">Interactive Assets</h3>
+                <p id="srv2_desc">Забудьте про нудні PDF. Ми розробляємо калькулятори та ботів, які приносять цінність клієнту і генерують гарячі ліди для вас.</p>
+                <a href="https://t.me/andrisav" target="_blank" class="card-link" id="srv2_btn">Створити інструмент</a>
             </div>
 
-            <div class="service-card">
-                <h3 id="srv3_title">CREATIVE BATCH</h3>
-                <p id="srv3_desc">Масове створення контенту та рекламних креативів. Персоналізація під різні сегменти аудиторії.</p>
-                <ul style="margin-top:20px; color:#888; font-size:0.9rem;">
-                    <li id="srv3_li1">- 30+ рекламних текстів</li>
-                    <li id="srv3_li2">- 10+ сценаріїв для відео</li>
-                    <li id="srv3_li3">- Візуальні концепти (Midjourney)</li>
-                </ul>
-                <div class="service-price" id="srv3_price">від $1,500</div>
+            <div class="card fade-in">
+                <div class="card-num">03</div>
+                <h3 id="srv3_title">Content & Creative</h3>
+                <p id="srv3_desc">Слова та візуали, що резонують. Персоналізований контент, створений для різних сегментів аудиторії з хірургічною точністю.</p>
+                <a href="https://t.me/andrisav" target="_blank" class="card-link" id="srv3_btn">Отримати креативи</a>
             </div>
         </div>
     </section>
 
-    <section id="services_complex" class="bundles-section">
-        <div class="section-header" style="border-top:none;">
-            <div class="container">
-                <h2 id="sec_complex_title">КОМПЛЕКСНІ РІШЕННЯ</h2>
-                <p id="sec_complex_desc">Повна стратегія та супровід запуску</p>
-            </div>
-        </div>
-
+    <section class="bundle-wrapper">
         <div class="container">
-            <div class="bundle-card featured">
-                <div class="bundle-tag" id="tag_popular">POPULAR</div>
+            <h2 class="section-title fade-in" id="sec_complex_title" style="margin-top:0;">Комплексний Підхід</h2>
+            <p class="section-subtitle fade-in" id="sec_complex_desc">Повноцінний супровід від ідеї до масштабування</p>
+
+            <div class="bundle-card fade-in">
                 <div class="bundle-content">
-                    <h3 id="bund1_title" style="font-size:2rem; margin-bottom:10px;">GTM LAUNCH (STARTUP)</h3>
-                    <p id="bund1_desc" style="color:#aaa;">Комплексна дорожня карта для запуску продукту. Фокус на перші 90 днів та отримання перших 100 клієнтів.</p>
-                    <div style="margin-top:20px; display:grid; grid-template-columns: 1fr 1fr; gap:10px; color:#666; font-size:0.9rem;">
-                        <span>✓ Deep Research</span>
-                        <span>✓ Pricing Strategy</span>
-                        <span>✓ Sales Playbook</span>
-                        <span>✓ 90-Day Plan</span>
-                    </div>
+                    <h3 id="bund1_title">GTM Launch Strategy</h3>
+                    <p id="bund1_desc" style="margin-top: 20px; font-size: 1.1rem;">
+                        Ваша дорожня карта до перших 100 клієнтів. Ідеально для стартапів та нових продуктів. 
+                        Ми розробляємо сценарій виходу на ринок, який неможливо ігнорувати.
+                    </p>
+                    <div class="ai-badge" id="ai_badge">Powered by AI Analytics Agents</div>
                 </div>
                 <div class="bundle-action">
-                    <div class="service-price" style="font-size:2.5rem; margin-bottom:10px;" id="bund1_price">$3,500</div>
-                    <a href="#contact" class="btn btn-fill" id="bund1_btn">ЗАПУСТИТИ</a>
+                    <span class="bundle-price" id="bund1_price">$2,200</span>
+                    <a href="https://t.me/andrisav" target="_blank" class="btn-premium" id="bund1_btn">РОЗПОЧАТИ ЗАПУСК</a>
                 </div>
             </div>
 
-            <div class="bundle-card">
+            <div class="bundle-card fade-in">
                 <div class="bundle-content">
-                    <h3 id="bund2_title" style="font-size:2rem; margin-bottom:10px;">MARKETING STRATEGY</h3>
-                    <p id="bund2_desc" style="color:#aaa;">Фундаментальна стратегія на 6-12 місяців. Сегментація, канали трафіку, контент-план та KPI.</p>
-                    <div style="margin-top:20px; display:grid; grid-template-columns: 1fr 1fr; gap:10px; color:#666; font-size:0.9rem;">
-                        <span>✓ Full Segmentation</span>
-                        <span>✓ Channel Strategy</span>
-                        <span>✓ Content Calendar</span>
-                        <span>✓ Budgeting</span>
-                    </div>
+                    <h3 id="bund2_title">Marketing Ecosystem</h3>
+                    <p id="bund2_desc" style="margin-top: 20px; font-size: 1.1rem;">
+                        Фундаментальна стратегія на 6-12 місяців. Побудова бренду, каналів трафіку та комунікації. 
+                        Система, яка працює на вас довгостроково.
+                    </p>
                 </div>
                 <div class="bundle-action">
-                    <div class="service-price" style="font-size:2.5rem; margin-bottom:10px;" id="bund2_price">$2,500+</div>
-                    <a href="#contact" class="btn" id="bund2_btn">ОБГОВОРИТИ</a>
+                    <span class="bundle-price" id="bund2_price">$3,500+</span>
+                    <a href="https://t.me/andrisav" target="_blank" class="btn-premium" id="bund2_btn">ОБГОВОРИТИ СТРАТЕГІЮ</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer id="contact">
-        <div class="container">
-            <h2 id="footer_title" style="font-size: 2.5rem; margin-bottom: 20px;">ГОТОВІ ПОЧАТИ?</h2>
-            <p id="footer_desc" style="color: #888; margin-bottom: 30px;">
-                Забронюйте безкоштовну консультацію.
-            </p>
-            <a href="mailto:hello@ai-agency.com" class="btn btn-fill">BOOK CALL</a>
-            <div style="margin-top: 50px; color: #444; font-size: 0.8rem;">
-                © 2026 AI AGENCY. KYIV, UKRAINE.
-            </div>
+    <footer>
+        <div class="container fade-in">
+            <h2 style="color: #fff; margin-bottom: 30px; font-size: 2rem;" id="footer_quote">Створюємо майбутнє вашого бізнесу.</h2>
+            <a href="https://t.me/andrisav" target="_blank" style="font-size: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 5px;">@andrisav</a>
+            <p style="margin-top: 50px; opacity: 0.3;">© 2026 SAV. AGENCY</p>
         </div>
     </footer>
 
     <script>
+        // 1. SCROLL ANIMATION
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // 2. TRANSLATIONS
         const translations = {
             ua: {
-                nav_cta: "Зв'язатись",
-                hero_title: `МАРКЕТИНГ <span style="color:#444">МЕРТВИЙ.</span><br>ХАЙ ЖИВЕ <span class="text-accent">AI.</span>`,
-                hero_desc: "Ми замінюємо маркетинговий відділ штучним інтелектом. Deep Research. GTM стратегії. Без води.",
-                hero_btn: "ДИВИТИСЯ ПОСЛУГИ ->",
+                hero_title: `Стратегія, що<br> <span style="font-style: italic;">випереджає</span> час.`,
+                hero_desc: "Ми перетворюємо хаос на чітку систему. Глибинна аналітика та GTM-рішення, посилені інтелектуальними AI-агентами.",
+                hero_btn: "ОБГОВОРИТИ ПРОЄКТ",
                 
-                sec_single_title: "ТОЧКОВІ ПОСЛУГИ",
-                sec_single_desc: "Виберіть конкретне рішення для вашої задачі",
+                sec_single_title: "Експертні Рішення",
+                sec_single_desc: "Точкові інструменти для вирішення конкретних бізнес-задач",
                 
-                srv1_title: "DEEP RESEARCH",
-                srv1_desc: "Глибинний аналіз ринку, конкурентів та болів клієнтів. Ви дізнаєтесь те, що приховують ваші конкуренти.",
-                srv1_li1: "- Аналіз 5-10 конкурентів",
-                srv1_li2: "- Аналіз 'болів' (Reddit/Twitter)",
-                srv1_li3: "- Звіт 30-50 сторінок",
-                srv1_price: "від $800",
+                srv1_title: "Deep Research",
+                srv1_desc: "Ми бачимо те, що приховано. Глибинний аналіз ринку, конкурентів та психології вашого клієнта. Фундамент для безпомилкових рішень.",
+                srv1_btn: "Замовити дослідження",
 
-                srv2_title: "AI LEAD MAGNETS",
-                srv2_desc: "Ми не робимо PDF. Ми створюємо міні-продукти: калькулятори, Telegram-боти, які генерують ліди.",
-                srv2_li1: "- Калькулятори ROI",
-                srv2_li2: "- Telegram Боти",
-                srv2_li3: "- Інтеграція з CRM",
-                srv2_price: "від $1,500",
+                srv2_title: "Interactive Assets",
+                srv2_desc: "Забудьте про нудні PDF. Ми розробляємо калькулятори та ботів, які приносять цінність клієнту і генерують гарячі ліди для вас.",
+                srv2_btn: "Створити інструмент",
 
-                srv3_title: "CREATIVE BATCH",
-                srv3_desc: "Масове створення контенту та рекламних креативів. Персоналізація під різні сегменти.",
-                srv3_li1: "- 30+ рекламних текстів",
-                srv3_li2: "- 10+ сценаріїв відео",
-                srv3_li3: "- Візуальні концепти",
-                srv3_price: "від $1,500",
+                srv3_title: "Content & Creative",
+                srv3_desc: "Слова та візуали, що резонують. Персоналізований контент, створений для різних сегментів аудиторії з хірургічною точністю.",
+                srv3_btn: "Отримати креативи",
 
-                sec_complex_title: "КОМПЛЕКСНІ РІШЕННЯ",
-                sec_complex_desc: "Повна стратегія та супровід запуску",
-                tag_popular: "ПОПУЛЯРНЕ",
+                sec_complex_title: "Комплексний Підхід",
+                sec_complex_desc: "Повноцінний супровід від ідеї до масштабування",
 
-                bund1_title: "GTM LAUNCH (STARTUP)",
-                bund1_desc: "Комплексна дорожня карта для запуску продукту. Фокус на перші 90 днів та отримання перших 100 клієнтів.",
-                bund1_price: "$3,500",
-                bund1_btn: "ЗАПУСТИТИ",
+                bund1_title: "GTM Launch Strategy",
+                bund1_desc: "Ваша дорожня карта до перших 100 клієнтів. Ідеально для стартапів та нових продуктів. Ми розробляємо сценарій виходу на ринок, який неможливо ігнорувати.",
+                bund1_btn: "РОЗПОЧАТИ ЗАПУСК",
+                ai_badge: "Посилено AI-аналітикою",
 
-                bund2_title: "MARKETING STRATEGY",
-                bund2_desc: "Фундаментальна стратегія на 6-12 місяців. Сегментація, канали трафіку, контент-план та KPI.",
-                bund2_price: "$2,500+",
-                bund2_btn: "ОБГОВОРИТИ",
+                bund2_title: "Marketing Ecosystem",
+                bund2_desc: "Фундаментальна стратегія на 6-12 місяців. Побудова бренду, каналів трафіку та комунікації. Система, яка працює на вас довгостроково.",
+                bund2_btn: "ОБГОВОРИТИ СТРАТЕГІЮ",
 
-                footer_title: "ГОТОВІ ПОЧАТИ?",
-                footer_desc: "Забронюйте безкоштовну консультацію."
+                footer_quote: "Створюємо майбутнє вашого бізнесу."
             },
             en: {
-                nav_cta: "Contact",
-                hero_title: `MARKETING IS <span style="color:#444">DEAD.</span><br>LONG LIVE <span class="text-accent">AI.</span>`,
-                hero_desc: "Replacing your marketing department with AI power. Deep Research. GTM Strategies. No fluff.",
-                hero_btn: "VIEW SERVICES ->",
+                hero_title: `Strategy Ahead<br> <span style="font-style: italic;">of the Curve.</span>`,
+                hero_desc: "We turn chaos into clarity. Deep analytics and GTM solutions, amplified by intelligent AI agents.",
+                hero_btn: "DISCUSS PROJECT",
                 
-                sec_single_title: "SINGLE SERVICES",
-                sec_single_desc: "Choose a specific solution for your task",
+                sec_single_title: "Expert Solutions",
+                sec_single_desc: "Precise tools to solve specific business challenges",
                 
-                srv1_title: "DEEP RESEARCH",
-                srv1_desc: "In-depth market analysis, competitors, and customer pain points. Know what your competitors are hiding.",
-                srv1_li1: "- 5-10 Competitors Analysis",
-                srv1_li2: "- Pain Point Mapping (Reddit/Twitter)",
-                srv1_li3: "- 30-50 Page Report",
-                srv1_price: "from $800",
+                srv1_title: "Deep Research",
+                srv1_desc: "We see the invisible. In-depth analysis of the market, competitors, and customer psychology. The foundation for flawless decisions.",
+                srv1_btn: "Order Research",
 
-                srv2_title: "AI LEAD MAGNETS",
-                srv2_desc: "Forget PDFs. We build mini-products: calculators, Telegram bots that generate qualified leads.",
-                srv2_li1: "- ROI Calculators",
-                srv2_li2: "- Telegram Bots",
-                srv2_li3: "- CRM Integration",
-                srv2_price: "from $1,500",
+                srv2_title: "Interactive Assets",
+                srv2_desc: "Forget boring PDFs. We build calculators and bots that deliver value to the client and generate hot leads for you.",
+                srv2_btn: "Create Tool",
 
-                srv3_title: "CREATIVE BATCH",
-                srv3_desc: "Mass production of content and ad creatives. Personalized for different audience segments.",
-                srv3_li1: "- 30+ Ad Copy variations",
-                srv3_li2: "- 10+ Video Scripts",
-                srv3_li3: "- Visual Concepts",
-                srv3_price: "from $1,500",
+                srv3_title: "Content & Creative",
+                srv3_desc: "Words and visuals that resonate. Personalized content created for different audience segments with surgical precision.",
+                srv3_btn: "Get Creatives",
 
-                sec_complex_title: "STRATEGIC BUNDLES",
-                sec_complex_desc: "Full strategy and launch support",
-                tag_popular: "POPULAR",
+                sec_complex_title: "Holistic Approach",
+                sec_complex_desc: "Full support from idea to scaling",
 
-                bund1_title: "GTM LAUNCH (STARTUP)",
-                bund1_desc: "Comprehensive roadmap for product launch. Focus on first 90 days and acquiring first 100 clients.",
-                bund1_price: "$3,500",
-                bund1_btn: "LAUNCH",
+                bund1_title: "GTM Launch Strategy",
+                bund1_desc: "Your roadmap to the first 100 clients. Ideal for startups and new products. We engineer a market entry scenario impossible to ignore.",
+                bund1_btn: "START LAUNCH",
+                ai_badge: "Powered by AI Analytics",
 
-                bund2_title: "MARKETING STRATEGY",
-                bund2_desc: "Fundamental strategy for 6-12 months. Segmentation, traffic channels, content plan, and KPIs.",
-                bund2_price: "$2,500+",
-                bund2_btn: "DISCUSS",
+                bund2_title: "Marketing Ecosystem",
+                bund2_desc: "Fundamental strategy for 6-12 months. Brand building, traffic channels, and communication. A system that works for you long-term.",
+                bund2_btn: "DISCUSS STRATEGY",
 
-                footer_title: "READY TO START?",
-                footer_desc: "Book a free introduction call."
+                footer_quote: "Building the future of your business."
             },
             cs: {
-                nav_cta: "Kontakt",
-                hero_title: `MARKETING JE <span style="color:#444">MRTVÝ.</span><br>AŤ ŽIJE <span class="text-accent">AI.</span>`,
-                hero_desc: "Nahrazujeme marketingové oddělení silou umělé inteligence. Hloubkový výzkum. GTM Strategie.",
-                hero_btn: "ZOBRAZIT SLUŽBY ->",
+                hero_title: `Strategie, která<br> <span style="font-style: italic;">předbíhá dobu.</span>`,
+                hero_desc: "Měníme chaos v jasný systém. Hloubková analytika a GTM řešení, posílená inteligentními AI agenty.",
+                hero_btn: "PROJEDNAT PROJEKT",
                 
-                sec_single_title: "JEDNOTLIVÉ SLUŽBY",
-                sec_single_desc: "Vyberte si konkrétní řešení pro váš úkol",
+                sec_single_title: "Expertní Řešení",
+                sec_single_desc: "Přesné nástroje pro řešení konkrétních obchodních výzev",
                 
-                srv1_title: "HLOUBKOVÝ VÝZKUM",
-                srv1_desc: "Komplexní analýza trhu, konkurence a bolestí zákazníků. Zjistěte to, co konkurence skrývá.",
-                srv1_li1: "- Analýza 5-10 konkurentů",
-                srv1_li2: "- Mapa bolestí (Reddit/Twitter)",
-                srv1_li3: "- Report 30-50 stran",
-                srv1_price: "od $800",
+                srv1_title: "Hloubkový Výzkum",
+                srv1_desc: "Vidíme to, co je skryté. Hloubková analýza trhu, konkurence a psychologie zákazníka. Základ pro bezchybná rozhodnutí.",
+                srv1_btn: "Objednat výzkum",
 
-                srv2_title: "AI LEAD MAGNETY",
-                srv2_desc: "Zapomeňte na PDF. Tvoříme mini-produkty: kalkulačky, Telegram boty, kteří generují leady.",
-                srv2_li1: "- ROI Kalkulačky",
-                srv2_li2: "- Telegram Boti",
-                srv2_li3: "- Integrace s CRM",
-                srv2_price: "od $1,500",
+                srv2_title: "Interaktivní Nástroje",
+                srv2_desc: "Zapomeňte na nudná PDF. Vytváříme kalkulačky a boty, kteří přinášejí hodnotu klientovi a generují vám horké leady.",
+                srv2_btn: "Vytvořit nástroj",
 
-                srv3_title: "KREATIVNÍ BALÍČEK",
-                srv3_desc: "Hromadná tvorba obsahu a reklamních kreativ. Personalizace pro různé segmenty publika.",
-                srv3_li1: "- 30+ reklamních textů",
-                srv3_li2: "- 10+ video scénářů",
-                srv3_li3: "- Vizuální koncepty",
-                srv3_price: "od $1,500",
+                srv3_title: "Obsah a Kreativa",
+                srv3_desc: "Slova a vizuály, které rezonují. Personalizovaný obsah vytvořený pro různé segmenty publika s chirurgickou přesností.",
+                srv3_btn: "Získat kreativu",
 
-                sec_complex_title: "KOMPLEXNÍ ŘEŠENÍ",
-                sec_complex_desc: "Kompletní strategie a podpora startu",
-                tag_popular: "POPULÁRNÍ",
+                sec_complex_title: "Komplexní Přístup",
+                sec_complex_desc: "Plná podpora od nápadu po škálování",
 
-                bund1_title: "GTM START (STARTUP)",
-                bund1_desc: "Komplexní plán pro uvedení produktu na trh. Zaměření na prvních 90 dní a získání prvních 100 klientů.",
-                bund1_price: "$3,500",
-                bund1_btn: "SPUSTIT",
+                bund1_title: "GTM Start Strategie",
+                bund1_desc: "Vaše cestovní mapa k prvním 100 klientům. Ideální pro startupy a nové produkty. Navrhujeme scénář vstupu na trh, který nelze ignorovat.",
+                bund1_btn: "ZAČÍT START",
+                ai_badge: "Posíleno AI Analytikou",
 
-                bund2_title: "MARKETINGOVÁ STRATEGIE",
-                bund2_desc: "Základní strategie na 6-12 měsíců. Segmentace, kanály návštěvnosti, obsahový plán a KPI.",
-                bund2_price: "$2,500+",
-                bund2_btn: "PRODISKUTOVAT",
+                bund2_title: "Marketingový Ekosystém",
+                bund2_desc: "Základní strategie na 6-12 měsíců. Budování značky, kanály návštěvnosti a komunikace. Systém, který pro vás pracuje dlouhodobě.",
+                bund2_btn: "PROJEDNAT STRATEGII",
 
-                footer_title: "JSTE PŘIPRAVENI?",
-                footer_desc: "Rezervujte si bezplatnou konzultaci."
+                footer_quote: "Tvoříme budoucnost vašeho podnikání."
             }
         };
 
         function setLang(lang) {
-            // Update Text
+            // Update Content
             const keys = Object.keys(translations[lang]);
             keys.forEach(key => {
                 const element = document.getElementById(key);
@@ -433,9 +482,8 @@
                 }
             });
 
-            // Update Active Button State
-            const buttons = document.querySelectorAll('.lang-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
+            // Update Active State
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
         }
     </script>
