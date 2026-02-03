@@ -3,60 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI MARKETING | STARTUP OFFER</title>
-    <meta name="description" content="AI-маркетинг для стартапів. Deep Research, стратегії та автоматизація.">
+    <title>AI MARKETING AGENCY</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Teko:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
-        /* --- RESET & BASE STYLES --- */
+        /* --- CSS STYLES (BRUTALISM) --- */
         :root {
             --bg-color: #050505;
             --text-color: #E0E0E0;
             --accent-color: #CCFF00; /* Neon Lime */
             --border-color: #333333;
-            --grid-line: rgba(255, 255, 255, 0.05);
+            --secondary-bg: #111;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
             font-family: 'Space Grotesk', sans-serif;
             line-height: 1.5;
-            overflow-x: hidden; /* Щоб не було горизонтального скролу */
-            background-image: 
-                linear-gradient(var(--grid-line) 1px, transparent 1px),
-                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-            background-size: 40px 40px;
+            overflow-x: hidden;
         }
 
-        h1, h2, h3 {
+        h1, h2, h3, .teko-font {
             font-family: 'Teko', sans-serif;
             text-transform: uppercase;
-            line-height: 0.9;
+            line-height: 0.95;
         }
 
-        a { text-decoration: none; color: inherit; }
+        a { text-decoration: none; color: inherit; cursor: pointer;}
         ul { list-style: none; }
 
         /* --- UTILITIES --- */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .text-accent { color: var(--accent-color); }
-        .btn-fill { background: var(--accent-color); color: var(--bg-color); }
-        .btn-fill:hover { background: #fff; color: #000; }
+        .mt-50 { margin-top: 50px; }
+        .mb-20 { margin-bottom: 20px; }
 
         /* --- BUTTONS --- */
         .btn {
@@ -64,24 +50,20 @@
             background: transparent;
             color: var(--accent-color);
             border: 1px solid var(--accent-color);
-            padding: 15px 30px;
+            padding: 12px 30px;
             font-family: 'Teko', sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             text-transform: uppercase;
+            transition: 0.2s;
             cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
         }
+        .btn:hover { background: var(--accent-color); color: #000; box-shadow: 0 0 15px rgba(204,255,0,0.3); }
+        .btn-fill { background: var(--accent-color); color: #000; }
+        .btn-fill:hover { background: #fff; }
 
-        .btn:hover {
-            background: var(--accent-color);
-            color: var(--bg-color);
-            box-shadow: 0 0 15px rgba(204, 255, 0, 0.4);
-        }
-
-        /* --- HEADER --- */
+        /* --- HEADER & LANG SWITCHER --- */
         header {
-            padding: 20px 0;
+            padding: 15px 0;
             border-bottom: 1px solid var(--border-color);
             position: fixed;
             width: 100%;
@@ -90,157 +72,76 @@
             backdrop-filter: blur(5px);
             z-index: 100;
         }
+        .nav-flex { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Teko', sans-serif; font-size: 1.8rem; font-weight: 700; }
+        
+        .lang-switch { display: flex; gap: 15px; font-family: 'Teko', sans-serif; font-size: 1.2rem; }
+        .lang-btn { opacity: 0.5; cursor: pointer; transition: 0.2s; }
+        .lang-btn:hover, .lang-btn.active { opacity: 1; color: var(--accent-color); text-decoration: underline; }
 
-        .nav-flex {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        /* --- HERO --- */
+        .hero { padding: 160px 0 80px; text-align: center; }
+        .hero h1 { font-size: clamp(3rem, 10vw, 8rem); margin-bottom: 20px; }
+        .hero p { max-width: 600px; margin: 0 auto 30px; color: #888; }
 
-        .logo {
-            font-family: 'Teko', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            padding: 160px 0 80px;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: clamp(3.5rem, 12vw, 9rem); /* Адаптивний шрифт */
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto 30px;
-            color: #888;
-            padding: 0 10px;
-        }
-
-        /* --- PROBLEM SECTION (Mobile Adapted) --- */
-        .problem-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        /* --- SEPARATORS --- */
+        .section-header {
             border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .problem-box {
-            padding: 60px 40px;
-            border-right: 1px solid var(--border-color);
-        }
-
-        .problem-box.dark { background: #0a0a0a; }
-        .problem-box h2 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 20px; }
-
-        /* --- SERVICES GRID (Mobile Adapted) --- */
-        .services { padding: 80px 0; }
-        .section-title {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            margin-bottom: 50px;
+            padding: 60px 0 30px;
             text-align: center;
         }
+        .section-header h2 { font-size: 3rem; margin-bottom: 10px; }
+        .section-header p { color: #666; font-size: 1rem; }
 
-        .grid-3 {
+        /* --- SINGLE SERVICES (GRID) --- */
+        .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 1px;
             background: var(--border-color);
-            border: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
         }
-
-        .card {
+        .service-card {
             background: var(--bg-color);
-            padding: 30px;
+            padding: 40px;
             transition: 0.3s;
         }
-        .card:hover { background: #111; }
-        .card h3 { font-size: 2rem; margin-bottom: 10px; color: #fff; }
-        .card p { color: #888; font-size: 0.95rem; margin-bottom: 20px; }
-        .card li { font-size: 0.9rem; color: #bbb; margin-bottom: 8px; padding-left: 15px; position: relative; }
-        .card li::before { content: ">"; position: absolute; left: 0; color: var(--accent-color); }
+        .service-card:hover { background: #0f0f0f; }
+        .service-price { font-family: 'Teko', sans-serif; font-size: 1.8rem; color: var(--accent-color); margin-top: 15px; }
 
-        /* --- MARQUEE --- */
-        .marquee-container {
-            background: var(--accent-color);
-            color: #000;
-            padding: 15px 0;
-            overflow: hidden;
-            white-space: nowrap;
-            font-family: 'Teko', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-        .marquee-content { display: inline-block; animation: marquee 20s linear infinite; }
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-        /* --- PRICING --- */
-        .pricing { padding: 80px 0; }
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .price-card {
+        /* --- COMPLEX BUNDLES (FLEX) --- */
+        .bundles-section { padding: 50px 0 100px; }
+        .bundle-card {
             border: 1px solid var(--border-color);
-            padding: 30px;
+            padding: 40px;
+            margin-bottom: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            background: #080808;
+            position: relative;
         }
-
-        .price-card.featured { border: 2px solid var(--accent-color); position: relative; }
         
-        /* Mobile specific label */
-        .price-card.featured::after {
-            content: "BEST VALUE";
-            position: absolute;
-            top: -12px;
-            right: 20px;
-            background: var(--accent-color);
-            color: #000;
-            padding: 2px 10px;
-            font-weight: bold;
-            font-size: 0.8rem;
+        @media(min-width: 768px) {
+            .bundle-card { flex-direction: row; justify-content: space-between; align-items: center; }
+            .bundle-content { width: 60%; }
+            .bundle-action { width: 35%; text-align: right; border-left: 1px solid var(--border-color); padding-left: 30px;}
         }
 
-        .price-title { font-size: 1.8rem; margin-bottom: 5px; }
-        .price-amount { font-size: 2.8rem; color: var(--accent-color); font-family: 'Teko', sans-serif; margin-bottom: 10px; }
-        .price-sub { color: #666; font-size: 0.9rem; margin-bottom: 20px; font-style: italic; }
-        .price-features li { margin-bottom: 12px; border-bottom: 1px solid #222; padding-bottom: 8px; font-size: 0.95rem;}
+        .bundle-card.featured { border: 1px solid var(--accent-color); }
+        .bundle-tag { 
+            position: absolute; top: 0; right: 0; 
+            background: var(--accent-color); color: #000; 
+            padding: 5px 15px; font-weight: bold; font-size: 0.8rem; 
+        }
 
         /* --- FOOTER --- */
         footer { padding: 60px 0; text-align: center; border-top: 1px solid var(--border-color); }
-        .footer-cta h2 { font-size: clamp(2rem, 5vw, 4rem); margin-bottom: 20px; }
 
-        /* --- MOBILE ADAPTATION (MEDIA QUERIES) --- */
+        /* --- MOBILE --- */
         @media (max-width: 768px) {
-            .hero { padding: 120px 0 60px; }
-            
-            /* Робимо сітку в одну колонку на телефоні */
-            .problem-section { grid-template-columns: 1fr; }
-            .problem-box { border-right: none; border-bottom: 1px solid var(--border-color); padding: 40px 20px; }
-            
-            .grid-3 { grid-template-columns: 1fr; }
-            .pricing-grid { grid-template-columns: 1fr; }
-            
-            .btn { width: 100%; display: block; margin-top: 10px; }
-            
-            .nav-flex a.btn { 
-                padding: 8px 15px; 
-                font-size: 1rem; 
-                width: auto; 
-                margin-top: 0;
-            }
+            .hero { padding-top: 120px; }
+            .bundle-action { margin-top: 20px; text-align: left; padding-left: 0; border-left: none; border-top: 1px solid #222; padding-top: 20px;}
+            .services-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -249,150 +150,294 @@
     <header>
         <div class="container nav-flex">
             <div class="logo">AI_AGENCY<span class="text-accent">.UA</span></div>
-            <a href="#contact" class="btn" style="border: 1px solid #555; color: #fff;">Book Call</a>
+            
+            <div class="lang-switch">
+                <span class="lang-btn active" onclick="setLang('ua')">UA</span>
+                <span class="lang-btn" onclick="setLang('en')">EN</span>
+                <span class="lang-btn" onclick="setLang('cs')">CZ</span>
+            </div>
+
+            <a href="#contact" class="btn" id="nav_cta" style="display:none; /* hidden on mobile tiny screens if needed */">Contact</a>
         </div>
     </header>
 
     <section class="hero">
         <div class="container">
-            <h1 class="glitch-wrapper">
+            <h1 id="hero_title">
                 МАРКЕТИНГ <span style="color:#444">МЕРТВИЙ.</span><br>
                 ХАЙ ЖИВЕ <span class="text-accent">AI.</span>
             </h1>
-            <p>
-                Більше ніяких "мозкових штурмів" тижнями. Лише Deep Research, автоматизація та GTM-стратегії на базі Claude 3.5 та Perplexity.
+            <p id="hero_desc">
+                Ми замінюємо маркетинговий відділ штучним інтелектом. 
+                Deep Research. GTM стратегії. Без води.
             </p>
-            <a href="#pricing" class="btn btn-fill">ДИВИТИСЯ ПАКЕТИ -></a>
-            <div style="margin-top: 25px; font-size: 0.75rem; color: #555; letter-spacing: 1px;">
-                FREELANCE MODE: ON // EARLY BIRD PRICING
+            <a href="#services_single" class="btn btn-fill" id="hero_btn">ДИВИТИСЯ ПОСЛУГИ -></a>
+        </div>
+    </section>
+
+    <section id="services_single">
+        <div class="section-header">
+            <div class="container">
+                <h2 id="sec_single_title">ТОЧКОВІ ПОСЛУГИ</h2>
+                <p id="sec_single_desc">Виберіть конкретне рішення для вашої задачі</p>
+            </div>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <h3 id="srv1_title">DEEP RESEARCH</h3>
+                <p id="srv1_desc">Глибинний аналіз ринку, конкурентів та болів клієнтів. Ви дізнаєтесь те, що приховують ваші конкуренти.</p>
+                <ul style="margin-top:20px; color:#888; font-size:0.9rem;">
+                    <li id="srv1_li1">- Аналіз 5-10 конкурентів</li>
+                    <li id="srv1_li2">- "Карта болів" клієнта (Reddit/Twitter)</li>
+                    <li id="srv1_li3">- Звіт 30-50 сторінок</li>
+                </ul>
+                <div class="service-price" id="srv1_price">від $800</div>
+            </div>
+
+            <div class="service-card">
+                <h3 id="srv2_title">AI LEAD MAGNETS</h3>
+                <p id="srv2_desc">Ми не робимо PDF. Ми створюємо міні-продукти: калькулятори, Telegram-боти, які генерують ліди.</p>
+                <ul style="margin-top:20px; color:#888; font-size:0.9rem;">
+                    <li id="srv2_li1">- Калькулятори ROI/Прибутку</li>
+                    <li id="srv2_li2">- Telegram Боти-консультанти</li>
+                    <li id="srv2_li3">- Інтеграція з CRM</li>
+                </ul>
+                <div class="service-price" id="srv2_price">від $1,500</div>
+            </div>
+
+            <div class="service-card">
+                <h3 id="srv3_title">CREATIVE BATCH</h3>
+                <p id="srv3_desc">Масове створення контенту та рекламних креативів. Персоналізація під різні сегменти аудиторії.</p>
+                <ul style="margin-top:20px; color:#888; font-size:0.9rem;">
+                    <li id="srv3_li1">- 30+ рекламних текстів</li>
+                    <li id="srv3_li2">- 10+ сценаріїв для відео</li>
+                    <li id="srv3_li3">- Візуальні концепти (Midjourney)</li>
+                </ul>
+                <div class="service-price" id="srv3_price">від $1,500</div>
             </div>
         </div>
     </section>
 
-    <section class="problem-section">
-        <div class="problem-box dark">
-            <h3 style="color: #666; margin-bottom: 10px;">СТАРА АГЕНЦІЯ</h3>
-            <h2>ТИЖНІ РОБОТИ, <br>НУЛЬ ІНСАЙТІВ</h2>
-            <p style="color: #888;">Вони продають тобі години роботи. Ми продаємо результат, синтезований штучним інтелектом.</p>
-        </div>
-        <div class="problem-box" style="background: var(--accent-color);">
-            <h3 style="color: #000; margin-bottom: 10px; font-weight: bold;">НАШ МЕТОД</h3>
-            <h2 style="color: #000;">48 ГОДИН <br>НА ВСЕ</h2>
-            <p style="color: #000; font-weight: 500;">Ми використовуємо AI-стак, щоб робити роботу цілого відділу маркетингу за дні, а не місяці.</p>
-        </div>
-    </section>
-
-    <section id="services" class="services">
-        <div class="container">
-            <h2 class="section-title">НАШ <span class="text-accent">АРСЕНАЛ</span></h2>
-            
-            <div class="grid-3">
-                <div class="card">
-                    <span class="card-icon">👁️</span>
-                    <h3>DEEP RESEARCH</h3>
-                    <p>Аналіз 10 конкурентів та болів клієнтів через AI-парсинг Reddit/Twitter.</p>
-                    <ul>
-                        <li>Звіт 30 сторінок</li>
-                        <li>Карта позиціонування</li>
-                        <li>Список болів (Pain Points)</li>
-                    </ul>
-                </div>
-
-                <div class="card">
-                    <span class="card-icon">🚀</span>
-                    <h3>GTM STRATEGY</h3>
-                    <p>План виходу на ринок для стартапів. Як отримати перших 100 клієнтів.</p>
-                    <ul>
-                        <li>Pricing Strategy</li>
-                        <li>Sales Script</li>
-                        <li>90-Day Action Plan</li>
-                    </ul>
-                </div>
-
-                <div class="card">
-                    <span class="card-icon">🧲</span>
-                    <h3>LEAD MAGNETS</h3>
-                    <p>Створюємо інструменти (калькулятори, боти), які збирають ліди 24/7.</p>
-                    <ul>
-                        <li>Telegram Bots</li>
-                        <li>ROI Calculators</li>
-                        <li>Auto-CRM entry</li>
-                    </ul>
-                </div>
+    <section id="services_complex" class="bundles-section">
+        <div class="section-header" style="border-top:none;">
+            <div class="container">
+                <h2 id="sec_complex_title">КОМПЛЕКСНІ РІШЕННЯ</h2>
+                <p id="sec_complex_desc">Повна стратегія та супровід запуску</p>
             </div>
         </div>
-    </section>
 
-    <section id="pricing" class="pricing">
         <div class="container">
-            <h2 class="section-title">STARTUP <span class="text-accent">RATES</span></h2>
-            <p style="text-align: center; color: #888; margin-bottom: 40px; margin-top: -30px;">
-                *Ціни знижено на період наповнення портфоліо
-            </p>
-            
-            <div class="pricing-grid">
-                <div class="price-card">
-                    <div>
-                        <h3 class="price-title">QUICK SPRINT</h3>
-                        <div class="price-amount">$950</div>
-                        <div class="price-sub">Замість $1,500 (Freelance rate)</div>
-                        <ul class="price-features">
-                            <li><strong>Deep Research</strong> (Lite версія)</li>
-                            <li>1-годинна стратегічна сесія</li>
-                            <li>Базовий Lead Magnet план</li>
-                            <li>Термін: 5-7 днів</li>
-                        </ul>
+            <div class="bundle-card featured">
+                <div class="bundle-tag" id="tag_popular">POPULAR</div>
+                <div class="bundle-content">
+                    <h3 id="bund1_title" style="font-size:2rem; margin-bottom:10px;">GTM LAUNCH (STARTUP)</h3>
+                    <p id="bund1_desc" style="color:#aaa;">Комплексна дорожня карта для запуску продукту. Фокус на перші 90 днів та отримання перших 100 клієнтів.</p>
+                    <div style="margin-top:20px; display:grid; grid-template-columns: 1fr 1fr; gap:10px; color:#666; font-size:0.9rem;">
+                        <span>✓ Deep Research</span>
+                        <span>✓ Pricing Strategy</span>
+                        <span>✓ Sales Playbook</span>
+                        <span>✓ 90-Day Plan</span>
                     </div>
-                    <a href="#contact" class="btn" style="margin-top: 20px;">START NOW</a>
                 </div>
-
-                <div class="price-card featured">
-                    <div>
-                        <h3 class="price-title">GTM LAUNCH</h3>
-                        <div class="price-amount">$2,200</div>
-                        <div class="price-sub">Замість $7,000 (Agency rate)</div>
-                        <ul class="price-features">
-                            <li><strong>Повний Deep Research</strong></li>
-                            <li><strong>GTM Стратегія</strong> (90 днів)</li>
-                            <li>Sales Scripts & Playbook</li>
-                            <li>Lead Magnet (Концепт)</li>
-                            <li>Термін: 14 днів</li>
-                        </ul>
-                    </div>
-                    <a href="#contact" class="btn btn-fill" style="margin-top: 20px;">GET TRACTION</a>
+                <div class="bundle-action">
+                    <div class="service-price" style="font-size:2.5rem; margin-bottom:10px;" id="bund1_price">$3,500</div>
+                    <a href="#contact" class="btn btn-fill" id="bund1_btn">ЗАПУСТИТИ</a>
                 </div>
+            </div>
 
-                <div class="price-card">
-                    <div>
-                        <h3 class="price-title">FULL PACK</h3>
-                        <div class="price-amount">$4,500</div>
-                        <div class="price-sub">Замість $12,000 (Full price)</div>
-                        <ul class="price-features">
-                            <li>Deep Research + Strategy</li>
-                            <li><strong>Lead Magnet "Під ключ"</strong> (Code)</li>
-                            <li>Creative Pack (30+ ads)</li>
-                            <li>Підтримка 1 місяць</li>
-                            <li>Термін: 25 днів</li>
-                        </ul>
+            <div class="bundle-card">
+                <div class="bundle-content">
+                    <h3 id="bund2_title" style="font-size:2rem; margin-bottom:10px;">MARKETING STRATEGY</h3>
+                    <p id="bund2_desc" style="color:#aaa;">Фундаментальна стратегія на 6-12 місяців. Сегментація, канали трафіку, контент-план та KPI.</p>
+                    <div style="margin-top:20px; display:grid; grid-template-columns: 1fr 1fr; gap:10px; color:#666; font-size:0.9rem;">
+                        <span>✓ Full Segmentation</span>
+                        <span>✓ Channel Strategy</span>
+                        <span>✓ Content Calendar</span>
+                        <span>✓ Budgeting</span>
                     </div>
-                    <a href="#contact" class="btn" style="margin-top: 20px;">ALL IN</a>
+                </div>
+                <div class="bundle-action">
+                    <div class="service-price" style="font-size:2.5rem; margin-bottom:10px;" id="bund2_price">$2,500+</div>
+                    <a href="#contact" class="btn" id="bund2_btn">ОБГОВОРИТИ</a>
                 </div>
             </div>
         </div>
     </section>
 
     <footer id="contact">
-        <div class="container footer-cta">
-            <h2>Є ВІЛЬНИЙ СЛОТ<br><span class="text-accent">НА ЦЕЙ МІСЯЦЬ</span></h2>
-            <p style="color: #aaa; margin-bottom: 30px;">
-                Ми набираємо портфоліо, тому ціни такі низькі. <br>Встигни забронювати до підвищення.
+        <div class="container">
+            <h2 id="footer_title" style="font-size: 2.5rem; margin-bottom: 20px;">ГОТОВІ ПОЧАТИ?</h2>
+            <p id="footer_desc" style="color: #888; margin-bottom: 30px;">
+                Забронюйте безкоштовну консультацію.
             </p>
-            <a href="mailto:hello@ai-agency.com" class="btn btn-fill">BOOK INTRO CALL</a>
-            <div style="margin-top: 60px; color: #444; font-size: 0.8rem;">
-                © 2026 AI AGENCY STARTUP.
+            <a href="mailto:hello@ai-agency.com" class="btn btn-fill">BOOK CALL</a>
+            <div style="margin-top: 50px; color: #444; font-size: 0.8rem;">
+                © 2026 AI AGENCY. KYIV, UKRAINE.
             </div>
         </div>
     </footer>
 
+    <script>
+        const translations = {
+            ua: {
+                nav_cta: "Зв'язатись",
+                hero_title: `МАРКЕТИНГ <span style="color:#444">МЕРТВИЙ.</span><br>ХАЙ ЖИВЕ <span class="text-accent">AI.</span>`,
+                hero_desc: "Ми замінюємо маркетинговий відділ штучним інтелектом. Deep Research. GTM стратегії. Без води.",
+                hero_btn: "ДИВИТИСЯ ПОСЛУГИ ->",
+                
+                sec_single_title: "ТОЧКОВІ ПОСЛУГИ",
+                sec_single_desc: "Виберіть конкретне рішення для вашої задачі",
+                
+                srv1_title: "DEEP RESEARCH",
+                srv1_desc: "Глибинний аналіз ринку, конкурентів та болів клієнтів. Ви дізнаєтесь те, що приховують ваші конкуренти.",
+                srv1_li1: "- Аналіз 5-10 конкурентів",
+                srv1_li2: "- Аналіз 'болів' (Reddit/Twitter)",
+                srv1_li3: "- Звіт 30-50 сторінок",
+                srv1_price: "від $800",
+
+                srv2_title: "AI LEAD MAGNETS",
+                srv2_desc: "Ми не робимо PDF. Ми створюємо міні-продукти: калькулятори, Telegram-боти, які генерують ліди.",
+                srv2_li1: "- Калькулятори ROI",
+                srv2_li2: "- Telegram Боти",
+                srv2_li3: "- Інтеграція з CRM",
+                srv2_price: "від $1,500",
+
+                srv3_title: "CREATIVE BATCH",
+                srv3_desc: "Масове створення контенту та рекламних креативів. Персоналізація під різні сегменти.",
+                srv3_li1: "- 30+ рекламних текстів",
+                srv3_li2: "- 10+ сценаріїв відео",
+                srv3_li3: "- Візуальні концепти",
+                srv3_price: "від $1,500",
+
+                sec_complex_title: "КОМПЛЕКСНІ РІШЕННЯ",
+                sec_complex_desc: "Повна стратегія та супровід запуску",
+                tag_popular: "ПОПУЛЯРНЕ",
+
+                bund1_title: "GTM LAUNCH (STARTUP)",
+                bund1_desc: "Комплексна дорожня карта для запуску продукту. Фокус на перші 90 днів та отримання перших 100 клієнтів.",
+                bund1_price: "$3,500",
+                bund1_btn: "ЗАПУСТИТИ",
+
+                bund2_title: "MARKETING STRATEGY",
+                bund2_desc: "Фундаментальна стратегія на 6-12 місяців. Сегментація, канали трафіку, контент-план та KPI.",
+                bund2_price: "$2,500+",
+                bund2_btn: "ОБГОВОРИТИ",
+
+                footer_title: "ГОТОВІ ПОЧАТИ?",
+                footer_desc: "Забронюйте безкоштовну консультацію."
+            },
+            en: {
+                nav_cta: "Contact",
+                hero_title: `MARKETING IS <span style="color:#444">DEAD.</span><br>LONG LIVE <span class="text-accent">AI.</span>`,
+                hero_desc: "Replacing your marketing department with AI power. Deep Research. GTM Strategies. No fluff.",
+                hero_btn: "VIEW SERVICES ->",
+                
+                sec_single_title: "SINGLE SERVICES",
+                sec_single_desc: "Choose a specific solution for your task",
+                
+                srv1_title: "DEEP RESEARCH",
+                srv1_desc: "In-depth market analysis, competitors, and customer pain points. Know what your competitors are hiding.",
+                srv1_li1: "- 5-10 Competitors Analysis",
+                srv1_li2: "- Pain Point Mapping (Reddit/Twitter)",
+                srv1_li3: "- 30-50 Page Report",
+                srv1_price: "from $800",
+
+                srv2_title: "AI LEAD MAGNETS",
+                srv2_desc: "Forget PDFs. We build mini-products: calculators, Telegram bots that generate qualified leads.",
+                srv2_li1: "- ROI Calculators",
+                srv2_li2: "- Telegram Bots",
+                srv2_li3: "- CRM Integration",
+                srv2_price: "from $1,500",
+
+                srv3_title: "CREATIVE BATCH",
+                srv3_desc: "Mass production of content and ad creatives. Personalized for different audience segments.",
+                srv3_li1: "- 30+ Ad Copy variations",
+                srv3_li2: "- 10+ Video Scripts",
+                srv3_li3: "- Visual Concepts",
+                srv3_price: "from $1,500",
+
+                sec_complex_title: "STRATEGIC BUNDLES",
+                sec_complex_desc: "Full strategy and launch support",
+                tag_popular: "POPULAR",
+
+                bund1_title: "GTM LAUNCH (STARTUP)",
+                bund1_desc: "Comprehensive roadmap for product launch. Focus on first 90 days and acquiring first 100 clients.",
+                bund1_price: "$3,500",
+                bund1_btn: "LAUNCH",
+
+                bund2_title: "MARKETING STRATEGY",
+                bund2_desc: "Fundamental strategy for 6-12 months. Segmentation, traffic channels, content plan, and KPIs.",
+                bund2_price: "$2,500+",
+                bund2_btn: "DISCUSS",
+
+                footer_title: "READY TO START?",
+                footer_desc: "Book a free introduction call."
+            },
+            cs: {
+                nav_cta: "Kontakt",
+                hero_title: `MARKETING JE <span style="color:#444">MRTVÝ.</span><br>AŤ ŽIJE <span class="text-accent">AI.</span>`,
+                hero_desc: "Nahrazujeme marketingové oddělení silou umělé inteligence. Hloubkový výzkum. GTM Strategie.",
+                hero_btn: "ZOBRAZIT SLUŽBY ->",
+                
+                sec_single_title: "JEDNOTLIVÉ SLUŽBY",
+                sec_single_desc: "Vyberte si konkrétní řešení pro váš úkol",
+                
+                srv1_title: "HLOUBKOVÝ VÝZKUM",
+                srv1_desc: "Komplexní analýza trhu, konkurence a bolestí zákazníků. Zjistěte to, co konkurence skrývá.",
+                srv1_li1: "- Analýza 5-10 konkurentů",
+                srv1_li2: "- Mapa bolestí (Reddit/Twitter)",
+                srv1_li3: "- Report 30-50 stran",
+                srv1_price: "od $800",
+
+                srv2_title: "AI LEAD MAGNETY",
+                srv2_desc: "Zapomeňte na PDF. Tvoříme mini-produkty: kalkulačky, Telegram boty, kteří generují leady.",
+                srv2_li1: "- ROI Kalkulačky",
+                srv2_li2: "- Telegram Boti",
+                srv2_li3: "- Integrace s CRM",
+                srv2_price: "od $1,500",
+
+                srv3_title: "KREATIVNÍ BALÍČEK",
+                srv3_desc: "Hromadná tvorba obsahu a reklamních kreativ. Personalizace pro různé segmenty publika.",
+                srv3_li1: "- 30+ reklamních textů",
+                srv3_li2: "- 10+ video scénářů",
+                srv3_li3: "- Vizuální koncepty",
+                srv3_price: "od $1,500",
+
+                sec_complex_title: "KOMPLEXNÍ ŘEŠENÍ",
+                sec_complex_desc: "Kompletní strategie a podpora startu",
+                tag_popular: "POPULÁRNÍ",
+
+                bund1_title: "GTM START (STARTUP)",
+                bund1_desc: "Komplexní plán pro uvedení produktu na trh. Zaměření na prvních 90 dní a získání prvních 100 klientů.",
+                bund1_price: "$3,500",
+                bund1_btn: "SPUSTIT",
+
+                bund2_title: "MARKETINGOVÁ STRATEGIE",
+                bund2_desc: "Základní strategie na 6-12 měsíců. Segmentace, kanály návštěvnosti, obsahový plán a KPI.",
+                bund2_price: "$2,500+",
+                bund2_btn: "PRODISKUTOVAT",
+
+                footer_title: "JSTE PŘIPRAVENI?",
+                footer_desc: "Rezervujte si bezplatnou konzultaci."
+            }
+        };
+
+        function setLang(lang) {
+            // Update Text
+            const keys = Object.keys(translations[lang]);
+            keys.forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Update Active Button State
+            const buttons = document.querySelectorAll('.lang-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
 </body>
 </html>
