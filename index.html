@@ -772,9 +772,9 @@
 
                 <div class="header-actions">
                     <div class="language-switcher">
-                        <span onclick="switchLang('uk')" class="active">🇺🇦</span>
-                        <span onclick="switchLang('en')">🇬🇧</span>
-                        <span onclick="switchLang('cs')">🇨🇿</span>
+                        <span data-lang="uk" onclick="switchLang('uk')" class="active">🇺🇦</span>
+                        <span data-lang="en" onclick="switchLang('en')">🇬🇧</span>
+                        <span data-lang="cs" onclick="switchLang('cs')">🇨🇿</span>
                     </div>
                     <button class="cta-btn" onclick="scrollToForm()" data-i18n="nav_cta">Міні-аудит</button>
                 </div>
@@ -1362,14 +1362,13 @@
         function switchLang(lang) {
             currentLang = lang;
             document.querySelectorAll('.language-switcher span').forEach(span => {
-                span.classList.remove('active');
-                if (span.getAttribute('onclick') === "switchLang('" + lang + "')") {
-                    span.classList.add('active');
-                }
+                span.classList.toggle('active', span.dataset.lang === lang);
             });
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) el.textContent = translations[lang][key];
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
             });
             document.documentElement.lang = lang;
         }
