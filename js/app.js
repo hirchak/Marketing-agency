@@ -400,6 +400,9 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
 // --- DOM CONTENT LOADED ---
 document.addEventListener('DOMContentLoaded', () => {
+    // Initial language set
+    setLanguage('uk');
+
     // Split Text reveal on Hero Title
     const heroTitle = document.querySelector('.hero h1');
     if (heroTitle) splitTextReveal(heroTitle);
@@ -448,5 +451,3 @@ document.querySelectorAll('#nav-links a').forEach(link => {
         document.querySelector('.mobile-menu-toggle').classList.remove('active');
     });
 });
-
-setLanguage('uk');
