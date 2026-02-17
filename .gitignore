@@ -1,1 +1,5 @@
 .vercel
+node_modules
+.gemini
+.claude
+package-lock.json
