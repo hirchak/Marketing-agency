@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAV.AGENCY — Visual Reference</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================================
+           SAV.AGENCY — VISUAL REFERENCE
+           Це файл-референс з усіма WOW-ефектами.
+           Використовуй як приклад для Claude Code при переробці сайту.
+           ============================================================ */
+
+        :root {
+            --bg: #050508;
+            --surface: rgba(255,255,255,0.03);
+            --surface-hover: rgba(255,255,255,0.06);
+            --border: rgba(255,255,255,0.08);
+            --border-hover: rgba(255,255,255,0.2);
+            --text: #f0f0f5;
+            --text-muted: #6b7094;
+            --accent: #6366f1;
+            --accent-light: #818cf8;
+            --accent-glow: rgba(99, 102, 241, 0.4);
+            --green: #34d399;
+            --amber: #fbbf24;
+            --rose: #fb7185;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            cursor: none;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== CUSTOM CURSOR ===== */
+        .cursor {
+            width: 20px; height: 20px;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 50%;
+            position: fixed; top: 0; left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease, width 0.3s, height 0.3s, border-color 0.3s;
+            transform: translate(-50%, -50%);
+        }
+        .cursor-dot {
+            width: 5px; height: 5px;
+            background: #fff;
+            border-radius: 50%;
+            position: fixed; top: 0; left: 0;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+        }
+        .cursor.hovering {
+            width: 50px; height: 50px;
+            border-color: var(--accent-light);
+            background: rgba(99,102,241,0.1);
+        }
+
+        @media (max-width: 768px) {
+            body { cursor: auto; }
+            .cursor, .cursor-dot { display: none; }
+        }
+
+        /* ===== ANIMATED MESH GRADIENT BACKGROUND ===== */
+        .mesh-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -3;
+            overflow: hidden;
+        }
+        .mesh-bg .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite;
+        }
+        .mesh-bg .orb:nth-child(1) {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, #4f46e5 0%, transparent 70%);
+            top: -10%; left: -10%;
+            animation-delay: 0s;
+            animation-duration: 25s;
+        }
+        .mesh-bg .orb:nth-child(2) {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, #7c3aed 0%, transparent 70%);
+            top: 20%; right: -15%;
+            animation-delay: -5s;
+            animation-duration: 20s;
+        }
+        .mesh-bg .orb:nth-child(3) {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, #ec4899 0%, transparent 70%);
+            bottom: -5%; left: 30%;
+            animation-delay: -10s;
+            animation-duration: 22s;
+        }
+        .mesh-bg .orb:nth-child(4) {
+            width: 350px; height: 350px;
+            background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+            top: 50%; left: 10%;
+            animation-delay: -7s;
+            animation-duration: 18s;
+        }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(80px, -60px) scale(1.1); }
+            50% { transform: translate(-40px, 80px) scale(0.95); }
+            75% { transform: translate(60px, 40px) scale(1.05); }
+        }
+
+        /* Noise overlay */
+        .noise {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.035;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* Grid lines background */
+        .grid-lines {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -2;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black 30%, transparent 100%);
+        }
+
+        /* ===== LAYOUT ===== */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 10; }
+
+        /* ===== STICKY HEADER ===== */
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+            padding: 20px 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .header.scrolled {
+            padding: 12px 0;
+            background: rgba(5,5,8,0.8);
+            backdrop-filter: blur(20px) saturate(1.5);
+            -webkit-backdrop-filter: blur(20px) saturate(1.5);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800; font-size: 1.3rem;
+            letter-spacing: 2px; text-transform: uppercase;
+        }
+        .logo span { color: var(--accent-light); }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a {
+            color: var(--text-muted); text-decoration: none;
+            font-size: 0.85rem; font-weight: 500;
+            letter-spacing: 0.5px; transition: color 0.3s;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 1px; background: var(--accent-light);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a:hover::after { width: 100%; }
+
+        .nav-cta {
+            padding: 10px 24px;
+            background: var(--accent);
+            border: none; border-radius: 100px;
+            color: #fff; font-size: 0.8rem; font-weight: 600;
+            letter-spacing: 1px; text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px var(--accent-glow), 0 8px 32px rgba(0,0,0,0.4);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center;
+            padding-top: 80px;
+            position: relative;
+        }
+
+        /* Floating particles behind hero */
+        .particles {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            width: 2px; height: 2px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            animation: drift linear infinite;
+        }
+        @keyframes drift {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) translateX(50px); opacity: 0; }
+        }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 20px;
+            background: rgba(99,102,241,0.1);
+            border: 1px solid rgba(99,102,241,0.2);
+            border-radius: 100px;
+            font-size: 0.8rem; font-weight: 500;
+            color: var(--accent-light);
+            margin-bottom: 40px;
+            animation: fadeUp 1s ease 0.2s both;
+        }
+        .hero-badge .pulse {
+            width: 8px; height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s ease infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 28px;
+            animation: fadeUp 1s ease 0.4s both;
+        }
+
+        /* Градієнт тексту що рухається */
+        .hero h1 .gradient-text {
+            background: linear-gradient(
+                135deg,
+                #fff 0%,
+                #c7d2fe 25%,
+                #a78bfa 50%,
+                #818cf8 75%,
+                #fff 100%
+            );
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 6s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 560px;
+            margin: 0 auto 48px;
+            font-weight: 300;
+            animation: fadeUp 1s ease 0.6s both;
+        }
+
+        .hero-buttons {
+            display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+            animation: fadeUp 1s ease 0.8s both;
+        }
+
+        .btn-primary {
+            padding: 16px 36px;
+            background: var(--accent);
+            border: 1px solid var(--accent);
+            border-radius: 100px;
+            color: #fff; font-weight: 600;
+            font-size: 0.9rem; letter-spacing: 0.5px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 30px var(--accent-glow);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::before {
+            content: '';
+            position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        .btn-primary:hover::before { left: 100%; }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 50px var(--accent-glow), 0 12px 40px rgba(0,0,0,0.5);
+        }
+
+        .btn-secondary {
+            padding: 16px 36px;
+            background: transparent;
+            border: 1px solid var(--border-hover);
+            border-radius: 100px;
+            color: var(--text); font-weight: 500;
+            font-size: 0.9rem; letter-spacing: 0.5px;
+            text-decoration: none;
+            transition: all 0.4s ease;
+        }
+        .btn-secondary:hover {
+            border-color: #fff;
+            background: rgba(255,255,255,0.05);
+            transform: translateY(-2px);
+        }
+
+        .hero-micro {
+            margin-top: 48px;
+            font-size: 0.8rem; color: var(--text-muted);
+            display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;
+            animation: fadeUp 1s ease 1s both;
+        }
+        .hero-micro span { display: flex; align-items: center; gap: 6px; }
+        .hero-micro .dot { width: 4px; height: 4px; background: var(--accent-light); border-radius: 50%; }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            animation: fadeUp 1s ease 1.2s both;
+        }
+        .scroll-indicator span {
+            font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .scroll-line {
+            width: 1px; height: 40px; background: var(--border);
+            position: relative; overflow: hidden;
+        }
+        .scroll-line::after {
+            content: ''; position: absolute; top: -100%; left: 0;
+            width: 100%; height: 50%;
+            background: linear-gradient(to bottom, transparent, var(--accent-light));
+            animation: scrollDown 2s ease infinite;
+        }
+        @keyframes scrollDown {
+            0% { top: -50%; }
+            100% { top: 100%; }
+        }
+
+        /* ===== SOCIAL PROOF BAR ===== */
+        .proof-bar {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .proof-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+        .proof-item {
+            text-align: center;
+            opacity: 0; transform: translateY(20px);
+        }
+        .proof-item.visible {
+            opacity: 1; transform: translateY(0);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .proof-number {
+            font-family: 'Space Mono', monospace;
+            font-size: 2.8rem; font-weight: 700;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .proof-number .suffix { font-size: 1.5rem; color: var(--accent-light); }
+        .proof-label {
+            font-size: 0.8rem; color: var(--text-muted);
+            letter-spacing: 1px; text-transform: uppercase;
+        }
+
+        /* ===== SERVICES SECTION ===== */
+        .section { padding: 120px 0; }
+        .section-header {
+            margin-bottom: 80px;
+            opacity: 0; transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .section-header.visible { opacity: 1; transform: translateY(0); }
+
+        .section-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-light);
+            margin-bottom: 16px;
+            display: block;
+        }
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        /* Service cards with 3D tilt */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .service-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            opacity: 0; transform: translateY(40px);
+        }
+        .service-card.visible {
+            opacity: 1; transform: translateY(0);
+        }
+
+        /* Hover glow effect */
+        .service-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 20px;
+            background: radial-gradient(
+                600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(99,102,241,0.12),
+                transparent 40%
+            );
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .service-card:hover::before { opacity: 1; }
+
+        /* Hover border glow */
+        .service-card::after {
+            content: '';
+            position: absolute; top: -1px; left: -1px; right: -1px; bottom: -1px;
+            border-radius: 20px;
+            background: radial-gradient(
+                400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(99,102,241,0.3),
+                transparent 40%
+            );
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .service-card:hover::after { opacity: 1; }
+
+        .service-card:hover {
+            border-color: rgba(99,102,241,0.2);
+            transform: translateY(-4px);
+        }
+
+        .service-icon {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            background: rgba(99,102,241,0.1);
+            border: 1px solid rgba(99,102,241,0.2);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 24px;
+        }
+        .service-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem; font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .service-desc {
+            font-size: 0.9rem; color: var(--text-muted);
+            margin-bottom: 20px; line-height: 1.5;
+        }
+        .service-deliverable {
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.8rem; color: #c7d2fe;
+            margin-bottom: 20px;
+        }
+        .service-deliverable strong { color: #fff; }
+        .service-meta {
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .service-price {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.1rem; font-weight: 700; color: var(--green);
+        }
+        .service-timeline {
+            font-size: 0.8rem; color: var(--text-muted);
+            display: flex; align-items: center; gap: 6px;
+        }
+
+        /* ===== PRICING CARDS ===== */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            align-items: start;
+        }
+        .pricing-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 48px 36px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0; transform: translateY(40px);
+        }
+        .pricing-card.visible {
+            opacity: 1; transform: translateY(0);
+        }
+        .pricing-card.featured {
+            border-color: var(--accent);
+            background: rgba(99,102,241,0.05);
+            transform: translateY(0) scale(1.02);
+        }
+        .pricing-card.featured.visible {
+            transform: scale(1.02);
+        }
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--border-hover);
+        }
+        .pricing-card.featured:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+        /* Glow line on top of featured card */
+        .pricing-card.featured::before {
+            content: '';
+            position: absolute; top: 0; left: 20%; right: 20%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-light), transparent);
+        }
+
+        .pricing-badge {
+            position: absolute; top: 20px; right: 20px;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.7rem; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase;
+        }
+        .pricing-badge.popular { background: var(--accent); color: #fff; }
+        .pricing-badge.best { background: var(--green); color: #000; }
+
+        .pricing-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem; font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .pricing-desc {
+            font-size: 0.85rem; color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        .pricing-price {
+            font-family: 'Space Mono', monospace;
+            font-size: 2.5rem; font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .pricing-price .from { font-size: 0.9rem; font-weight: 400; color: var(--text-muted); }
+        .pricing-period { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 32px; }
+        .pricing-features { list-style: none; margin-bottom: 32px; }
+        .pricing-features li {
+            padding: 8px 0;
+            font-size: 0.85rem;
+            color: #c7d2fe;
+            display: flex; align-items: center; gap: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .pricing-features li .check { color: var(--green); font-weight: 700; }
+
+        .btn-pricing {
+            display: block; width: 100%; text-align: center;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 600; font-size: 0.85rem;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        .btn-pricing.primary {
+            background: var(--accent);
+            color: #fff;
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+        .btn-pricing.primary:hover {
+            box-shadow: 0 0 40px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+        .btn-pricing.outline {
+            background: transparent;
+            color: #fff;
+            border: 1px solid var(--border-hover);
+        }
+        .btn-pricing.outline:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: #fff;
+        }
+
+        /* ===== PROCESS / HOW WE WORK ===== */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+            position: relative;
+        }
+        /* Connecting line */
+        .process-grid::before {
+            content: '';
+            position: absolute;
+            top: 48px; left: 10%; right: 10%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent) 20%, var(--accent) 80%, transparent);
+            opacity: 0.3;
+        }
+        .process-step {
+            text-align: center;
+            padding: 32px 20px;
+            position: relative;
+            opacity: 0; transform: translateY(30px);
+        }
+        .process-step.visible {
+            opacity: 1; transform: translateY(0);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .step-number {
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 2px solid var(--accent);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 24px;
+            font-family: 'Space Mono', monospace;
+            font-size: 1.2rem; font-weight: 700;
+            color: var(--accent-light);
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+        .step-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.1rem; font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .step-desc { font-size: 0.85rem; color: var(--text-muted); }
+        .step-tag {
+            margin-top: 12px;
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(52,211,153,0.1);
+            border: 1px solid rgba(52,211,153,0.2);
+            border-radius: 100px;
+            font-size: 0.7rem; font-weight: 600;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ===== LEAD MAGNET FORM ===== */
+        .form-section {
+            background: linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(236,72,153,0.05) 100%);
+            border: 1px solid rgba(99,102,241,0.15);
+            border-radius: 32px;
+            padding: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .form-section::before {
+            content: '';
+            position: absolute; top: -1px; left: 20%; right: 20%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-light), transparent);
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 40px;
+        }
+        .form-group { position: relative; }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-group label {
+            display: block;
+            font-size: 0.75rem; font-weight: 600;
+            letter-spacing: 1px; text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(99,102,241,0.2);
+            background: rgba(255,255,255,0.08);
+        }
+        .form-group select { cursor: pointer; appearance: none; }
+        .form-group select option { background: #1a1a2e; color: #fff; }
+
+        .btn-submit {
+            margin-top: 24px;
+            padding: 18px 48px;
+            background: var(--accent);
+            border: none;
+            border-radius: 100px;
+            color: #fff;
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem; font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 0 30px var(--accent-glow);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-submit::before {
+            content: '';
+            position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+        .btn-submit:hover::before { left: 100%; }
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 50px var(--accent-glow), 0 12px 40px rgba(0,0,0,0.4);
+        }
+
+        /* ===== FAQ ===== */
+        .faq-list { max-width: 700px; margin: 0 auto; }
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            opacity: 0; transform: translateY(20px);
+        }
+        .faq-item.visible {
+            opacity: 1; transform: translateY(0);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .faq-q {
+            padding: 24px 0;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.05rem; font-weight: 600;
+            color: #fff;
+            transition: color 0.3s;
+        }
+        .faq-q:hover { color: var(--accent-light); }
+        .faq-toggle {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            flex-shrink: 0; margin-left: 16px;
+            color: var(--text-muted);
+        }
+        .faq-item.open .faq-toggle {
+            transform: rotate(45deg);
+            border-color: var(--accent);
+            color: var(--accent-light);
+        }
+        .faq-a {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s;
+        }
+        .faq-item.open .faq-a { max-height: 200px; padding-bottom: 24px; }
+        .faq-a p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            padding: 80px 0 40px;
+            border-top: 1px solid var(--border);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        .footer-brand .logo { margin-bottom: 12px; display: block; }
+        .footer-brand p { font-size: 0.85rem; color: var(--text-muted); max-width: 280px; }
+        .footer h4 {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.85rem; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase;
+            margin-bottom: 16px; color: var(--text-muted);
+        }
+        .footer a {
+            display: block; color: #c7d2fe; text-decoration: none;
+            font-size: 0.9rem; padding: 4px 0;
+            transition: color 0.2s;
+        }
+        .footer a:hover { color: #fff; }
+        .footer-bottom {
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            display: flex; justify-content: space-between;
+            font-size: 0.8rem; color: var(--text-muted);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Staggered children animation */
+        .stagger-in > * {
+            opacity: 0; transform: translateY(20px);
+        }
+        .stagger-in.visible > * {
+            opacity: 1; transform: translateY(0);
+        }
+        .stagger-in.visible > *:nth-child(1) { transition: all 0.6s 0.0s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-in.visible > *:nth-child(2) { transition: all 0.6s 0.1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-in.visible > *:nth-child(3) { transition: all 0.6s 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-in.visible > *:nth-child(4) { transition: all 0.6s 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-in.visible > *:nth-child(5) { transition: all 0.6s 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-in.visible > *:nth-child(6) { transition: all 0.6s 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-in.visible > *:nth-child(7) { transition: all 0.6s 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-in.visible > *:nth-child(8) { transition: all 0.6s 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .services-grid { grid-template-columns: 1fr 1fr; }
+            .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+            .pricing-card.featured { transform: none; }
+            .pricing-card.featured.visible { transform: none; }
+        }
+        @media (max-width: 768px) {
+            .services-grid { grid-template-columns: 1fr; }
+            .process-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+            .process-grid::before { display: none; }
+            .proof-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+            .form-section { padding: 48px 28px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .footer-bottom { flex-direction: column; gap: 8px; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <!-- Mesh gradient background -->
+    <div class="mesh-bg">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+    <div class="grid-lines"></div>
+    <div class="noise"></div>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="container nav">
+            <div class="logo">SAV<span>.</span>AGENCY</div>
+            <div class="nav-links">
+                <a href="#services">Послуги</a>
+                <a href="#pricing">Пакети</a>
+                <a href="#process">Процес</a>
+                <a href="#contact">Контакт</a>
+                <a href="#contact" class="nav-cta">Безкоштовний аудит</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <div class="particles" id="particles"></div>
+        <div class="container">
+            <div class="hero-badge">
+                <div class="pulse"></div>
+                AI-Powered Marketing Intelligence
+            </div>
+            <h1>
+                <span class="gradient-text">Маркетингові<br>дослідження</span><br>
+                нового покоління
+            </h1>
+            <p>
+                Глибокий аналіз ринку, конкурентів та аудиторії за 5-7 днів
+                з конкретними цифрами і планом дій. Те, на що класична агенція витрачає місяць.
+            </p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn-primary">Безкоштовний міні-аудит →</a>
+                <a href="#services" class="btn-secondary">Переглянути послуги ↓</a>
+            </div>
+            <div class="hero-micro">
+                <span><span class="dot"></span> Від $500</span>
+                <span><span class="dot"></span> Працюємо з UA, PL, CZ</span>
+                <span><span class="dot"></span> Відповідаємо за 48 год</span>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- ===== SOCIAL PROOF ===== -->
+    <section class="proof-bar">
+        <div class="container">
+            <div class="proof-grid stagger-in">
+                <div class="proof-item">
+                    <div class="proof-number"><span data-target="15">0</span><span class="suffix">+</span></div>
+                    <div class="proof-label">Проектів</div>
+                </div>
+                <div class="proof-item">
+                    <div class="proof-number"><span data-target="50">0</span><span class="suffix">+</span></div>
+                    <div class="proof-label">Джерел аналізу</div>
+                </div>
+                <div class="proof-item">
+                    <div class="proof-number">$<span data-target="2">0</span><span class="suffix">M+</span></div>
+                    <div class="proof-label">Ad spend проаналізовано</div>
+                </div>
+                <div class="proof-item">
+                    <div class="proof-number"><span data-target="5">0</span>–<span data-target="7" data-no-anim>7</span><span class="suffix"> днів</span></div>
+                    <div class="proof-label">Від брифу до стратегії</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SERVICES ===== -->
+    <section class="section" id="services">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">// Послуги</span>
+                <h2 class="section-title">Що ми робимо</h2>
+            </div>
+            <div class="services-grid stagger-in">
+                
+                <div class="service-card">
+                    <div class="service-icon">🔍</div>
+                    <h3>Deep Research</h3>
+                    <p class="service-desc">Глибокий аналіз ринку, конкурентів та аудиторії</p>
+                    <div class="service-deliverable">
+                        <strong>Ви отримаєте:</strong> PDF-звіт 20-35 стор. з цифрами, джерелами і SWOT
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-price">від $500</span>
+                        <span class="service-timeline">⏱ 5-7 днів</span>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🎯</div>
+                    <h3>Маркетингова стратегія</h3>
+                    <p class="service-desc">Медіа-план, воронка, unit economics і 30-денний план дій</p>
+                    <div class="service-deliverable">
+                        <strong>Ви отримаєте:</strong> Документ 40-50 стор. + медіа-план + чеклісти
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-price">від $1,000</span>
+                        <span class="service-timeline">⏱ 10-14 днів</span>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🚀</div>
+                    <h3>Go-To-Market Launch</h3>
+                    <p class="service-desc">Повний пакет для виходу продукту на ринок</p>
+                    <div class="service-deliverable">
+                        <strong>Ви отримаєте:</strong> Launch Kit: стратегія + креативи + кампанії + 30 днів підтримки
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-price">від $2,000</span>
+                        <span class="service-timeline">⏱ 3-4 тижні</span>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🎨</div>
+                    <h3>Креативний пакет</h3>
+                    <p class="service-desc">Hooks, скрипти, ad copy та ТЗ для продакшну</p>
+                    <div class="service-deliverable">
+                        <strong>Ви отримаєте:</strong> 10 hooks + 5 скриптів + 20 copies + Visual Direction
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-price">від $400</span>
+                        <span class="service-timeline">⏱ 3-5 днів</span>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">📊</div>
+                    <h3>Оптимізація кампаній</h3>
+                    <p class="service-desc">Аудит поточної реклами і конкретні рекомендації</p>
+                    <div class="service-deliverable">
+                        <strong>Ви отримаєте:</strong> Звіт з 10-15 рекомендаціями + scaling план
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-price">від $800</span>
+                        <span class="service-timeline">⏱ one-time / міс</span>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🧠</div>
+                    <h3>Портрет клієнта</h3>
+                    <p class="service-desc">Глибоке дослідження вашої ідеальної аудиторії</p>
+                    <div class="service-deliverable">
+                        <strong>Ви отримаєте:</strong> 3-5 Persona карт + Messaging Matrix + Customer Journey
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-price">від $600</span>
+                        <span class="service-timeline">⏱ 7-10 днів</span>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">👁️</div>
+                    <h3>Моніторинг конкурентів</h3>
+                    <p class="service-desc">Щомісячний трекінг реклами і стратегій конкурентів</p>
+                    <div class="service-deliverable">
+                        <strong>Ви отримаєте:</strong> Дайджест 10-15 стор. + рекомендації щомісяця
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-price">від $300/міс</span>
+                        <span class="service-timeline">⏱ ongoing</span>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">📐</div>
+                    <h3>Аудит воронки</h3>
+                    <p class="service-desc">Знаходимо де ваша воронка втрачає гроші</p>
+                    <div class="service-deliverable">
+                        <strong>Ви отримаєте:</strong> Friction points + 15 рекомендацій з пріоритетами
+                    </div>
+                    <div class="service-meta">
+                        <span class="service-price">від $700</span>
+                        <span class="service-timeline">⏱ 5-7 днів</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PRICING ===== -->
+    <section class="section" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">// Пакети</span>
+                <h2 class="section-title">Оберіть свій пакет</h2>
+            </div>
+            <div class="pricing-grid stagger-in">
+                
+                <div class="pricing-card">
+                    <div class="pricing-name">Research</div>
+                    <div class="pricing-desc">Дослідження ринку і конкурентів</div>
+                    <div class="pricing-price"><span class="from">від </span>$500</div>
+                    <div class="pricing-period">одноразово · 5-7 днів</div>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Аналіз ринку з цифрами</li>
+                        <li><span class="check">✓</span> 5-10 конкурентів детально</li>
+                        <li><span class="check">✓</span> 3-5 портретів аудиторії</li>
+                        <li><span class="check">✓</span> SWOT-аналіз</li>
+                        <li><span class="check">✓</span> PDF 20-35 сторінок</li>
+                    </ul>
+                    <a href="https://t.me/andrisav" class="btn-pricing outline">Замовити →</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-badge popular">Popular</div>
+                    <div class="pricing-name">Strategy</div>
+                    <div class="pricing-desc">Дослідження + маркетингова стратегія</div>
+                    <div class="pricing-price"><span class="from">від </span>$1,500</div>
+                    <div class="pricing-period">одноразово · 10-14 днів</div>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Все з Research</li>
+                        <li><span class="check">✓</span> Маркетингова стратегія</li>
+                        <li><span class="check">✓</span> Медіа-план з бюджетами</li>
+                        <li><span class="check">✓</span> Unit Economics</li>
+                        <li><span class="check">✓</span> 30-денний план дій</li>
+                        <li><span class="check">✓</span> Чеклісти трекінгу</li>
+                    </ul>
+                    <a href="https://t.me/andrisav" class="btn-pricing primary">Замовити →</a>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-badge best">Best Value</div>
+                    <div class="pricing-name">Launch</div>
+                    <div class="pricing-desc">Повний запуск від А до Я</div>
+                    <div class="pricing-price"><span class="from">від </span>$2,500</div>
+                    <div class="pricing-period">3-4 тижні · 30 днів підтримки</div>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Все з Strategy</li>
+                        <li><span class="check">✓</span> Креативний пакет</li>
+                        <li><span class="check">✓</span> Структура кампаній</li>
+                        <li><span class="check">✓</span> Launch checklist</li>
+                        <li><span class="check">✓</span> 30 днів підтримки</li>
+                    </ul>
+                    <a href="https://t.me/andrisav" class="btn-pricing outline">Замовити →</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PROCESS ===== -->
+    <section class="section" id="process">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">// Процес</span>
+                <h2 class="section-title">Як ми працюємо</h2>
+            </div>
+            <div class="process-grid stagger-in">
+                <div class="process-step">
+                    <div class="step-number">01</div>
+                    <div class="step-title">Бриф</div>
+                    <div class="step-desc">30-хвилинний дзвінок. Розуміємо бізнес, цілі, бюджет.</div>
+                    <div class="step-tag">Безкоштовно</div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">02</div>
+                    <div class="step-title">Deep Research</div>
+                    <div class="step-desc">AI-система аналізує 50+ джерел даних по вашій ніші.</div>
+                    <div class="step-tag">3-7 днів</div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">03</div>
+                    <div class="step-title">Deliverable</div>
+                    <div class="step-desc">Отримуєте готовий документ з цифрами і рекомендаціями.</div>
+                    <div class="step-tag">PDF + Таблиці</div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">04</div>
+                    <div class="step-title">Підтримка</div>
+                    <div class="step-desc">Допомагаємо впровадити, review метрик, масштабуємо.</div>
+                    <div class="step-tag">Опційно</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== LEAD MAGNET ===== -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="form-section">
+                <div class="section-header" style="margin-bottom: 0;">
+                    <span class="section-tag">// Безкоштовно</span>
+                    <h2 class="section-title" style="margin-bottom: 12px;">Міні-аудит за 48 годин</h2>
+                    <p style="color: var(--text-muted); max-width: 500px;">
+                        Ми знайдемо 3 головних точки росту для вашого бізнесу. Без зобов'язань.
+                    </p>
+                </div>
+                <form class="form-grid" action="https://formspree.io/f/YOUR_ID" method="POST">
+                    <div class="form-group">
+                        <label>Ваш сайт</label>
+                        <input type="url" name="website" placeholder="https://" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ніша</label>
+                        <select name="niche" required>
+                            <option value="" disabled selected>Оберіть нішу</option>
+                            <option>E-commerce</option>
+                            <option>SaaS</option>
+                            <option>Mobile App</option>
+                            <option>Community</option>
+                            <option>Послуги</option>
+                            <option>Інше</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Telegram (опційно)</label>
+                        <input type="text" name="telegram" placeholder="@username">
+                    </div>
+                    <div class="form-group full">
+                        <button type="submit" class="btn-submit">Отримати безкоштовний аудит →</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">// FAQ</span>
+                <h2 class="section-title">Часті питання</h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-q">Скільки часу займає дослідження? <span class="faq-toggle">+</span></div>
+                    <div class="faq-a"><p>Research Pack — 5-7 робочих днів. Strategy Pack — 10-14 днів. Launch Pack — 3-4 тижні. Ми завжди озвучуємо точні дедлайни перед початком.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Що я отримаю в результаті? <span class="faq-toggle">+</span></div>
+                    <div class="faq-a"><p>Конкретний документ (PDF + таблиці) з реальними даними, цифрами і рекомендаціями. Не абстрактні поради, а чіткий план дій який можна брати і виконувати.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Як ви робите це так швидко? <span class="faq-toggle">+</span></div>
+                    <div class="faq-a"><p>Ми побудували власну систему аналізу на базі AI-технологій нового покоління. Вона дозволяє автоматизовано обробляти десятки джерел і знаходити інсайти, на які вручну витрачались би тижні.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">А якщо мені не сподобається результат? <span class="faq-toggle">+</span></div>
+                    <div class="faq-a"><p>Після завершення кожного етапу ми показуємо проміжні результати. Якщо щось не так — коригуємо. Фінальний документ проходить 1 раунд правок включно.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Чи працюєте ви з маленькими бюджетами? <span class="faq-toggle">+</span></div>
+                    <div class="faq-a"><p>Так. Research Pack починається від $500. Ми спеціально створили пакети доступні для стартапів і малого бізнесу.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <span class="logo">SAV<span>.</span>AGENCY</span>
+                    <p>AI-powered маркетингові дослідження та стратегії для бізнесів в UA, PL, CZ.</p>
+                </div>
+                <div>
+                    <h4>Послуги</h4>
+                    <a href="#services">Deep Research</a>
+                    <a href="#services">Стратегія</a>
+                    <a href="#services">GTM Launch</a>
+                    <a href="#services">Креативи</a>
+                </div>
+                <div>
+                    <h4>Ще</h4>
+                    <a href="#services">Оптимізація</a>
+                    <a href="#services">ICP Profile</a>
+                    <a href="#services">Моніторинг</a>
+                    <a href="#services">Аудит воронки</a>
+                </div>
+                <div>
+                    <h4>Контакти</h4>
+                    <a href="https://t.me/andrisav">📱 @andrisav</a>
+                    <a href="mailto:hello@sav.agency">📧 hello@sav.agency</a>
+                    <a>📍 Warsaw, PL</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 SAV.AGENCY</span>
+                <span>Built with AI · Made for humans</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===== CUSTOM CURSOR =====
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+        });
+
+        // Smooth cursor follow
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.12;
+            cursorY += (mouseY - cursorY) * 0.12;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Cursor hover effect on interactive elements
+        document.querySelectorAll('a, button, .faq-q, .service-card').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+        });
+
+        // ===== CARD MOUSE GLOW =====
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+                card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+            });
+        });
+
+        // ===== STICKY HEADER =====
+        const header = document.querySelector('.header');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // ===== INTERSECTION OBSERVER (Scroll Reveal) =====
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll(
+            '.section-header, .service-card, .pricing-card, .process-step, .proof-item, .faq-item, .stagger-in'
+        ).forEach(el => revealObserver.observe(el));
+
+        // ===== COUNT-UP ANIMATION =====
+        const countObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.target);
+                    if (!target || el.dataset.counted) return;
+                    el.dataset.counted = 'true';
+                    let current = 0;
+                    const duration = 2000;
+                    const step = target / (duration / 16);
+                    const counter = setInterval(() => {
+                        current += step;
+                        if (current >= target) {
+                            el.textContent = target;
+                            clearInterval(counter);
+                        } else {
+                            el.textContent = Math.floor(current);
+                        }
+                    }, 16);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('[data-target]').forEach(el => {
+            if (!el.dataset.noAnim) countObserver.observe(el);
+        });
+
+        // ===== PARTICLES =====
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDuration = (8 + Math.random() * 12) + 's';
+            p.style.animationDelay = (-Math.random() * 20) + 's';
+            p.style.width = (1 + Math.random() * 2) + 'px';
+            p.style.height = p.style.width;
+            p.style.opacity = 0.1 + Math.random() * 0.4;
+            particlesContainer.appendChild(p);
+        }
+
+        // ===== FAQ ACCORDION =====
+        document.querySelectorAll('.faq-q').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                const wasOpen = item.classList.contains('open');
+                // Close all
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                // Toggle clicked
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
