@@ -20,23 +20,24 @@
             --border: rgba(255, 255, 255, 0.08);
             --border-hover: rgba(255, 255, 255, 0.2);
             --text: #f0f0f5;
-            --text-muted: #6b7094;
+            --text-muted: #8b92b5;
             --accent: #6366f1;
-            --accent-light: #818cf8;
             --accent-glow: rgba(99, 102, 241, 0.4);
+            --accent-light: #818cf8;
             --green: #34d399;
             --amber: #fbbf24;
             --rose: #fb7185;
         }
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         html {
             scroll-behavior: smooth;
+            background: var(--bg);
         }
 
         body {
@@ -47,6 +48,146 @@
             overflow-x: hidden;
             cursor: none;
             -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== ANIMATED MESH GRADIENT BACKGROUND ===== */
+        .mesh-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -3;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .mesh-bg .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .mesh-bg .orb:nth-child(1) {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #4f46e5 0%, transparent 70%);
+            top: -10%;
+            left: -10%;
+            animation-delay: 0s;
+            animation-duration: 25s;
+        }
+
+        .mesh-bg .orb:nth-child(2) {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #7c3aed 0%, transparent 70%);
+            top: 20%;
+            right: -15%;
+            animation-delay: -5s;
+            animation-duration: 20s;
+        }
+
+        .mesh-bg .orb:nth-child(3) {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #ec4899 0%, transparent 70%);
+            bottom: -5%;
+            left: 30%;
+            animation-delay: -10s;
+            animation-duration: 22s;
+        }
+
+        .mesh-bg .orb:nth-child(4) {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+            top: 50%;
+            left: 10%;
+            animation-delay: -7s;
+            animation-duration: 18s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(80px, -60px) scale(1.1);
+            }
+
+            50% {
+                transform: translate(-40px, 80px) scale(0.95);
+            }
+
+            75% {
+                transform: translate(60px, 40px) scale(1.05);
+            }
+        }
+
+        /* Grid lines overlay */
+        .grid-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -2;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black 30%, transparent 100%);
+            -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black 30%, transparent 100%);
+        }
+
+        /* ===== CUSTOM CURSOR ===== */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease, width 0.3s, height 0.3s;
+            transform: translate(-50%, -50%);
+            display: block;
+        }
+
+        .cursor-dot {
+            width: 5px;
+            height: 5px;
+            background: #fff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            display: block;
+        }
+
+        .cursor.hovering {
+            width: 50px;
+            height: 50px;
+            border-color: var(--accent-light, #818cf8);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                cursor: auto;
+            }
+
+            .cursor,
+            .cursor-dot {
+                display: none;
+            }
         }
 
         .container {
@@ -410,7 +551,7 @@
             margin-bottom: 48px;
         }
 
-        .btn-glow {
+        .btn-primary {
             padding: 16px 36px;
             background: var(--accent);
             border: 1px solid var(--accent);
@@ -424,11 +565,10 @@
             box-shadow: 0 0 30px var(--accent-glow);
             position: relative;
             overflow: hidden;
-            display: inline-flex;
-            align-items: center;
+            display: inline-block;
         }
 
-        .btn-glow::before {
+        .btn-primary::before {
             content: '';
             position: absolute;
             top: 0;
@@ -439,14 +579,13 @@
             transition: left 0.5s ease;
         }
 
-        .btn-glow:hover::before {
+        .btn-primary:hover::before {
             left: 100%;
         }
 
-        .btn-glow:hover {
+        .btn-primary:hover {
             transform: translateY(-3px);
             box-shadow: 0 0 50px var(--accent-glow), 0 12px 40px rgba(0, 0, 0, 0.5);
-            color: #fff;
         }
 
         .btn-outline {
@@ -503,7 +642,7 @@
             margin-bottom: 30px;
         }
 
-        .hero-badge .pulse {
+        .hero-badge .dot {
             width: 8px;
             height: 8px;
             background: var(--green);
@@ -656,6 +795,8 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             cursor: pointer;
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
 
         /* Hover glow effect */
@@ -666,7 +807,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            border-radius: 20px;
+            border-radius: inherit;
             background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
                     rgba(99, 102, 241, 0.12),
                     transparent 40%);
@@ -999,53 +1140,6 @@
             line-height: 1.8;
         }
 
-        /* --- CAPABILITIES --- */
-        .capabilities {
-            padding: 100px 0;
-            border-top: 1px solid var(--accent-border);
-            border-bottom: 1px solid var(--accent-border);
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .capabilities-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            margin-top: 0;
-        }
-
-        .capability-item {
-            background: var(--card-bg);
-            border: 1px solid var(--accent-border);
-            padding: 32px 24px;
-            border-radius: 16px;
-            text-align: center;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-
-        .capability-item:hover {
-            transform: translateY(-6px);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-        }
-
-        .capability-number {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-            font-family: 'Outfit', sans-serif;
-            background: linear-gradient(to right, #fff, #a5b4fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .capability-label {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
         /* --- LEAD MAGNET --- */
         .lead-magnet {
             padding: 100px 0;
@@ -1292,7 +1386,7 @@
                 margin: 0 auto 32px;
             }
 
-            .btn-glow,
+            .btn-primary,
             .btn-outline {
                 width: 100%;
                 justify-content: center;
@@ -1466,18 +1560,41 @@
         <!-- HERO -->
         <section class="hero">
             <div class="container hero-content">
-                <div class="hero-badge reveal">
-                    <span class="pulse"></span>
-                    <span data-i18n="hero_badge">AI-driven marketing excellence</span>
+                <div class="hero-badge">
+                    <span class="dot"></span>
+                    <span data-i18n="hero_badge">AI-Powered Marketing Intelligence</span>
                 </div>
                 <h1 data-i18n="hero_title" class="reveal">Маркетингові дослідження та стратегії на основі AI</h1>
                 <p data-i18n="hero_subtitle" class="reveal">Відчуйте перевагу даних над припущеннями. Використовуємо
                     кастомізовані AI-агенти для аналізу ринків, конкурентів та створення контент-стратегій.</p>
 
                 <div class="hero-buttons reveal">
-                    <a href="#lead-form" class="btn-glow" data-i18n="hero_cta_main">Безкоштовний міні-аудит</a>
+                    <a href="#lead-form" class="btn-primary" data-i18n="hero_cta_main">Безкоштовний міні-аудит</a>
                     <a href="#services" class="btn-outline" data-i18n="hero_cta_side">Переглянути послуги</a>
                 </div>
+
+                <!-- SOCIAL PROOF BAR (Variant B) -->
+                <div class="proof-bar reveal">
+                    <div class="proof-grid">
+                        <div class="proof-item">
+                            <div class="proof-number"><span data-target="15">0</span><span class="suffix">+</span></div>
+                            <div class="proof-label" data-i18n="proof_1">Проєктів</div>
+                        </div>
+                        <div class="proof-item">
+                            <div class="proof-number"><span data-target="50">0</span><span class="suffix">+</span></div>
+                            <div class="proof-label" data-i18n="proof_2">Джерел аналізу</div>
+                        </div>
+                        <div class="proof-item">
+                            <div class="proof-number"><span data-target="2">0</span><span class="suffix">M+</span></div>
+                            <div class="proof-label" data-i18n="proof_3">Ad spend</div>
+                        </div>
+                        <div class="proof-item">
+                            <div class="proof-number"><span data-target="7">0</span><span class="suffix"></span></div>
+                            <div class="proof-label" data-i18n="proof_4">Днів delivery</div>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="hero-meta reveal">
                     <div>
@@ -1492,28 +1609,6 @@
             <div class="scroll-indicator reveal">
                 <span data-i18n="scroll_text">Scroll</span>
                 <div class="scroll-line"></div>
-            </div>
-        </section>
-
-        <!-- SOCIAL PROOF -->
-        <section class="social-proof">
-            <div class="container proof-grid">
-                <div class="proof-item reveal" style="--i:1">
-                    <h3 data-target="15">0</h3>
-                    <p data-i18n="proof_projects">Проєктів з AI</p>
-                </div>
-                <div class="proof-item reveal" style="--i:2">
-                    <h3 data-target="48">0</h3>
-                    <p data-i18n="proof_speed">Годин на відповідь</p>
-                </div>
-                <div class="proof-item reveal" style="--i:3">
-                    <h3 data-target="2">0</h3>
-                    <p data-i18n="proof_value">M+ Бюджету</p>
-                </div>
-                <div class="proof-item reveal" style="--i:4">
-                    <h3 data-target="7">0</h3>
-                    <p data-i18n="proof_delivery">Днів Delivery</p>
-                </div>
             </div>
         </section>
 
@@ -1610,24 +1705,25 @@
                             <span data-i18n="service_7_deliverable">Щомісячний звіт</span>
                         </div>
                         <div class="service-meta">
-                            <span data-i18n="service_7_time">Разово</span>
-                            <span class="price" data-i18n="service_7_price">від $300</span>
-                        </div>
-                    </div>
-
-                    <div class="service-card reveal" style="--i:8">
-                        <div class="service-icon">📐</div>
-                        <h3 data-i18n="service_8_title">Funnel Audit</h3>
-                        <p data-i18n="service_8_desc">Знаходимо де ваша воронка втрачає гроші.</p>
-                        <div class="service-meta-extra">
-                            <span data-i18n="service_8_deliverable">Звіт з 15 рекомендацій</span>
-                        </div>
-                        <div class="service-meta">
-                            <span data-i18n="service_8_time">5-7 днів</span>
-                            <span class="price" data-i18n="service_8_price">від $700</span>
+                            <div class="service-timeline" data-i18n="service_3_timeline">Щомісяця</div>
+                            <div class="service-price" data-i18n="service_3_price">від $300/міс</div>
                         </div>
                     </div>
                 </div>
+
+                <div class="service-card reveal" style="--i:8">
+                    <div class="service-icon">📐</div>
+                    <h3 data-i18n="service_8_title">Funnel Audit</h3>
+                    <p data-i18n="service_8_desc">Знаходимо де ваша воронка втрачає гроші.</p>
+                    <div class="service-meta-extra">
+                        <span data-i18n="service_8_deliverable">Звіт з 15 рекомендацій</span>
+                    </div>
+                    <div class="service-meta">
+                        <span data-i18n="service_8_time">5-7 днів</span>
+                        <span class="price" data-i18n="service_8_price">від $700</span>
+                    </div>
+                </div>
+            </div>
             </div>
         </section>
     </main>
@@ -1638,9 +1734,9 @@
             <h2 class="section-title fade-in" data-i18n="pricing_title">Пакети</h2>
 
             <div class="pricing-grid">
-                <div class="pricing-card fade-in">
-                    <h3 data-i18n="package_1_name">RESEARCH</h3>
-                    <div class="price">$500</div>
+                <div class="pricing-card">
+                    <h3 data-i18n="pkg_launch">LAUNCH</h3>
+                    <div class="price">$2,500</div>
                     <div class="duration" data-i18n="package_duration_1">5-7 днів доставки</div>
                     <ul class="pricing-features">
                         <li data-i18n="package_1_f1">Аналіз ринку</li>
@@ -1653,10 +1749,10 @@
                         style="width: 100%;" data-i18n="btn_contact">Зв'язатись</button>
                 </div>
 
-                <div class="pricing-card featured fade-in">
+                <div class="pricing-card featured">
                     <div class="pricing-badge" data-i18n="badge_popular">⭐ Популярний</div>
-                    <h3 data-i18n="package_2_name">STRATEGY</h3>
-                    <div class="price">$1,000</div>
+                    <h3 data-i18n="pkg_strategy">STRATEGY</h3>
+                    <div class="price">$1,500</div>
                     <div class="duration" data-i18n="package_duration_2">10-14 днів доставки</div>
                     <ul class="pricing-features">
                         <li data-i18n="package_2_f1">Все з Research</li>
@@ -1706,7 +1802,6 @@
                 </div>
                 <div class="process-step reveal" style="--i:3">
                     <div class="step-number">3</div>
-                    <h3 data-i18n="process_3_title">Deliverable</h3>
                     <p data-i18n="process_3_desc">Отримуєте готовий документ: стратегія, медіа-план, креативи.</p>
                 </div>
                 <div class="process-step reveal" style="--i:4">
@@ -1716,38 +1811,11 @@
                 </div>
             </div>
 
-            <div class="process-description fade-in">
-                <h3 data-i18n="process_why_title">Чому це швидше і дешевше за класичну агенцію?</h3>
-                <p data-i18n="process_why_desc">Класичні агенції роблять ручно те, що система AI робить за лічені
-                    хвилини. Ми отримуємо актуальні дані з 50+ джерел, аналізуємо конкурентів у деталях, і видаємо
-                    конкретні рекомендації для вашого бізнесу. Результат: 70% швидше, 60% дешевше, 100% даних-driven.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- CAPABILITIES -->
-    <section class="capabilities">
-        <div class="container">
-            <h2 class="section-title fade-in" data-i18n="capabilities_title">Що ми аналізуємо</h2>
-
-            <div class="capabilities-grid">
-                <div class="capability-item reveal" style="--i:1">
-                    <div class="capability-number">50+</div>
-                    <div class="capability-label" data-i18n="cap_1_label">Джерел даних</div>
-                </div>
-                <div class="capability-item reveal" style="--i:2">
-                    <div class="capability-number">10</div>
-                    <div class="capability-label" data-i18n="cap_2_label">Конкурентів</div>
-                </div>
-                <div class="capability-item reveal" style="--i:3">
-                    <div class="capability-number">5</div>
-                    <div class="capability-label" data-i18n="cap_3_label">Персон аудиторії</div>
-                </div>
-                <div class="capability-item reveal" style="--i:4">
-                    <div class="capability-number">15+</div>
-                    <div class="capability-label" data-i18n="cap_4_label">Гіпотез</div>
-                </div>
+            <!-- WHY IT'S FASTER -->
+            <div class="why-faster-block reveal" style="margin-top: 80px; text-align: center;">
+                <h2 class="section-title" data-i18n="cap_title" style="margin-bottom: 24px;">В рази швидше, значно
+                    доступніше, і кожна рекомендація підкріплена реальними даними</h2>
+                <div class="particles" id="particles-why"></div>
             </div>
         </div>
     </section>
@@ -1953,12 +2021,12 @@
                 proof_delivery: "Днів Delivery",
                 services_title: "Послуги",
                 service_1_title: "Deep Research", service_1_desc: "Глибокий аналіз ринку, конкурентів та аудиторії.", service_1_deliverable: "PDF-звіт 20-35 стор.", service_1_time: "5-7 днів", service_1_price: "від $500",
-                service_2_title: "Marketing Strategy", service_2_desc: "Медіа-план, воронка, unit economics і 30-денний план дій.", service_2_deliverable: "Стратегія 40-50 стор.", service_2_time: "10-14 днів", service_2_price: "від $1,000",
-                service_3_title: "GTM Launch", service_3_desc: "Повний пакет для виходу продукту на ринок.", service_3_deliverable: "Повний Launch Kit", service_3_time: "3-4 тижні", service_3_price: "від $2,000",
+                service_2_title: "Marketing Strategy", service_2_desc: "Медіа-план, воронка, unit economics і 30-денний план дій.", service_2_deliverable: "Стратегія 40-50 стор.", service_2_time: "10-14 днів", service_2_price: "від $1,500",
+                service_3_title: "GTM Launch", service_3_desc: "Повний пакет для виходу продукту на ринок.", service_3_deliverable: "Повний Launch Kit", service_3_time: "3-4 тижні", service_3_price: "від $2,500",
                 service_4_title: "Creative Pack", service_4_desc: "Hooks, скрипти, ad copy та ТЗ для продакшну.", service_4_deliverable: "10 hooks + 5 скриптів", service_4_time: "3-5 днів", service_4_price: "від $400",
                 service_5_title: "Optimization", service_5_desc: "Аудит поточної реклами і конкретні рекомендації.", service_5_deliverable: "Звіт + scaling план", service_5_time: "Щомісячно", service_5_price: "від $800",
                 service_6_title: "ICP Deep Profile", service_6_desc: "Глибоке дослідження вашої ідеальної аудиторії.", service_6_deliverable: "3-5 Persona карт", service_6_time: "7-10 днів", service_6_price: "від $600",
-                service_7_title: "Competitor Watch", service_7_desc: "Щомісячний трекінг реклами і стратегій конкурентів.", service_7_deliverable: "Щомісячний звіт", service_7_time: "Разово", service_7_price: "від $300",
+                service_7_title: "Competitor Watch", service_7_desc: "Щомісячний трекінг реклами і стратегій конкурентів.", service_7_deliverable: "Щомісячний звіт", service_7_time: "Щомісяця", service_7_price: "від $300/міс",
                 service_8_title: "Funnel Audit", service_8_desc: "Знаходимо де ваша воронка втрачає гроші.", service_8_deliverable: "Звіт з 15 рекомендацій", service_8_time: "5-7 днів", service_8_price: "від $700",
                 pricing_title: "Пакети та ціни",
                 package_1_name: "RESEARCH", package_duration_1: "5-7 днів доставки",
@@ -1978,6 +2046,7 @@
                 process_why_desc: "Ми використовуємо AI-інструменти нового покоління, які дозволяють за 5-7 днів зробити роботу, на яку зазвичай витрачають місяці. Ви платите за результат, а не за години.",
                 capabilities_title: "Що ми аналізуємо",
                 cap_1_label: "Джерел даних", cap_2_label: "Конкурентів", cap_3_label: "Персон аудиторії", cap_4_label: "Гіпотез",
+                cap_title: "В рази швидше, значно доступніше, і кожна рекомендація підкріплена реальними даними",
                 form_title: "Безкоштовний Міні-Аудит",
                 form_subtitle: "За 48 годин ми зробимо експрес-аналіз вашого проєкту і покажемо 3 головних точки росту.",
                 form_website_label: "Ваш сайт або продукт", form_niche_label: "Ваша ніша", form_niche_select: "Оберіть нішу",
@@ -2012,12 +2081,12 @@
                 proof_delivery: "Days Delivery",
                 services_title: "Services",
                 service_1_title: "Deep Research", service_1_desc: "In-depth market, competitor, and audience analysis.", service_1_deliverable: "20-35 page PDF report", service_1_time: "5-7 days", service_1_price: "from $500",
-                service_2_title: "Marketing Strategy", service_2_desc: "Media plan, funnel, unit economics, and 30-day action plan.", service_2_deliverable: "40-50 page Strategy", service_2_time: "10-14 days", service_2_price: "from $1,000",
-                service_3_title: "GTM Launch", service_3_desc: "Full package for product market entry.", service_3_deliverable: "Full Launch Kit", service_3_time: "3-4 weeks", service_3_price: "from $2,000",
+                service_2_title: "Marketing Strategy", service_2_desc: "Media plan, funnel, unit economics, and 30-day action plan.", service_2_deliverable: "40-50 page Strategy", service_2_time: "10-14 days", service_2_price: "from $1,500",
+                service_3_title: "GTM Launch", service_3_desc: "Full package for product market entry.", service_3_deliverable: "Full Launch Kit", service_3_time: "3-4 weeks", service_3_price: "from $2,500",
                 service_4_title: "Creative Pack", service_4_desc: "Hooks, scripts, ad copy, and visual direction.", service_4_deliverable: "10 hooks + 5 scripts", service_4_time: "3-5 days", service_4_price: "from $400",
                 service_5_title: "Optimization", service_5_desc: "Current ad audit and specific scaling recommendations.", service_5_deliverable: "Report + scaling plan", service_5_time: "Monthly", service_5_price: "from $800",
                 service_6_title: "ICP Deep Profile", service_6_desc: "Deep dive into your ideal customer profile.", service_6_deliverable: "3-5 Persona cards", service_6_time: "7-10 days", service_6_price: "from $600",
-                service_7_title: "Competitor Watch", service_7_desc: "Monthly competitor ad and strategy tracking.", service_7_deliverable: "Monthly digest", service_7_time: "One-time", service_7_price: "from $300",
+                service_7_title: "Competitor Watch", service_7_desc: "Monthly competitor ad and strategy tracking.", service_7_deliverable: "Monthly digest", service_7_time: "Monthly", service_7_price: "from $300/mo",
                 service_8_title: "Funnel Audit", service_8_desc: "Identifying where your funnel is leaking money.", service_8_deliverable: "Report with 15 fixes", service_8_time: "5-7 days", service_8_price: "from $700",
                 pricing_title: "Packages & Pricing",
                 package_1_name: "RESEARCH", package_duration_1: "5-7 days delivery",
@@ -2037,6 +2106,7 @@
                 process_why_desc: "We use next-gen AI tools that allow doing in 5-7 days what usually takes months. You pay for the result, not for hours.",
                 capabilities_title: "What We Analyze",
                 cap_1_label: "Data Sources", cap_2_label: "Competitors", cap_3_label: "Target Personas", cap_4_label: "Hypotheses",
+                cap_title: "Significantly faster, more affordable, and every recommendation is backed by real data",
                 form_title: "Free Mini-Audit",
                 form_subtitle: "In 48 hours, we'll perform a quick analysis and show 3 main growth points.",
                 form_website_label: "Website or Product", form_niche_label: "Your Niche", form_niche_select: "Select niche",
@@ -2059,7 +2129,7 @@
                 nav_services: "Služby", nav_pricing: "Balíčky", nav_process: "Proces", nav_faq: "FAQ", nav_cta: "Audit zdarma",
                 hero_badge: "Nová generace marketingu s AI",
                 hero_title: "Marketingový výzkum a strategie pomocí AI",
-                hero_subtitle: "Za 5-7 dní vám dodáme hloubkovou analýзу trhu, konkurence a publika s konkrétními čísly. To, co trvá agenturám měsíc.",
+                hero_subtitle: "Za 5-7 dní vám dodáme hloubkovou analýzu trhu, konkurence a publika s konkrétními čísly. To, co trvá agenturám měsíc.",
                 hero_cta_main: "Mini-audit zdarma",
                 hero_cta_side: "Zobrazit služby",
                 hero_meta_projects: "Pomohli jsme již 15+ projektům",
@@ -2071,12 +2141,12 @@
                 proof_delivery: "Dny doručení",
                 services_title: "Služby",
                 service_1_title: "Deep Research", service_1_desc: "Hloubková analýza trhu, konkurence a publika.", service_1_deliverable: "PDF report 20-35 stran", service_1_time: "5-7 dní", service_1_price: "od $500",
-                service_2_title: "Marketing Strategy", service_2_desc: "Mediaplán, funnel, unit economics a 30denní plán.", service_2_deliverable: "Strategie 40-50 stran", service_2_time: "10-14 dní", service_2_price: "od $1,000",
-                service_3_title: "GTM Launch", service_3_desc: "Kompletní balíček pro vstup na trh.", service_3_deliverable: "Full Launch Kit", service_3_time: "3-4 týdny", service_3_price: "od $2,000",
+                service_2_title: "Marketing Strategy", service_2_desc: "Mediaplán, funnel, unit economics a 30denní plán.", service_2_deliverable: "Strategie 40-50 stran", service_2_time: "10-14 dní", service_2_price: "od $1,500",
+                service_3_title: "GTM Launch", service_3_desc: "Kompletní balíček pro vstup na trh.", service_3_deliverable: "Full Launch Kit", service_3_time: "3-4 týdny", service_3_price: "od $2,500",
                 service_4_title: "Creative Pack", service_4_desc: "Hooky, scénáře, ad copy a vizuální směr.", service_4_deliverable: "10 hooků + 5 scénářů", service_4_time: "3-5 dní", service_4_price: "od $400",
                 service_5_title: "Optimization", service_5_desc: "Audit reklam a konkrétní doporučení pro růst.", service_5_deliverable: "Report + plán měřítka", service_5_time: "Měsíčně", service_5_price: "od $800",
                 service_6_title: "ICP Deep Profile", service_6_desc: "Podrobný profil vašeho ideálního zákazníka.", service_6_deliverable: "3-5 Persona karet", service_6_time: "7-10 dní", service_6_price: "od $600",
-                service_7_title: "Competitor Watch", service_7_desc: "Měsíční sledování reklam a strategií konkurence.", service_7_deliverable: "Měsíční přehled", service_7_time: "Jednorázově", service_7_price: "od $300",
+                service_7_title: "Competitor Watch", service_7_desc: "Měsíční sledování reklam a strategií konkurence.", service_7_deliverable: "Měsíční přehled", service_7_time: "Měsíčně", service_7_price: "od $300/měs",
                 service_8_title: "Funnel Audit", service_8_desc: "Zjištění míst, kde vaše воронка ztrácí peníze.", service_8_deliverable: "Report s 15 opravami", service_8_time: "5-7 dní", service_8_price: "od $700",
                 pricing_title: "Balíčky a ceny",
                 package_1_name: "RESEARCH", package_duration_1: "5-7 dní doručení",
@@ -2096,6 +2166,7 @@
                 process_why_desc: "Používáme AI nástroje nové generace, které umožňují za 5-7 dní to, co trvá měsíce. Platíte za výsledek.",
                 capabilities_title: "Co analyzujeme",
                 cap_1_label: "Zdroje dat", cap_2_label: "Konkurenty", cap_3_label: "Persony", cap_4_label: "Hypotézy",
+                cap_title: "Mnohem rychlejší, výrazně dostupnější a každé doporučení je podloženo reálnými daty",
                 form_title: "Mini-Audit Zdarma",
                 form_subtitle: "Do 48 hodin provedeme analýzu a ukážeme 3 hlavní body růstu.",
                 form_website_label: "Váš web nebo produkt", form_niche_label: "Vaše nika", form_niche_select: "Vyberte niku",
@@ -2140,43 +2211,6 @@
             document.documentElement.lang = lang;
         }
 
-        // --- CUSTOM CURSOR LOGIC ---
-        const cursor = document.querySelector('.cursor');
-        const dot = document.querySelector('.cursor-dot');
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-
-            document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
-            document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
-        });
-
-        function animateCursor() {
-            let dx = mouseX - cursorX;
-            let dy = mouseY - cursorY;
-            cursorX += dx * 0.15;
-            cursorY += dy * 0.15;
-
-            if (cursor) {
-                cursor.style.left = `${cursorX}px`;
-                cursor.style.top = `${cursorY}px`;
-            }
-            if (dot) {
-                dot.style.left = `${mouseX}px`;
-                dot.style.top = `${mouseY}px`;
-            }
-
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
-
-        document.querySelectorAll('a, button, .service-card, .faq-question, .pricing-card').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor && cursor.classList.add('hovering'));
-            el.addEventListener('mouseleave', () => cursor && cursor.classList.remove('hovering'));
-        });
 
         // --- SCROLL EFFECTS ---
         const header = document.getElementById('header');
@@ -2200,31 +2234,98 @@
 
         document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
+        // Initialize particles
+        document.querySelectorAll('.particles').forEach(container => {
+            for (let i = 0; i < 30; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = 1 + Math.random() * 2;
+                p.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: rgba(255,255,255,0.3);
+                    border-radius: 50%;
+                    left: ${Math.random() * 100}%;
+                    animation: drift ${8 + Math.random() * 12}s linear infinite;
+                    animation-delay: ${-Math.random() * 20}s;
+                    opacity: ${0.1 + Math.random() * 0.4};
+                `;
+                container.appendChild(p);
+            }
+        });
+
+        // Count-up animation
         const countObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    const target = entry.target.querySelector('h3');
-                    if (target && target.hasAttribute('data-target')) {
-                        const goal = parseInt(target.getAttribute('data-target'));
-                        let current = 0;
-                        const duration = 2000;
-                        const step = Math.ceil(goal / (duration / 16));
+                    const el = entry.target;
+                    const targetValue = parseInt(el.dataset.target);
+                    if (!targetValue || el.dataset.counted) return;
+                    el.dataset.counted = 'true';
 
-                        const timer = setInterval(() => {
-                            current += step;
-                            if (current >= goal) {
-                                target.innerText = goal + (goal === 15 || goal === 5 ? '+' : (goal === 100 ? '%' : ''));
-                                clearInterval(timer);
-                            } else {
-                                target.innerText = current;
-                            }
-                        }, 16);
-                    }
+                    let current = 0;
+                    const duration = 2000;
+                    const startTime = performance.now();
+
+                    const animateCounter = (currentTime) => {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const easeOutQuad = progress * (2 - progress);
+                        current = Math.floor(easeOutQuad * targetValue);
+                        el.textContent = current;
+
+                        if (progress < 1) {
+                            requestAnimationFrame(animateCounter);
+                        } else {
+                            el.textContent = targetValue;
+                        }
+                    };
+                    requestAnimationFrame(animateCounter);
                 }
             });
         }, { threshold: 0.5 });
 
-        document.querySelectorAll('.proof-item').forEach(item => countObserver.observe(item));
+        document.querySelectorAll('[data-target]').forEach(el => countObserver.observe(el));
+
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            if (cursorDot) {
+                cursorDot.style.left = mouseX + 'px';
+                cursorDot.style.top = mouseY + 'px';
+            }
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.12;
+            cursorY += (mouseY - cursorY) * 0.12;
+            if (cursor) {
+                cursor.style.left = cursorX + 'px';
+                cursor.style.top = cursorY + 'px';
+            }
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        document.querySelectorAll('a, button, .faq-question, .service-card').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor?.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => cursor?.classList.remove('hovering'));
+        });
+
+        // Service Card Mouse Tracking
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+                card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+            });
+        });
 
         function toggleFaq(el) {
             const item = el.parentElement;
@@ -2238,18 +2339,19 @@
             if (form) form.scrollIntoView({ behavior: 'smooth' });
         }
 
-        const leadForm = document.getElementById('auditForm'); // Changed from 'lead-form' to 'auditForm' based on HTML
+        const leadForm = document.getElementById('auditForm');
         if (leadForm) {
             leadForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                const btn = e.target.querySelector('button[type="submit"]'); // More specific selector for button
-                const success = document.getElementById('formSuccess'); // Changed from 'form-success' to 'formSuccess' based on HTML
+                const btn = e.target.querySelector('button[type="submit"]');
+                const success = document.getElementById('formSuccess');
 
                 if (btn) {
                     btn.innerText = 'Sending...';
                     btn.disabled = true;
                 }
 
+                // Simulate API call or actual submission
                 setTimeout(() => {
                     e.target.reset();
                     if (btn) btn.style.display = 'none';
@@ -2257,39 +2359,6 @@
                 }, 1500);
             });
         }
-
-        // This function is called by the form's onsubmit attribute.
-        // It needs to be defined globally or accessible.
-        function handleFormSubmit(event) {
-            event.preventDefault(); // Prevent default form submission
-            const btn = event.target.querySelector('button[type="submit"]');
-            const success = document.getElementById('formSuccess');
-
-            if (btn) {
-                btn.innerText = 'Sending...';
-                btn.disabled = true;
-            }
-
-            // Simulate API call
-            setTimeout(() => {
-                event.target.reset();
-                if (btn) btn.style.display = 'none';
-                if (success) success.classList.add('show');
-            }, 1500);
-        }
-
-
-        setLanguage('uk');
-
-        document.querySelectorAll('.service-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                card.style.setProperty('--mouse-x', `${x}px`);
-                card.style.setProperty('--mouse-y', `${y}px`);
-            });
-        });
 
         function toggleMobileMenu() {
             const nav = document.getElementById('nav-links');
@@ -2305,6 +2374,8 @@
                 document.querySelector('.mobile-menu-toggle').classList.remove('active');
             });
         });
+
+        setLanguage('uk');
     </script>
 </body>
 
