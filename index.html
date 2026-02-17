@@ -49,6 +49,19 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 24px;
+            }
+        }
+
         /* ===== CUSTOM CURSOR ===== */
         .cursor {
             width: 20px;
@@ -210,7 +223,7 @@
             left: 0;
             width: 100%;
             z-index: 100;
-            padding: 24px 0;
+            padding: 32px 0;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             background: transparent;
             border-bottom: 1px solid transparent;
@@ -228,6 +241,43 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .language-switcher {
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 4px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            padding: 6px 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            filter: grayscale(1) opacity(0.5);
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            filter: grayscale(0.5) opacity(0.8);
+        }
+
+        .lang-btn.active {
+            background: rgba(255, 255, 255, 0.1);
+            filter: grayscale(0) opacity(1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
         }
 
         .logo {
@@ -1318,7 +1368,20 @@
 
             .header-actions .cta-btn {
                 display: none;
-                /* Hide on small mobile to save space */
+            }
+
+            .header-actions {
+                gap: 12px;
+            }
+
+            .language-switcher {
+                padding: 2px;
+                gap: 4px;
+            }
+
+            .lang-btn {
+                padding: 4px 6px;
+                font-size: 1rem;
             }
         }
 
@@ -1382,9 +1445,9 @@
             </nav>
             <div class="header-actions">
                 <div class="language-switcher">
-                    <span onclick="setLanguage('uk')" id="lang-uk" class="active">UA</span>
-                    <span onclick="setLanguage('en')" id="lang-en">EN</span>
-                    <span onclick="setLanguage('cs')" id="lang-cs">CZ</span>
+                    <button onclick="setLanguage('uk')" id="lang-uk" class="lang-btn active" title="UA">🇺🇦</button>
+                    <button onclick="setLanguage('en')" id="lang-en" class="lang-btn" title="EN">🇬🇧</button>
+                    <button onclick="setLanguage('cs')" id="lang-cs" class="lang-btn" title="CZ">🇨🇿</button>
                 </div>
                 <button class="cta-btn" onclick="scrollToAudit()" data-i18n="nav_cta">Безкоштовний аудит</button>
                 <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
@@ -2066,9 +2129,10 @@
             });
 
             // Update active state in switcher
-            document.querySelectorAll('.language-switcher span').forEach(s => s.classList.remove('active'));
-            const activeLink = document.getElementById(`lang-${lang}`);
-            if (activeLink) activeLink.classList.add('active');
+            // Update switcher active state
+            document.querySelectorAll('.language-switcher .lang-btn').forEach(s => s.classList.remove('active'));
+            const activeBtn = document.getElementById(`lang-${lang}`);
+            if (activeBtn) activeBtn.classList.add('active');
 
             document.documentElement.lang = lang;
         }
