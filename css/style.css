@@ -191,6 +191,10 @@
             opacity: 0;
             filter: blur(10px);
             transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            background: inherit;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         .split-word.revealed {
