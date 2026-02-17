@@ -667,7 +667,7 @@
         /* Scroll indicator */
         .scroll-indicator {
             position: absolute;
-            bottom: 30px;
+            bottom: 100px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -1140,6 +1140,12 @@
             line-height: 1.8;
         }
 
+        .why-faster-block .section-title {
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
         /* --- LEAD MAGNET --- */
         .lead-magnet {
             padding: 100px 0;
@@ -1568,12 +1574,7 @@
                 <p data-i18n="hero_subtitle" class="reveal">Відчуйте перевагу даних над припущеннями. Використовуємо
                     кастомізовані AI-агенти для аналізу ринків, конкурентів та створення контент-стратегій.</p>
 
-                <div class="hero-buttons reveal">
-                    <a href="#lead-form" class="btn-primary" data-i18n="hero_cta_main">Безкоштовний міні-аудит</a>
-                    <a href="#services" class="btn-outline" data-i18n="hero_cta_side">Переглянути послуги</a>
-                </div>
-
-                <!-- SOCIAL PROOF BAR (Variant B) -->
+                <!-- SOCIAL PROOF BAR -->
                 <div class="proof-bar reveal">
                     <div class="proof-grid">
                         <div class="proof-item">
@@ -1595,14 +1596,18 @@
                     </div>
                 </div>
 
-
-                <div class="hero-meta reveal">
+                <div class="hero-meta reveal" style="margin-top: 32px;">
                     <div>
                         <span data-i18n="hero_meta_projects">Вже допомогли 15+ проєктам</span>
                     </div>
                     <div>
                         <span data-i18n="hero_meta_response">Відповідаємо за 2 години</span>
                     </div>
+                </div>
+
+                <div class="hero-buttons reveal" style="margin-top: 24px;">
+                    <a href="#lead-form" class="btn-primary" data-i18n="hero_cta_main">Безкоштовний міні-аудит</a>
+                    <a href="#services" class="btn-outline" data-i18n="hero_cta_side">Переглянути послуги</a>
                 </div>
             </div>
 
@@ -1641,7 +1646,7 @@
                         </div>
                         <div class="service-meta">
                             <span data-i18n="service_2_time">10-14 днів</span>
-                            <span class="price" data-i18n="service_2_price">від $1,000</span>
+                            <span class="price" data-i18n="service_2_price">від $1,500</span>
                         </div>
                     </div>
 
@@ -1705,25 +1710,23 @@
                             <span data-i18n="service_7_deliverable">Щомісячний звіт</span>
                         </div>
                         <div class="service-meta">
-                            <div class="service-timeline" data-i18n="service_3_timeline">Щомісяця</div>
-                            <div class="service-price" data-i18n="service_3_price">від $300/міс</div>
+                            <div class="service-timeline" data-i18n="service_7_time">Щомісяця</div>
+                            <div class="service-price" data-i18n="service_7_price">від $300/міс</div>
+                        </div>
+                    </div>
+                    <div class="service-card reveal" style="--i:8">
+                        <div class="service-icon">📐</div>
+                        <h3 data-i18n="service_8_title">Funnel Audit</h3>
+                        <p data-i18n="service_8_desc">Знаходимо де ваша воронка втрачає гроші.</p>
+                        <div class="service-meta-extra">
+                            <span data-i18n="service_8_deliverable">Звіт з 15 рекомендацій</span>
+                        </div>
+                        <div class="service-meta">
+                            <span data-i18n="service_8_time">5-7 днів</span>
+                            <span class="price" data-i18n="service_8_price">від $700</span>
                         </div>
                     </div>
                 </div>
-
-                <div class="service-card reveal" style="--i:8">
-                    <div class="service-icon">📐</div>
-                    <h3 data-i18n="service_8_title">Funnel Audit</h3>
-                    <p data-i18n="service_8_desc">Знаходимо де ваша воронка втрачає гроші.</p>
-                    <div class="service-meta-extra">
-                        <span data-i18n="service_8_deliverable">Звіт з 15 рекомендацій</span>
-                    </div>
-                    <div class="service-meta">
-                        <span data-i18n="service_8_time">5-7 днів</span>
-                        <span class="price" data-i18n="service_8_price">від $700</span>
-                    </div>
-                </div>
-            </div>
             </div>
         </section>
     </main>
@@ -1802,6 +1805,7 @@
                 </div>
                 <div class="process-step reveal" style="--i:3">
                     <div class="step-number">3</div>
+                    <h3 data-i18n="process_3_title">Deliverable</h3>
                     <p data-i18n="process_3_desc">Отримуєте готовий документ: стратегія, медіа-план, креативи.</p>
                 </div>
                 <div class="process-step reveal" style="--i:4">
@@ -2160,7 +2164,7 @@
                 process_title: "Jak pracujeme",
                 process_1_title: "Brief", process_1_desc: "30minutový hovor. Porozumíme vašim cílům.",
                 process_2_title: "Výzkum", process_2_desc: "Náš AI systém analyzuje 50+ zdrojů dat ve vaší nice.",
-                process_3_title: "Deliverable", process_3_desc: "Získáte finální dokument: strategie, mediaplán, kreativy.",
+                process_3_title: "Výstup", process_3_desc: "Získáte finální dokument: strategie, mediaplán, kreativy.",
                 process_4_title: "Podpora", process_4_desc: "Pomůžeme s implementací a dotazy.",
                 process_why_title: "Proč rychleji a levněji než agentury?",
                 process_why_desc: "Používáme AI nástroje nové generace, které umožňují za 5-7 dní to, co trvá měsíce. Platíte za výsledek.",
