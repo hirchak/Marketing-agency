@@ -291,7 +291,7 @@
 
         nav {
             display: flex;
-            gap: 32px;
+            gap: clamp(16px, 3vw, 32px);
             align-items: center;
         }
 
@@ -365,7 +365,7 @@
         .hero h1 {
             font-family: 'Syne', sans-serif;
             font-weight: 800;
-            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-size: clamp(2.5rem, 6.5vw, 5rem);
             line-height: 1.05;
             letter-spacing: -0.03em;
             margin-bottom: 28px;
@@ -375,6 +375,9 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             animation: gradientShift 6s ease infinite;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            hyphens: auto;
         }
 
         @keyframes gradientShift {
@@ -633,7 +636,7 @@
 
         /* ===== SERVICES ===== */
         .services {
-            padding: 120px 0;
+            padding: 160px 0;
         }
 
         .services-grid {
@@ -757,7 +760,7 @@
 
         /* ===== PRICING ===== */
         .pricing {
-            padding: 120px 0;
+            padding: 160px 0;
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
             background: rgba(255, 255, 255, 0.01);
@@ -918,7 +921,7 @@
 
         /* ===== PROCESS ===== */
         .process {
-            padding: 120px 0;
+            padding: 160px 0;
         }
 
         .process-steps {
@@ -1279,7 +1282,7 @@
 
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: clamp(2.5rem, 8vw, 3.5rem);
+                font-size: clamp(2.2rem, 9vw, 3.2rem);
             }
 
             .hero-buttons {
