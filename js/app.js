@@ -229,13 +229,24 @@ function setLanguage(lang) {
 }
 
 
-// --- SCROLL PROGRESS BAR ---
+// --- SCROLL PROGRESS BAR AND HEADER ---
 const scrollProgress = document.querySelector('.scroll-progress');
+const header = document.getElementById('header');
+
 window.addEventListener('scroll', () => {
     const scrolled = window.scrollY;
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
     const progress = scrolled / maxScroll;
+
     if (scrollProgress) scrollProgress.style.transform = `scaleX(${progress})`;
+
+    if (header) {
+        if (scrolled > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    }
 });
 
 // --- SPLIT TEXT REVEAL ---
