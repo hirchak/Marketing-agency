@@ -10,15 +10,53 @@
     <meta property="og:title" content="SAV.AGENCY — AI Marketing Research & Strategy">
     <meta property="og:description" content="Глибокий аналіз ринку за 5-7 днів замість 6 тижнів. Від $500.">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="https://marketing-agency-deploy.vercel.app/img/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://marketing-agency-deploy.vercel.app/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SAV.AGENCY — AI Marketing Research & Strategy">
+    <meta name="twitter:description" content="Глибокий аналіз ринку за 5-7 днів замість 6 тижнів. Від $500.">
+    <meta name="twitter:image" content="https://marketing-agency-deploy.vercel.app/img/og-image.png">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="apple-touch-icon" href="img/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <!-- AI Crawlability: make content visible without JS -->
+    <noscript>
+        <style>
+            .reveal {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            .split-word {
+                opacity: 1 !important;
+                filter: none !important;
+            }
+
+            .preloader {
+                display: none !important;
+            }
+        </style>
+    </noscript>
 </head>
 
 <body>
+    <!-- PRELOADER -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-logo">SAV.AGENCY</div>
+            <div class="preloader-bar">
+                <div class="preloader-bar-fill"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- AURORA BACKGROUND -->
     <div class="aurora"></div>
 
@@ -241,6 +279,55 @@
             </div>
         </section>
     </main>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <span class="section-tag reveal">// Відгуки</span>
+            <h2 class="section-title reveal" data-i18n="testimonials_title">Що кажуть клієнти</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card reveal" style="--i:1">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text" data-i18n="testimonial_1_text">"Отримали глибокий аналіз ринку за 6
+                        днів. Раніше подібна робота займала у нас місяць. Рекомендації були дуже конкретні — одразу
+                        почали впроваджувати."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">АК</div>
+                        <div>
+                            <div class="testimonial-name" data-i18n="testimonial_1_name">Андрій К.</div>
+                            <div class="testimonial-role" data-i18n="testimonial_1_role">CEO, E-commerce стартап</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card reveal" style="--i:2">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text" data-i18n="testimonial_2_text">"Стратегія була настільки детальна, що
+                        наша команда отримала чіткий план дій на 3 місяці вперед. Unit economics розрахунки зекономили
+                        нам тисячі на тестах."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">ОМ</div>
+                        <div>
+                            <div class="testimonial-name" data-i18n="testimonial_2_name">Олена М.</div>
+                            <div class="testimonial-role" data-i18n="testimonial_2_role">CMO, SaaS платформа</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card reveal" style="--i:3">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text" data-i18n="testimonial_3_text">"Креативний пакет перевершив очікування.
+                        Hooks працюють, скрипти конвертять. За $400 отримали контент, який агенція б зробила за $3000."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">ДВ</div>
+                        <div>
+                            <div class="testimonial-name" data-i18n="testimonial_3_name">Дмитро В.</div>
+                            <div class="testimonial-role" data-i18n="testimonial_3_role">Founder, Mobile App</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- PRICING -->
     <section class="pricing" id="pricing">
@@ -533,6 +620,11 @@
             </div>
         </div>
     </footer>
+
+    <!-- STICKY MOBILE CTA -->
+    <div class="sticky-mobile-cta" id="stickyCta">
+        <a href="#lead-form" class="sticky-cta-btn" data-i18n="hero_cta_main">Безкоштовний міні-аудит</a>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>

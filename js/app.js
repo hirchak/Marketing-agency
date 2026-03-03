@@ -58,6 +58,13 @@ const translations = {
         faq_q6: "В яких ринках/нішах ви маєте досвід?", faq_a6: "E-commerce, SaaS, мобільні додатки, сервісні бізнеси. Україна, Польща, Чехія, DACH.",
         faq_q7: "Чи можна замовити тільки одну послугу?", faq_a7: "Абсолютно. Кожна послуга працює самостійно. Але ми рекомендуємо починати з Research — це фундамент.",
         faq_q8: "Як почати?", faq_a8: "Залиште заявку на безкоштовний міні-аудит або напишіть нам в Telegram. Ми проведемо 30-хвилинний бриф.",
+        testimonials_title: "Що кажуть клієнти",
+        testimonial_1_text: '"Отримали глибокий аналіз ринку за 6 днів. Раніше подібна робота займала у нас місяць. Рекомендації були дуже конкретні — одразу почали впроваджувати."',
+        testimonial_1_name: "Андрій К.", testimonial_1_role: "CEO, E-commerce стартап",
+        testimonial_2_text: '"Стратегія була настільки детальна, що наша команда отримала чіткий план дій на 3 місяці вперед. Unit economics розрахунки зекономили нам тисячі на тестах."',
+        testimonial_2_name: "Олена М.", testimonial_2_role: "CMO, SaaS платформа",
+        testimonial_3_text: '"Креативний пакет перевершив очікування. Hooks працюють, скрипти конвертять. За $400 отримали контент, який агенція б зробила за $3000."',
+        testimonial_3_name: "Дмитро В.", testimonial_3_role: "Founder, Mobile App",
         footer_links: "Послуги", footer_contact: "Контакти", footer_telegram: "Telegram", footer_email: "Email", footer_form: "Безкоштовний аудит",
         footer_copyright: "© 2026 SAV.AGENCY • AI-Powered Marketing Research & Strategy"
     },
@@ -118,6 +125,13 @@ const translations = {
         faq_q6: "Which niches are you experts in?", faq_a6: "E-commerce, SaaS, Apps, Service businesses. UA, PL, CZ, DACH markets.",
         faq_q7: "Can I order just one service?", faq_a7: "Absolutely. Each service works independently.",
         faq_q8: "How to start?", faq_a8: "Submit a mini-audit request or contact us on Telegram for a briefing.",
+        testimonials_title: "What Clients Say",
+        testimonial_1_text: '"We received a deep market analysis in 6 days. Previously, similar work took us a month. The recommendations were very specific — we started implementing right away."',
+        testimonial_1_name: "Andriy K.", testimonial_1_role: "CEO, E-commerce Startup",
+        testimonial_2_text: '"The strategy was so detailed that our team received a clear action plan for 3 months ahead. Unit economics calculations saved us thousands on tests."',
+        testimonial_2_name: "Olena M.", testimonial_2_role: "CMO, SaaS Platform",
+        testimonial_3_text: '"The creative pack exceeded expectations. Hooks work, scripts convert. For $400, we got content that an agency would charge $3000 for."',
+        testimonial_3_name: "Dmytro V.", testimonial_3_role: "Founder, Mobile App",
         footer_links: "Services", footer_contact: "Contact", footer_telegram: "Telegram", footer_email: "Email", footer_form: "Free Audit",
         footer_copyright: "© 2026 SAV.AGENCY • AI-Powered Marketing Research & Strategy"
     },
@@ -178,6 +192,13 @@ const translations = {
         faq_q6: "V jakých nikách jste experti?", faq_a6: "E-commerce, SaaS, Aplikace. Trhy CZ, UA, PL, DACH.",
         faq_q7: "Mohu objednat jen jednu službu?", faq_a7: "Naprosto. Každá služba funguje samostatně.",
         faq_q8: "Jak začít?", faq_a8: "Požádejte o mini-audit nebo nás kontaktujte na Telegramu.",
+        testimonials_title: "Co říkají klienti",
+        testimonial_1_text: '"Hloubkovou analýzu trhu jsme obdrželi za 6 dní. Dříve podobná práce trvala měsíc. Doporučení byla velmi konkrétní."',
+        testimonial_1_name: "Andrij K.", testimonial_1_role: "CEO, E-commerce startup",
+        testimonial_2_text: '"Strategie byla tak podrobná, že náš tým dostal jasný plán na 3 měsíce. Výpočty unit economics nám ušetřily tisíce."',
+        testimonial_2_name: "Olena M.", testimonial_2_role: "CMO, SaaS platforma",
+        testimonial_3_text: '"Kreativní balíček překonal očekávání. Hooky fungují, scénáře konvertují. Za $400 jsme získali obsah za $3000."',
+        testimonial_3_name: "Dmytro V.", testimonial_3_role: "Founder, Mobile App",
         footer_links: "Služby", footer_contact: "Kontakty", footer_telegram: "Telegram", footer_email: "Email", footer_form: "Audit zdarma",
         footer_copyright: "© 2026 SAV.AGENCY • AI-Powered Marketing Research & Strategy"
     }
@@ -449,5 +470,138 @@ document.querySelectorAll('#nav-links a').forEach(link => {
     link.addEventListener('click', () => {
         document.getElementById('nav-links').classList.remove('active');
         document.querySelector('.mobile-menu-toggle').classList.remove('active');
+    });
+});
+
+// --- PRELOADER ---
+window.addEventListener('load', () => {
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        setTimeout(() => {
+            preloader.classList.add('hidden');
+            setTimeout(() => preloader.remove(), 600);
+        }, 1200);
+    }
+});
+
+// --- STICKY MOBILE CTA ---
+(function () {
+    const stickyCta = document.getElementById('stickyCta');
+    const leadForm = document.getElementById('lead-form');
+    if (!stickyCta || window.innerWidth > 768) return;
+
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        const formRect = leadForm ? leadForm.getBoundingClientRect() : null;
+        const nearForm = formRect && formRect.top < window.innerHeight && formRect.bottom > 0;
+
+        if (scrollY > 400 && !nearForm) {
+            stickyCta.classList.add('visible');
+        } else {
+            stickyCta.classList.remove('visible');
+        }
+        lastScroll = scrollY;
+    });
+})();
+
+// --- GSAP SCROLLTRIGGER ANIMATIONS ---
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Service cards staggered entrance
+    gsap.utils.toArray('.service-card').forEach((card, i) => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: 'top 85%',
+                toggleActions: 'play none none none'
+            },
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            delay: i * 0.08,
+            ease: 'power3.out'
+        });
+    });
+
+    // Pricing cards scale entrance
+    gsap.utils.toArray('.pricing-card').forEach((card, i) => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: 'top 85%',
+                toggleActions: 'play none none none'
+            },
+            scale: 0.9,
+            opacity: 0,
+            duration: 0.7,
+            delay: i * 0.15,
+            ease: 'back.out(1.5)'
+        });
+    });
+
+    // Process steps horizontal slide
+    gsap.utils.toArray('.process-step').forEach((step, i) => {
+        gsap.from(step, {
+            scrollTrigger: {
+                trigger: step,
+                start: 'top 85%',
+                toggleActions: 'play none none none'
+            },
+            x: i % 2 === 0 ? -40 : 40,
+            opacity: 0,
+            duration: 0.7,
+            delay: i * 0.1,
+            ease: 'power2.out'
+        });
+    });
+
+    // Testimonial cards
+    gsap.utils.toArray('.testimonial-card').forEach((card, i) => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: 'top 85%',
+                toggleActions: 'play none none none'
+            },
+            y: 40,
+            opacity: 0,
+            duration: 0.8,
+            delay: i * 0.15,
+            ease: 'power3.out'
+        });
+    });
+
+    // FAQ items
+    gsap.utils.toArray('.faq-item').forEach((item, i) => {
+        gsap.from(item, {
+            scrollTrigger: {
+                trigger: item,
+                start: 'top 90%',
+                toggleActions: 'play none none none'
+            },
+            y: 20,
+            opacity: 0,
+            duration: 0.5,
+            delay: i * 0.08,
+            ease: 'power2.out'
+        });
+    });
+
+    // Section titles parallax
+    gsap.utils.toArray('.section-title').forEach(title => {
+        gsap.from(title, {
+            scrollTrigger: {
+                trigger: title,
+                start: 'top 85%',
+                toggleActions: 'play none none none'
+            },
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power3.out'
+        });
     });
 });
