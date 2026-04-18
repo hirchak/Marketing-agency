@@ -440,13 +440,25 @@ nav a:hover::after {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 24px;
+        gap: 20px;
         z-index: 1000;
-        border: none;
+        border: 2px solid var(--accent);
     }
 
     nav.active a {
-        font-size: 1.2rem;
+        font-size: 1.4rem;
+        font-family: var(--font-mono);
+        font-weight: 700;
+        letter-spacing: 2px;
+        padding: 12px 24px;
+        border: 1px solid var(--border);
+        transition: all 0.2s ease;
+    }
+
+    nav.active a:hover {
+        border-color: var(--accent);
+        background: var(--accent-dim);
+        color: var(--accent);
     }
 
     .header-actions .cta-btn {
@@ -1625,6 +1637,7 @@ footer {
 
     .hero h1 {
         margin-bottom: 24px;
+        font-size: clamp(2rem, 10vw, 4rem);
     }
 
     .hero-proof {
@@ -1635,33 +1648,79 @@ footer {
     /* Typography scale on mobile */
     .section-title {
         margin-bottom: 40px;
+        font-size: clamp(1.6rem, 6vw, 2.5rem);
     }
 
-    /* Disable glitch on mobile for performance */
-    .glitch::before,
+    /* Simplified glitch on mobile - just subtle color shift */
+    .glitch::before {
+        display: block;
+        animation: glitch-mobile 2s ease-in-out infinite;
+        color: var(--accent-alt);
+        opacity: 0.6;
+    }
+
     .glitch::after {
-        display: none;
+        display: block;
+        animation: glitch-mobile 2s ease-in-out infinite reverse;
+        color: var(--accent-hot);
+        opacity: 0.6;
+    }
+
+    @keyframes glitch-mobile {
+        0%, 100% { transform: translate(0); }
+        20% { transform: translate(-2px, 2px); }
+        40% { transform: translate(2px, -2px); }
+        60% { transform: translate(-1px, -1px); }
+        80% { transform: translate(1px, 1px); }
     }
 
     /* Mobile-friendly buttons */
     .btn-primary,
     .btn-outline {
         padding: 16px 24px;
-        font-size: 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    /* Services grid single column on mobile */
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .service-card {
+        padding: 28px;
+    }
+
+    /* Particles visible on mobile */
+    .particles {
+        opacity: 0.5;
     }
 }
 
 /* Touch device optimizations */
 @media (hover: none) and (pointer: coarse) {
-    .service-card:hover,
-    .pricing-card:hover,
-    .btn-primary:hover,
-    .btn-outline:hover {
-        transform: none;
-        box-shadow: none;
+    .service-card,
+    .pricing-card {
+        transition: all 0.2s ease;
     }
 
     .service-card:active,
+    .pricing-card:active {
+        transform: translate(-2px, -2px);
+        box-shadow: var(--shadow-brutal), 0 0 30px rgba(0, 255, 136, 0.2);
+        border-color: var(--accent);
+    }
+
+    .btn-primary:active,
+    .btn-outline:active {
+        transform: translate(2px, 2px);
+        box-shadow: none;
+    }
+
+    .faq-item.active {
+        border-color: var(--accent);
+    }
+}
     .pricing-card:active {
         border-color: var(--accent);
     }
