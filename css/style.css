@@ -943,6 +943,7 @@ nav a:hover::after {
     bottom: -1px;
     border: 2px solid var(--accent);
     animation: borderPulse 2s ease infinite;
+    pointer-events: none;
 }
 
 @keyframes borderPulse {
