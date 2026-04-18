@@ -186,6 +186,10 @@ function setLanguage(lang) {
                 el.placeholder = translations[lang][key];
             } else {
                 el.innerText = translations[lang][key];
+                // Update data-text for glitch effect
+                if (el.classList.contains('glitch')) {
+                    el.setAttribute('data-text', translations[lang][key]);
+                }
             }
         }
     });
