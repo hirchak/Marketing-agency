@@ -22,24 +22,19 @@
     <link rel="apple-touch-icon" href="img/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <!-- AI Crawlability: make content visible without JS -->
     <noscript>
         <style>
-            .reveal {
+            .reveal, .fade-in {
                 opacity: 1 !important;
                 transform: none !important;
             }
-
-            .split-word {
-                opacity: 1 !important;
-                filter: none !important;
-            }
-
             .preloader {
+                display: none !important;
+            }
+            .scanlines {
                 display: none !important;
             }
         </style>
@@ -57,34 +52,27 @@
         </div>
     </div>
 
-    <!-- AURORA BACKGROUND -->
-    <div class="aurora"></div>
-
     <!-- SCROLL PROGRESS BAR -->
-    <div class="scroll-progress"></div>
-
-    <!-- BLOB CURSOR -->
-    <div class="cursor-dot"></div>
+    <div class="scroll-progress">
+        <span id="scroll-text">[ scanning... ]</span>
+        <div class="scroll-progress-fill" id="scroll-fill"></div>
+    </div>
 
     <!-- BACKGROUND EFFECTS -->
-    <div class="mesh-bg">
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
-    </div>
+    <div class="grid-bg"></div>
+    <div class="terminal-glow"></div>
+    <div class="scanlines"></div>
     <div class="noise"></div>
-    <div class="grid-lines"></div>
 
     <!-- HEADER -->
     <header id="header">
         <div class="container header-content">
             <div class="logo">SAV.AGENCY</div>
             <nav id="nav-links">
-                <a href="#services" data-i18n="nav_services">Послуги</a>
-                <a href="#pricing" data-i18n="nav_pricing">Пакети</a>
-                <a href="#process" data-i18n="nav_process">Процес</a>
-                <a href="#faq" data-i18n="nav_faq">FAQ</a>
+                <a href="#services" data-i18n="nav_services">[Послуги]</a>
+                <a href="#pricing" data-i18n="nav_pricing">[Пакети]</a>
+                <a href="#process" data-i18n="nav_process">[Процес]</a>
+                <a href="#faq" data-i18n="nav_faq">[FAQ]</a>
             </nav>
             <div class="header-actions">
                 <div class="language-switcher">
@@ -111,11 +99,11 @@
                     <span class="dot"></span>
                     <span data-i18n="hero_badge">AI-Powered Marketing Intelligence</span>
                 </div>
-                <h1 data-i18n="hero_title" class="reveal">Маркетингові дослідження та стратегії на основі AI
+                <h1 data-i18n="hero_title" class="glitch reveal" data-text="Маркетингові дослідження та стратегії на основі AI">Маркетингові дослідження та стратегії на основі AI
                 </h1>
                 <p data-i18n="hero_subtitle" class="reveal">Відчуйте перевагу даних над припущеннями.
                     Використовуємо
-                    кастомізовані AI-агенти для аналізу ринків, конкурентів та створення контент-стратегій.</p>
+                    кастомізовані AI-агенти для аналізу ринків, конкурентів та створення контент-стратегій.<span class="terminal-cursor"></span></p>
 
                 <!-- SOCIAL PROOF BAR -->
                 <div class="proof-bar reveal">
@@ -153,9 +141,9 @@
                 </div>
 
                 <div class="hero-buttons reveal" style="margin-top: 24px;">
-                    <a href="#lead-form" class="btn-primary" data-i18n="hero_cta_main">Безкоштовний
+                    <a href="#lead-form" class="btn-primary" data-i18n="hero_cta_main">> Безкоштовний
                         міні-аудит</a>
-                    <a href="#services" class="btn-outline" data-i18n="hero_cta_side">Переглянути послуги</a>
+                    <a href="#services" class="btn-outline" data-i18n="hero_cta_side">[ ] Переглянути послуги</a>
                 </div>
             </div>
         </section>
@@ -168,7 +156,7 @@
 
                 <div class="services-grid">
                     <div class="service-card reveal" style="--i:1">
-                        <div class="service-icon">🔍</div>
+                        <div class="service-icon">&gt;_</div>
                         <h3 data-i18n="service_1_title">Deep Research</h3>
                         <p data-i18n="service_1_desc">Глибокий аналіз ринку, конкурентів та аудиторії.</p>
                         <div class="service-meta-extra">
@@ -181,7 +169,7 @@
                     </div>
 
                     <div class="service-card reveal" style="--i:2">
-                        <div class="service-icon">🎯</div>
+                        <div class="service-icon">[T]</div>
                         <h3 data-i18n="service_2_title">Marketing Strategy</h3>
                         <p data-i18n="service_2_desc">Медіа-план, воронка, unit economics і 30-денний план дій.
                         </p>
@@ -195,7 +183,7 @@
                     </div>
 
                     <div class="service-card reveal" style="--i:3">
-                        <div class="service-icon">🚀</div>
+                        <div class="service-icon">[!]</div>
                         <h3 data-i18n="service_3_title">GTM Launch</h3>
                         <p data-i18n="service_3_desc">Повний пакет для виходу продукту на ринок.</p>
                         <div class="service-meta-extra">
@@ -208,7 +196,7 @@
                     </div>
 
                     <div class="service-card reveal" style="--i:4">
-                        <div class="service-icon">🎨</div>
+                        <div class="service-icon">[C]</div>
                         <h3 data-i18n="service_4_title">Creative Pack</h3>
                         <p data-i18n="service_4_desc">Hooks, скрипти, ad copy та ТЗ для продакшну.</p>
                         <div class="service-meta-extra">
@@ -221,7 +209,7 @@
                     </div>
 
                     <div class="service-card reveal" style="--i:5">
-                        <div class="service-icon">📊</div>
+                        <div class="service-icon">[O]</div>
                         <h3 data-i18n="service_5_title">Optimization</h3>
                         <p data-i18n="service_5_desc">Аудит поточної реклами і конкретні рекомендації.</p>
                         <div class="service-meta-extra">
@@ -234,7 +222,7 @@
                     </div>
 
                     <div class="service-card reveal" style="--i:6">
-                        <div class="service-icon">🧠</div>
+                        <div class="service-icon">[I]</div>
                         <h3 data-i18n="service_6_title">ICP Deep Profile</h3>
                         <p data-i18n="service_6_desc">Глибоке дослідження вашої ідеальної аудиторії.</p>
                         <div class="service-meta-extra">
@@ -247,7 +235,7 @@
                     </div>
 
                     <div class="service-card reveal" style="--i:7">
-                        <div class="service-icon">👁️</div>
+                        <div class="service-icon">[W]</div>
                         <h3 data-i18n="service_7_title">Competitor Watch</h3>
                         <p data-i18n="service_7_desc">Щомісячний трекінг реклами і стратегій конкурентів.</p>
                         <div class="service-meta-extra">
@@ -259,7 +247,7 @@
                         </div>
                     </div>
                     <div class="service-card reveal" style="--i:8">
-                        <div class="service-icon">📐</div>
+                        <div class="service-icon">[F]</div>
                         <h3 data-i18n="service_8_title">Funnel Audit</h3>
                         <p data-i18n="service_8_desc">Знаходимо де ваша воронка втрачає гроші.</p>
                         <div class="service-meta-extra">
@@ -293,7 +281,7 @@
                         <li data-i18n="package_1_f5">SWOT аналіз</li>
                     </ul>
                     <button class="btn-outline" onclick="window.open('https://t.me/andrisav', '_blank')"
-                        style="width: 100%;" data-i18n="btn_contact">Зв'язатись</button>
+                        style="width: 100%;" data-i18n="btn_contact">> Зв'язатись</button>
                 </div>
 
                 <div class="pricing-card featured">
@@ -309,7 +297,7 @@
                         <li data-i18n="package_2_f5">30-денний план дій</li>
                     </ul>
                     <button class="btn-primary" onclick="window.open('https://t.me/andrisav', '_blank')"
-                        style="width: 100%;" data-i18n="btn_contact">Зв'язатись</button>
+                        style="width: 100%;" data-i18n="btn_contact">> Зв'язатись</button>
                 </div>
 
                 <div class="pricing-card fade-in">
@@ -325,7 +313,7 @@
                         <li data-i18n="package_3_f5">30 днів підтримки</li>
                     </ul>
                     <button class="btn-primary" onclick="window.open('https://t.me/andrisav', '_blank')"
-                        style="width: 100%;" data-i18n="btn_contact">Зв'язатись</button>
+                        style="width: 100%;" data-i18n="btn_contact">> Зв'язатись</button>
                 </div>
             </div>
         </div>
@@ -338,23 +326,23 @@
 
             <div class="process-steps">
                 <div class="process-step reveal" style="--i:1">
-                    <div class="step-number">1</div>
+                    <div class="step-number">01</div>
                     <h3 data-i18n="process_1_title">Бриф</h3>
                     <p data-i18n="process_1_desc">30-хвилинний дзвінок або листування. Розуміємо ваш бізнес.</p>
                 </div>
                 <div class="process-step reveal" style="--i:2">
-                    <div class="step-number">2</div>
+                    <div class="step-number">02</div>
                     <h3 data-i18n="process_2_title">Дослідження</h3>
                     <p data-i18n="process_2_desc">Наша AI-система аналізує 50+ джерел даних по вашій ніші.</p>
                 </div>
                 <div class="process-step reveal" style="--i:3">
-                    <div class="step-number">3</div>
+                    <div class="step-number">03</div>
                     <h3 data-i18n="process_3_title">Deliverable</h3>
                     <p data-i18n="process_3_desc">Отримуєте готовий документ: стратегія, медіа-план, креативи.
                     </p>
                 </div>
                 <div class="process-step reveal" style="--i:4">
-                    <div class="step-number">4</div>
+                    <div class="step-number">04</div>
                     <h3 data-i18n="process_4_title">Підтримка</h3>
                     <p data-i18n="process_4_desc">Допомагаємо впровадити, відповідаємо на питання.</p>
                 </div>
@@ -409,7 +397,7 @@
                         <input type="text" name="telegram" placeholder="@yourhandle">
                     </div>
 
-                    <button type="submit" class="btn-primary" style="width: 100%;" data-i18n="btn_audit_submit">Отримати
+                    <button type="submit" class="btn-primary" style="width: 100%;" data-i18n="btn_audit_submit">> Отримати
                         безкоштовний аудит</button>
 
                     <div class="form-note" data-i18n="form_note">📌 Без зобов'язань. Відповідаємо за 48 годин.
@@ -569,7 +557,7 @@
 
     <!-- STICKY MOBILE CTA -->
     <div class="sticky-mobile-cta" id="stickyCta">
-        <a href="#lead-form" class="sticky-cta-btn" data-i18n="hero_cta_main">Безкоштовний міні-аудит</a>
+        <a href="#lead-form" class="sticky-cta-btn" data-i18n="hero_cta_main">> Безкоштовний міні-аудит</a>
     </div>
 
     <script src="js/telegram-bot.js"></script>
