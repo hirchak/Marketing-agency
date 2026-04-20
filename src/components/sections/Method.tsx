@@ -18,7 +18,7 @@ const steps: Step[] = [
 
 export default function Method() {
   const { t } = useI18n();
-  const [visibleSteps, setVisibleSteps] = useState<number[]>([]);
+  const [activeStep, setActiveStep] = useState(0);
   const [progressHeight, setProgressHeight] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const stepsRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -28,42 +28,23 @@ export default function Method() {
       const section = sectionRef.current;
       if (!section) return;
 
-      const sectionTop = section.getBoundingClientRect().top;
+      const rect = section.getBoundingClientRect();
       const windowHeight = window.innerHeight;
+      const sectionHeight = rect.height;
 
-      if (sectionTop < windowHeight * 0.7) {
-        steps.forEach((_, i) => {
-          setTimeout(() => {
-            setVisibleSteps((prev) => [...prev, i]);
-          }, i * 150);
-        });
+      if (rect.top < windowHeight * 0.7 && rect.bottom > 0) {
+        const scrollProgress = Math.min(1, Math.max(0, (windowHeight * 0.7 - rect.top) / (sectionHeight - windowHeight * 0.3)));
+        const newProgress = scrollProgress * 100;
+        setProgressHeight(newProgress);
+
+        const newActiveStep = Math.min(steps.length - 1, Math.floor(scrollProgress * steps.length));
+        setActiveStep(newActiveStep);
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const updateProgress = () => {
-      const section = sectionRef.current;
-      if (!section) return;
-
-      const rect = section.getBoundingClientRect();
-      const sectionTop = rect.top;
-      const sectionHeight = rect.height;
-      const windowHeight = window.innerHeight;
-
-      if (sectionTop < windowHeight && sectionTop + sectionHeight > 0) {
-        const visibleProgress = Math.min(1, Math.max(0, (windowHeight - sectionTop) / (windowHeight + sectionHeight)));
-        setProgressHeight(visibleProgress * 100);
-      }
-    };
-
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    updateProgress();
-    return () => window.removeEventListener('scroll', updateProgress);
   }, []);
 
   return (
@@ -74,28 +55,40 @@ export default function Method() {
           <p className={styles.subtitle}>{t('method_subtitle')}</p>
         </div>
 
-        <div className={styles.steps}>
-          <div className={styles.progressLine}>
-            <div className={styles.progressFill} style={{ height: `${progressHeight}%` }} />
+        <div className={styles.timeline}>
+          <div className={styles.progressTrack}>
+            <div
+              className={styles.progressFill}
+              style={{ height: `${progressHeight}%` }}
+            />
           </div>
 
           {steps.map((step, i) => (
             <div
               key={step.key}
               ref={(el) => { stepsRef.current[i] = el; }}
-              className={`${styles.step} ${visibleSteps.includes(i) ? styles.visible : ''}`}
-              style={{
-                opacity: visibleSteps.includes(i) ? 1 : 0,
-                transform: visibleSteps.includes(i) ? 'translateX(0)' : 'translateX(-30px)',
-                transition: `all 0.6s cubic-bezier(0.16, 1, 0.3, 1)`,
-              }}
+              className={`${styles.step} ${i <= activeStep ? styles.active : ''}`}
             >
-              <div className={styles.stepNumber}>{String(i + 1).padStart(2, '0')}</div>
+              <div className={styles.stepIndicator}>
+                <div className={`${styles.stepDot} ${i < activeStep ? styles.completed : ''} ${i === activeStep ? styles.current : ''}`}>
+                  {i < activeStep ? (
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 6L5 9L10 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  ) : (
+                    <span>{String(i + 1).padStart(2, '0')}</span>
+                  )}
+                </div>
+              </div>
+
               <div className={styles.stepContent}>
                 <h3 className={styles.stepTitle}>{t(step.key)}</h3>
                 <p className={styles.stepDesc}>{t(step.descKey)}</p>
               </div>
-              {i < steps.length - 1 && <div className={styles.connector} />}
+
+              {i < steps.length - 1 && (
+                <div className={`${styles.stepConnector} ${i < activeStep ? styles.connectorActive : ''}`} />
+              )}
             </div>
           ))}
         </div>
