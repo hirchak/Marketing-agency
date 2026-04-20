@@ -60,6 +60,7 @@ const translations = {
         faq_q8: "Як почати співпрацю?", faq_a8: "Залиште заявку на безкоштовний міні-аудит. Ми проведемо 30-хвилинний бриф і запропонуємо оптимальний план росту.",
         footer_nav: "Навігація", footer_services: "Послуги", footer_contact: "Контакти",
         footer_telegram: "Telegram", footer_email: "Email", footer_audit: "Безкоштовний аудит",
+        footer_desc: "AI-powered маркетингові дослідження та стратегії. Допомагаємо бізнесам зростати на основі даних.",
         footer_copyright: "© 2026 SAV.AGENCY • AI-Powered Marketing Research & Strategy"
     },
     en: {
@@ -118,6 +119,7 @@ const translations = {
         faq_q8: "How to start?", faq_a8: "Submit a mini-audit request. We'll conduct a 30-minute briefing and propose an optimal growth plan.",
         footer_nav: "Navigation", footer_services: "Services", footer_contact: "Contact",
         footer_telegram: "Telegram", footer_email: "Email", footer_audit: "Free Audit",
+        footer_desc: "AI-powered marketing research and strategies. Helping businesses grow based on data.",
         footer_copyright: "© 2026 SAV.AGENCY • AI-Powered Marketing Research & Strategy"
     },
     cs: {
@@ -176,6 +178,7 @@ const translations = {
         faq_q8: "Jak začít?", faq_a8: "Požádejte o mini-audit. Provedeme 30minutový brief a navrhneme optimální plán růstu.",
         footer_nav: "Navigace", footer_services: "Služby", footer_contact: "Kontakty",
         footer_telegram: "Telegram", footer_email: "Email", footer_audit: "Audit zdarma",
+        footer_desc: "AI-powered marketingový výzkum a strategie. Pomáháme firmám růst na základě dat.",
         footer_copyright: "© 2026 SAV.AGENCY • AI-Powered Marketing Research & Strategy"
     }
 };
