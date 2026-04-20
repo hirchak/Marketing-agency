@@ -1,5 +1,34 @@
 {
   "dependencies": {
-    "vercel": "^50.18.0"
+    "@vitejs/plugin-react": "^6.0.1",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "typescript": "^5.9.3",
+    "vercel": "^50.18.0",
+    "vite": "^8.0.9"
+  },
+  "name": "agency-marketing",
+  "version": "1.0.0",
+  "description": "## Файли",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hirchak/Marketing-agency.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hirchak/Marketing-agency/issues"
+  },
+  "homepage": "https://github.com/hirchak/Marketing-agency#readme",
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3"
   }
 }
