@@ -32,28 +32,38 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(180px, auto);
   gap: 2px;
-  background: var(--border);
 }
 
 .card {
   position: relative;
   padding: 32px;
-  background: var(--bg-primary);
-  transition: background 0.3s;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  grid-column: span 4;
 }
 
-.card:hover {
-  background: var(--surface);
+.card.large {
+  grid-column: span 8;
+  grid-row: span 2;
 }
 
 .card.accent {
-  background: var(--bg-secondary);
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(255, 69, 0, 0.05) 100%);
 }
 
-.card.accent:hover {
-  background: var(--surface);
+.cardGlow {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255, 69, 0, 0.15) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .beta {
@@ -84,22 +94,30 @@
   line-height: 1.6;
 }
 
-@media (max-width: 900px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
+@media (max-width: 1024px) {
+  .card {
+    grid-column: span 6;
+  }
+
+  .card.large {
+    grid-column: span 12;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .section {
     padding: 80px 0;
   }
 
   .grid {
     grid-template-columns: 1fr;
+    grid-auto-rows: auto;
   }
 
-  .card {
+  .card,
+  .card.large {
+    grid-column: span 1;
+    grid-row: span 1;
     padding: 24px;
   }
 }
