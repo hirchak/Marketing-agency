@@ -11,9 +11,19 @@ const nodes = [
   { label: 'Analytics', angle: 300, size: 12 },
 ];
 
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  alpha: number;
+}
+
 export default function Hero() {
   const { t, lang } = useI18n();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const particleRef = useRef<HTMLCanvasElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const cta1Ref = useRef<HTMLAnchorElement>(null);
   const cta2Ref = useRef<HTMLAnchorElement>(null);
@@ -22,16 +32,25 @@ export default function Hero() {
   const targetMouse = useRef({ x: 0, y: 0 });
   const currentMouse = useRef({ x: 0, y: 0 });
   const isMobile = useRef(false);
+  const prefersReducedMotion = useRef(false);
+
+  // Particle system ref
+  const particles = useRef<Particle[]>([]);
+  const animationId = useRef<number>(0);
+
+  useEffect(() => {
+    prefersReducedMotion.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    const particleCanvas = particleRef.current;
     const hero = heroRef.current;
     if (!canvas || !hero) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let animationId: number;
     let time = 0;
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
@@ -39,6 +58,26 @@ export default function Hero() {
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
       isMobile.current = window.innerWidth < 768;
+
+      // Setup particles
+      if (particleCanvas && !prefersReducedMotion.current) {
+        particleCanvas.width = canvas.offsetWidth;
+        particleCanvas.height = canvas.offsetHeight;
+        initParticles();
+      }
+    };
+
+    const initParticles = () => {
+      if (!particleCanvas || prefersReducedMotion.current) return;
+      const density = isMobile.current ? 15 : 40;
+      particles.current = Array.from({ length: density }, () => ({
+        x: Math.random() * particleCanvas.width,
+        y: Math.random() * particleCanvas.height,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        size: Math.random() * 1.5 + 0.5,
+        alpha: Math.random() * 0.1 + 0.12,
+      }));
     };
 
     const handlePointerMove = (e: PointerEvent) => {
@@ -124,11 +163,36 @@ export default function Hero() {
       }
     };
 
+    const animateParticles = () => {
+      if (!particleCanvas || prefersReducedMotion.current) return;
+
+      const pCtx = particleCanvas.getContext('2d');
+      if (!pCtx) return;
+
+      pCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+
+      particles.current.forEach((p) => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Wrap around edges
+        if (p.x < 0) p.x = particleCanvas.width;
+        if (p.x > particleCanvas.width) p.x = 0;
+        if (p.y < 0) p.y = particleCanvas.height;
+        if (p.y > particleCanvas.height) p.y = 0;
+
+        pCtx.beginPath();
+        pCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        pCtx.fillStyle = `rgba(255, 69, 0, ${p.alpha})`;
+        pCtx.fill();
+      });
+    };
+
     const animate = () => {
       time += 0.008;
 
       // Lerp mouse for smooth following
-      if (!isMobile.current) {
+      if (!isMobile.current && !prefersReducedMotion.current) {
         currentMouse.current.x = lerp(currentMouse.current.x, targetMouse.current.x, 0.05);
         currentMouse.current.y = lerp(currentMouse.current.y, targetMouse.current.y, 0.05);
       }
@@ -153,7 +217,11 @@ export default function Hero() {
         drawNode(node.x, node.y, node.size + pulse, nodes[i + 1].label, false, 0.6);
       });
 
-      animationId = requestAnimationFrame(animate);
+      if (!prefersReducedMotion.current) {
+        animateParticles();
+      }
+
+      animationId.current = requestAnimationFrame(animate);
     };
 
     resize();
@@ -164,18 +232,19 @@ export default function Hero() {
     return () => {
       window.removeEventListener('resize', resize);
       hero.removeEventListener('pointermove', handlePointerMove);
-      cancelAnimationFrame(animationId);
+      cancelAnimationFrame(animationId.current);
     };
   }, []);
 
   const proofChips = lang === 'uk'
-    ? ['Сайти', 'MVP', 'Telegram flows', 'Supabase', 'Growth стратегія']
+    ? ['Сайти', 'MVP', 'Telegram-онбординг', 'Supabase', 'Growth-стратегія']
     : lang === 'cs'
-    ? ['weby', 'MVP', 'Telegram flows', 'Supabase', 'Growth strategie']
+    ? ['weby', 'MVP', 'Telegram-онбординг', 'Supabase', 'Growth strategie']
     : ['Sites', 'MVP', 'Telegram flows', 'Supabase', 'Growth strategy'];
 
   return (
     <section className={styles.hero} ref={heroRef}>
+      <canvas ref={particleRef} className={styles.particleCanvas} />
       <canvas ref={canvasRef} className={styles.canvas} />
 
       <div className={styles.container}>

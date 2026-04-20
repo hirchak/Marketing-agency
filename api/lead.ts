@@ -23,6 +23,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed. Use POST.' });
   }
 
+  // Catch any unexpected errors at top level
   try {
     const body = req.body || {};
     const { website, what_build, niche, stage, friction, budget, email, telegram } = body;
@@ -35,6 +36,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const telegramToken = process.env.TELEGRAM_BOT_TOKEN;
     const telegramChatId = process.env.TELEGRAM_CHAT_ID;
+
+    // Log env status (without exposing values)
+    if (!telegramToken || !telegramChatId) {
+      console.log('Lead API: Telegram env vars not configured, skipping notification');
+    }
 
     // If Telegram env vars are configured, send notification
     if (telegramToken && telegramChatId) {
@@ -53,26 +59,19 @@ ${stage ? `📈 Стадія: ${stage}` : ''}
 ${friction ? `⚠️ Проблема: ${friction}` : ''}
 ${budget ? `💰 Бюджет: ${budget}` : ''}`.trim();
 
-      try {
-        const telegramResponse = await fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: telegramChatId,
-            text: message,
-            parse_mode: 'Markdown',
-          }),
-        });
+      const telegramResponse = await fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: telegramChatId,
+          text: message,
+          parse_mode: 'Markdown',
+        }),
+      });
 
-        if (!telegramResponse.ok) {
-          console.error('Telegram API error:', await telegramResponse.text());
-        }
-      } catch (telegramError) {
-        console.error('Telegram notification failed:', telegramError);
-        // Don't fail the request if Telegram fails
+      if (!telegramResponse.ok) {
+        console.error('Telegram API error:', await telegramResponse.text());
       }
-    } else {
-      console.log('Lead captured (Telegram not configured):', { email, website, what_build });
     }
 
     res.setHeader('Content-Type', 'application/json');
@@ -82,6 +81,6 @@ ${budget ? `💰 Бюджет: ${budget}` : ''}`.trim();
     console.error('Lead API error:', error);
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Access-Control-Allow-Origin', '*');
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(200).json({ error: 'Internal server error', success: false });
   }
 }

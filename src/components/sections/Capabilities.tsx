@@ -114,15 +114,15 @@ function CapabilityCard({ cap, index, t }: { cap: Capability; index: number; t: 
               <span className={styles.dnaChip}>Економіка воронки</span>
             </div>
             <div className={styles.dnaFlow}>
-              <span>Market</span>
+              <span>Ринок</span>
               <span className={styles.dnaArrow}>→</span>
               <span>ICP</span>
               <span className={styles.dnaArrow}>→</span>
-              <span>Offer</span>
+              <span>Офер</span>
               <span className={styles.dnaArrow}>→</span>
-              <span>Funnel</span>
+              <span>Воронка</span>
             </div>
-            <p className={styles.dnaResult}>Результат: зрозуміла стратегія перед дизайном, кодом і запуском.</p>
+            <p className={styles.dnaResult}>Результат: стратегія перед дизайном, кодом і запуском.</p>
           </div>
         )}
         {cap.size === 'large' && !isDNA && (

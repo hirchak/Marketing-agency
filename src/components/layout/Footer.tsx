@@ -1,6 +1,13 @@
 import { useI18n } from '../../lib/i18n';
 import styles from './Footer.module.css';
 
+const serviceNames: Record<string, string> = {
+  'website-sprint': 'Сайт / лендінг',
+  'mvp-sprint': 'MVP / продуктова система',
+  'growth-diagnostic': 'Growth-діагностика',
+  'gtm-launch': 'GTM-запуск',
+};
+
 export default function Footer() {
   const { t } = useI18n();
 
@@ -28,10 +35,10 @@ export default function Footer() {
           <div className={styles.section}>
             <h4>{t('footer_services')}</h4>
             <ul>
-              <li><a href="#pricing">Website Sprint</a></li>
-              <li><a href="#pricing">MVP Sprint</a></li>
-              <li><a href="#pricing">Growth Diagnostic</a></li>
-              <li><a href="#pricing">GTM Launch</a></li>
+              <li><a href="#pricing">{serviceNames['website-sprint']}</a></li>
+              <li><a href="#pricing">{serviceNames['mvp-sprint']}</a></li>
+              <li><a href="#pricing">{serviceNames['growth-diagnostic']}</a></li>
+              <li><a href="#pricing">{serviceNames['gtm-launch']}</a></li>
             </ul>
           </div>
 
