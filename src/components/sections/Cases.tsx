@@ -27,8 +27,8 @@ const cases: CaseItem[] = [
   {
     id: 'linkora',
     title: 'Linkora MVP',
-    challenge: 'Потрібен швидкий Telegram-онбординг і логіка matching для спільноти/платформи.',
-    build: 'Розробили Telegram-бота, анкети, профілі, Supabase-таблиці, matching logic і React/Vite dashboard.',
+    challenge: 'Потрібен швидкий Telegram-онбординг і логіка парування для спільноти/платформи.',
+    build: 'Розробили Telegram-бота, анкети, профілі, Supabase-таблиці, логіку парування і React/Vite dashboard.',
     stack: ['React', 'Vite', 'Supabase', 'Telegram Bot API'],
     year: '2025',
     featured: true,
@@ -36,9 +36,9 @@ const cases: CaseItem[] = [
   },
   {
     id: 'marketing-skill',
-    title: 'Система маркетингової методології',
+    title: 'Маркетингова методологія',
     challenge: 'Систематизувати маркетинговий досвід у повторювану методологію для клієнтських проєктів.',
-    build: 'Зібрали framework для дослідження ринку, Client DNA, ICP, оферу, воронки, unit economics і аналітики.',
+    build: 'Зібрали методологію для дослідження ринку, Client DNA, ICP, оферу, воронки, unit economics і аналітики.',
     stack: ['Дослідження ринку', 'Client DNA', 'Архітектура воронки', 'Аналітика'],
     year: '2025',
     statusKey: 'case_status_proprietary',

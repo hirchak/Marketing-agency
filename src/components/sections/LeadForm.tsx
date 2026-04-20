@@ -217,7 +217,7 @@ export default function LeadForm() {
             <p className={styles.note}>{t('form_note')}</p>
 
             {status === 'error' && (
-              <p className={styles.error}>Something went wrong. Please try again.</p>
+              <p className={styles.error}>{t('form_error')}</p>
             )}
           </form>
         )}

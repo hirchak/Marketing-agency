@@ -25,7 +25,7 @@ export const translations = {
     build_subtitle: 'Все побудовано як система: ринковий сигнал, офер, інтерфейс, логіка продукту, шлях трафіку і петля зворотнього зв\'язку.',
 
     // Capabilities
-    cap_intelligence_title: 'Маркетингова стратегія і Client DNA',
+    cap_intelligence_title: 'Маркетингова стратегія і ДНК клієнта',
     cap_intelligence_desc: 'Дослідження ринку, конкуренти, портрет клієнта, логіка оферу й економіка воронки.',
     cap_conversion_title: 'Сайти і лендінги',
     cap_conversion_desc: 'Структура, тексти, дизайн, frontend-розробка, збір заявок і базова SEO-підготовка.',
@@ -47,17 +47,17 @@ export const translations = {
     offers_subtitle: 'Конкретні результати, не абстрактні поради.',
 
     // Method
-    method_title: 'The Growth Protocol',
+    method_title: 'Протокол росту',
     method_subtitle: 'Зводимо хаос до системи, яку можна будувати.',
-    step_extract: 'Extract',
+    step_extract: 'Дослідити',
     step_extract_desc: 'Ринок, конкуренти, ICP, Client DNA, unit economics.',
-    step_architect: 'Architect',
+    step_architect: 'Спроєктувати',
     step_architect_desc: 'Офер, повідомлення, логіка воронки, продуктовий flow.',
-    step_build: 'Build',
+    step_build: 'Зібрати',
     step_build_desc: 'Сайт, MVP, бот, захоплення лідів, логіка на базі даних.',
-    step_launch: 'Launch',
+    step_launch: 'Запустити',
     step_launch_desc: 'Креатив, трекінг, план запуску, перший шлях до acquisition.',
-    step_scale: 'Scale',
+    step_scale: 'Масштабувати',
     step_scale_desc: 'Дані, CRO, наступні ітерації, roadmap автоматизації.',
 
     // Why it works
@@ -100,6 +100,7 @@ export const translations = {
     btn_submit: 'Отримати snapshot',
     form_success: 'Дякуємо! Якщо є fit, відповімо протягом 48 годин.',
     form_note: 'Без спаму. Тільки по суті.',
+    form_error: 'Щось пішло не так. Спробуйте ще раз.',
 
     // Footer
     footer_tagline: 'Ми поєднуємо маркетингову стратегію, AI-дослідження, frontend engineering і conversion architecture.',
@@ -208,6 +209,7 @@ export const translations = {
     btn_submit: 'Get snapshot',
     form_success: 'Thank you! If there is a fit, we will reply within 48 hours.',
     form_note: 'No spam. Only substance.',
+    form_error: 'Something went wrong. Please try again.',
 
     footer_tagline: 'We combine marketing strategy, AI research, frontend engineering and conversion architecture.',
     footer_nav: 'Navigation',
@@ -314,6 +316,7 @@ export const translations = {
     btn_submit: 'Získat snapshot',
     form_success: 'Děkujeme! Pokud je fit, odpovíme do 48 hodin.',
     form_note: 'Žádný spam. Jen podstatné.',
+    form_error: 'Něco se pokazilo. Zkuste to znovu.',
 
     footer_tagline: 'Kombinujeme marketingovou strategii, AI výzkum, frontend engineering a conversion architecture.',
     footer_nav: 'Navigace',

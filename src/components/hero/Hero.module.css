@@ -150,14 +150,15 @@
 @media (max-width: 768px) {
   .hero {
     min-height: auto;
-    padding: 120px 0 80px;
-    overflow-x: hidden;
+    padding: 100px 0 60px;
+    overflow: hidden;
+    max-width: 100vw;
   }
 
   .canvas,
   .particleCanvas {
     position: fixed;
-    opacity: 0.2;
+    opacity: 0.12;
     z-index: 0;
   }
 
@@ -165,50 +166,58 @@
     position: relative;
     z-index: 1;
     padding: 0 20px;
-    overflow-x: hidden;
+    max-width: 100%;
   }
 
   .content {
     max-width: 100%;
-    overflow-x: hidden;
+    width: 100%;
   }
 
   .headline {
-    font-size: 2rem;
-    margin-bottom: 16px;
+    font-size: 1.65rem;
+    margin-bottom: 12px;
     word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
   }
 
   .subtitle {
-    font-size: 0.95rem;
-    margin-bottom: 28px;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
     word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
   }
 
   .ctas {
     flex-direction: column;
-    gap: 12px;
-    margin-bottom: 32px;
+    gap: 8px;
+    margin-bottom: 24px;
+    max-width: 100%;
   }
 
   .ctaPrimary,
   .ctaSecondary {
     text-align: center;
     width: 100%;
-    padding: 14px 20px;
+    padding: 12px 20px;
     box-sizing: border-box;
+    max-width: 100%;
+    font-size: 0.9rem;
   }
 
   .proofChips {
-    gap: 6px;
+    gap: 4px;
     flex-wrap: wrap;
     max-width: 100%;
   }
 
   .chip {
-    font-size: 0.6rem;
-    padding: 5px 10px;
-    white-space: nowrap;
+    font-size: 0.55rem;
+    padding: 3px 7px;
+    white-space: normal;
+    word-wrap: break-word;
   }
 
   .scrollIndicator {
