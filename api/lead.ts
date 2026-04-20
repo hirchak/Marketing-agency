@@ -1,14 +1,20 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (req.method === 'GET' || req.method === 'HEAD') {
+    res.setHeader('Content-Type', 'application/json');
+    return res.status(200).json({ status: 'ok', message: 'Lead API is working' });
+  }
+
   if (req.method !== 'POST') {
+    res.setHeader('Content-Type', 'application/json');
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const { website, what_build, niche, stage, friction, budget, email, telegram } = req.body;
+    const { website, what_build, niche, stage, friction, budget, email, telegram } = req.body || {};
 
-    if (!email) {
+    if (!email || typeof email !== 'string') {
       return res.status(400).json({ error: 'Email is required' });
     }
 
@@ -16,20 +22,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const telegramChatId = process.env.TELEGRAM_CHAT_ID;
 
     if (telegramToken && telegramChatId) {
-      const message = `
-🔥 New Lead
+      const whatBuildLabel = what_build
+        ? what_build.replace('option_', '').replace('_', ' ')
+        : 'Not specified';
+
+      const message = `🔥 New Lead
 
 📧 Email: ${email}
-${telegram ? `✈️ Telegram: @${telegram}` : ''}
+${telegram ? `✈️ Telegram: @${telegram.replace('@', '')}` : ''}
 ${website ? `🌐 Website: ${website}` : ''}
-${what_build ? `🏗️ What to build: ${what_build}` : ''}
+🏗️ Build: ${whatBuildLabel}
 ${niche ? `📊 Niche: ${niche}` : ''}
 ${stage ? `📈 Stage: ${stage}` : ''}
-${friction ? `⚠️ Friction: ${friction}` : ''}
-${budget ? `💰 Budget: ${budget}` : ''}
-      `.trim();
+${friction ? `⚠️ Problem: ${friction}` : ''}
+${budget ? `💰 Budget: ${budget}` : ''}`.trim();
 
-      await fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
+      const telegramResponse = await fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -38,6 +46,10 @@ ${budget ? `💰 Budget: ${budget}` : ''}
           parse_mode: 'Markdown',
         }),
       });
+
+      if (!telegramResponse.ok) {
+        console.error('Telegram API error:', await telegramResponse.text());
+      }
     }
 
     return res.status(200).json({ success: true });

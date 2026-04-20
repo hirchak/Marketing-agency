@@ -10,7 +10,9 @@ interface CaseItem {
   year: string;
   featured?: boolean;
   challenge: string;
+  build: string;
   stack: string[];
+  status: string;
 }
 
 const cases: CaseItem[] = [
@@ -22,7 +24,9 @@ const cases: CaseItem[] = [
     year: '2026',
     featured: true,
     challenge: 'Positioning as premium AI-native product studio with proven delivery capability.',
+    build: 'Complete redesign with ecosystem map, bento grid, scroll animations, multilingual support.',
     stack: ['Vite + React', 'TypeScript', 'CSS Modules', 'Vercel'],
+    status: 'Live',
   },
   {
     id: 'linkora',
@@ -31,8 +35,10 @@ const cases: CaseItem[] = [
     tags: ['Telegram', 'React', 'Supabase', 'MVP'],
     year: '2025',
     featured: true,
-    challenge: 'Community/product needed fast onboarding and structured matching via Telegram.',
-    stack: ['React + Vite', 'Supabase', 'Telegram Bot', 'FSD'],
+    challenge: 'Community needed fast onboarding and structured matching via Telegram.',
+    build: 'Telegram bot with profile onboarding, Supabase-backed matching system, React dashboard.',
+    stack: ['React + Vite', 'Supabase', 'Telegram Bot API', 'FSD'],
+    status: 'In Progress',
   },
   {
     id: 'marketing-skill',
@@ -40,8 +46,10 @@ const cases: CaseItem[] = [
     description: 'Proprietary strategy methodology combining market research, Client DNA, and growth frameworks.',
     tags: ['Strategy', 'AI-Assisted', 'Research', 'Framework'],
     year: '2025',
-    challenge: 'Systematize marketing expertise into repeatable methodology.',
+    challenge: 'Systematize marketing expertise into repeatable methodology for client work.',
+    build: 'Market research framework, ICP mapping, funnel architecture, unit economics templates.',
     stack: ['Market Research', 'Client DNA', 'Funnel Architecture', 'Analytics'],
+    status: 'Proprietary',
   },
 ];
 
@@ -78,12 +86,7 @@ export default function Cases() {
 
         <div className={styles.grid}>
           {cases.map((caseItem, i) => (
-            <TiltedCard
-              key={caseItem.id}
-              caseItem={caseItem}
-              index={i}
-              visible={visible}
-            />
+            <CaseCard key={caseItem.id} caseItem={caseItem} index={i} visible={visible} />
           ))}
         </div>
       </div>
@@ -91,7 +94,7 @@ export default function Cases() {
   );
 }
 
-function TiltedCard({ caseItem, index, visible }: { caseItem: CaseItem; index: number; visible: boolean }) {
+function CaseCard({ caseItem, index, visible }: { caseItem: CaseItem; index: number; visible: boolean }) {
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -101,8 +104,8 @@ function TiltedCard({ caseItem, index, visible }: { caseItem: CaseItem; index: n
     const rect = cardRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    const x = (e.clientY - centerY) * 0.015;
-    const y = -(e.clientX - centerX) * 0.015;
+    const x = (e.clientY - centerY) * 0.01;
+    const y = -(e.clientX - centerX) * 0.01;
     setRotation({ x, y });
   };
 
@@ -124,37 +127,79 @@ function TiltedCard({ caseItem, index, visible }: { caseItem: CaseItem; index: n
         transform: visible
           ? `perspective(1000px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) translateY(0)`
           : 'translateY(40px)',
-        transition: isHovered ? 'transform 0.1s ease-out' : `all 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.1}s`,
+        transition: isHovered ? 'transform 0.15s ease-out' : `all 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.1}s`,
       }}
     >
-      <div className={styles.cardVisual}>
-        <div className={styles.visualGrid}>
-          <div className={styles.visualNode} />
-          <div className={styles.visualNode} />
-          <div className={styles.visualNode} />
-          <div className={styles.visualNode} style={{ background: 'var(--accent)' }} />
+      <div className={styles.cardHeader}>
+        <div className={styles.statusBadge} data-status={caseItem.status.toLowerCase().replace(' ', '-')}>
+          {caseItem.status}
         </div>
-        <div className={styles.visualLabel}>{caseItem.year}</div>
-        {caseItem.featured && <span className={styles.featuredBadge}>Featured</span>}
+        <span className={styles.year}>{caseItem.year}</span>
+      </div>
+
+      <div className={styles.mockup}>
+        {caseItem.id === 'sav-agency' && (
+          <div className={styles.mockupWeb}>
+            <div className={styles.mockupBar}>
+              <span /><span /><span />
+            </div>
+            <div className={styles.mockupContent}>
+              <div className={styles.mockupHero} />
+              <div className={styles.mockupGrid}>
+                <div /><div /><div />
+              </div>
+            </div>
+          </div>
+        )}
+        {caseItem.id === 'linkora' && (
+          <div className={styles.mockupTelegram}>
+            <div className={styles.mockupPhone}>
+              <div className={styles.mockupScreen}>
+                <div className={styles.mockupAvatar} />
+                <div className={styles.mockupLines}>
+                  <div /><div /><div />
+                </div>
+              </div>
+            </div>
+            <div className={styles.mockupDb}>
+              <div className={styles.mockupTable}>
+                <div className={styles.mockupRow}><span />|<span />|<span /></div>
+                <div className={styles.mockupRow}><span />|<span />|<span /></div>
+                <div className={styles.mockupRow}><span />|<span />|<span /></div>
+              </div>
+            </div>
+          </div>
+        )}
+        {caseItem.id === 'marketing-skill' && (
+          <div className={styles.mockupFramework}>
+            <div className={styles.frameworkNode}>Market</div>
+            <div className={styles.frameworkArrow}>→</div>
+            <div className={styles.frameworkNode}>ICP</div>
+            <div className={styles.frameworkArrow}>→</div>
+            <div className={styles.frameworkNode}>Offer</div>
+            <div className={styles.frameworkArrow}>→</div>
+            <div className={styles.frameworkNode}>Funnel</div>
+          </div>
+        )}
       </div>
 
       <div className={styles.cardContent}>
         <h3 className={styles.cardTitle}>{caseItem.title}</h3>
-        <p className={styles.challenge}>{caseItem.challenge}</p>
 
-        <div className={styles.cardMeta}>
-          <div className={styles.stack}>
-            {caseItem.stack.map((tech) => (
-              <span key={tech} className={styles.stackItem}>{tech}</span>
-            ))}
+        <div className={styles.caseMeta}>
+          <div className={styles.metaItem}>
+            <span className={styles.metaLabel}>Challenge</span>
+            <span className={styles.metaValue}>{caseItem.challenge}</span>
+          </div>
+          <div className={styles.metaItem}>
+            <span className={styles.metaLabel}>Build</span>
+            <span className={styles.metaValue}>{caseItem.build}</span>
           </div>
         </div>
 
-        <p className={styles.cardDesc}>{caseItem.description}</p>
-
-        <div className={styles.tags}>
-          {caseItem.tags.map((tag) => (
-            <span key={tag} className={styles.tag}>{tag}</span>
+        <div className={styles.stack}>
+          {caseItem.stack.map((tech) => (
+            <span key={tech} className={styles.stackItem}>{tech}</span>
           ))}
         </div>
       </div>
