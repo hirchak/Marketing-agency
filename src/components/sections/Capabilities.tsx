@@ -89,6 +89,8 @@ function CapabilityCard({ cap, index, t }: { cap: Capability; index: number; t: 
     return () => observer.disconnect();
   }, []);
 
+  const isDNA = cap.titleKey === 'cap_intelligence_title';
+
   return (
     <SpotlightCard
       className={`${styles.card} ${cap.accent ? styles.accent : ''} ${cap.size === 'large' ? styles.large : ''}`}
@@ -103,7 +105,27 @@ function CapabilityCard({ cap, index, t }: { cap: Capability; index: number; t: 
         {cap.beta && <span className={styles.beta}>BETA</span>}
         <h3 className={styles.cardTitle}>{t(cap.titleKey)}</h3>
         <p className={styles.cardDesc}>{t(cap.descKey)}</p>
-        {cap.size === 'large' && (
+        {isDNA && (
+          <div className={styles.dnaContent}>
+            <div className={styles.dnaChips}>
+              <span className={styles.dnaChip}>Ринок і конкуренти</span>
+              <span className={styles.dnaChip}>ICP / портрет клієнта</span>
+              <span className={styles.dnaChip}>Офер і позиціонування</span>
+              <span className={styles.dnaChip}>Економіка воронки</span>
+            </div>
+            <div className={styles.dnaFlow}>
+              <span>Market</span>
+              <span className={styles.dnaArrow}>→</span>
+              <span>ICP</span>
+              <span className={styles.dnaArrow}>→</span>
+              <span>Offer</span>
+              <span className={styles.dnaArrow}>→</span>
+              <span>Funnel</span>
+            </div>
+            <p className={styles.dnaResult}>Результат: зрозуміла стратегія перед дизайном, кодом і запуском.</p>
+          </div>
+        )}
+        {cap.size === 'large' && !isDNA && (
           <div className={styles.cardGlow} />
         )}
       </div>
