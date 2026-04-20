@@ -42,8 +42,6 @@
   padding: 32px;
   background: var(--bg-primary);
   transition: background 0.3s;
-  animation: fadeUp 0.6s ease forwards;
-  opacity: 0;
 }
 
 .card:hover {
@@ -86,17 +84,6 @@
   line-height: 1.6;
 }
 
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
@@ -114,5 +101,12 @@
 
   .card {
     padding: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

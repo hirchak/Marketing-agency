@@ -1,12 +1,33 @@
+import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../../lib/i18n';
 import { offers } from '../../data/offers';
 import styles from './Pricing.module.css';
 
 export default function Pricing() {
   const { t } = useI18n();
+  const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section className={styles.section} id="pricing">
+    <section className={styles.section} id="pricing" ref={ref}>
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>{t('pricing_title')}</h2>
@@ -18,7 +39,11 @@ export default function Pricing() {
             <div
               key={offer.id}
               className={`${styles.card} ${offer.featured ? styles.featured : ''}`}
-              style={{ animationDelay: `${i * 0.1}s` }}
+              style={{
+                opacity: visible ? 1 : 0,
+                transform: visible ? 'translateY(0)' : 'translateY(30px)',
+                transition: `all 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.1}s`,
+              }}
             >
               {offer.featured && <span className={styles.popularBadge}>Most Popular</span>}
               <h3 className={styles.cardTitle}>{offer.title}</h3>

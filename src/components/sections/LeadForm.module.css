@@ -172,4 +172,20 @@
   .row {
     grid-template-columns: 1fr;
   }
+
+  .section {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .spinner {
+    animation: none;
+  }
 }

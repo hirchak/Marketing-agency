@@ -1,13 +1,15 @@
-export async function onPost(request: Request): Promise<Response> {
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
   try {
-    const body = await request.json();
-    const { website, what_build, niche, stage, friction, budget, email, telegram } = body;
+    const { website, what_build, niche, stage, friction, budget, email, telegram } = req.body;
 
     if (!email) {
-      return new Response(JSON.stringify({ error: 'Email is required' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return res.status(400).json({ error: 'Email is required' });
     }
 
     const telegramToken = process.env.TELEGRAM_BOT_TOKEN;
@@ -38,15 +40,9 @@ ${budget ? `💰 Budget: ${budget}` : ''}
       });
     }
 
-    return new Response(JSON.stringify({ success: true }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return res.status(200).json({ success: true });
   } catch (error) {
     console.error('Lead API error:', error);
-    return new Response(JSON.stringify({ error: 'Internal server error' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return res.status(500).json({ error: 'Internal server error' });
   }
 }

@@ -1,10 +1,19 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../../lib/i18n';
 import styles from './Hero.module.css';
 
 export default function Hero() {
   const { t } = useI18n();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [visible, setVisible] = useState(false);
+  const [magnet1, setMagnet1] = useState({ x: 0, y: 0 });
+  const [magnet2, setMagnet2] = useState({ x: 0, y: 0 });
+  const cta1Ref = useRef<HTMLAnchorElement>(null);
+  const cta2Ref = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    setVisible(true);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -148,27 +157,97 @@ export default function Hero() {
     };
   }, []);
 
+  const handleCta1MouseMove = (e: React.MouseEvent) => {
+    const rect = cta1Ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    setMagnet1({
+      x: (e.clientX - rect.left - rect.width / 2) * 0.2,
+      y: (e.clientY - rect.top - rect.height / 2) * 0.2,
+    });
+  };
+
+  const handleCta1MouseLeave = () => setMagnet1({ x: 0, y: 0 });
+
+  const handleCta2MouseMove = (e: React.MouseEvent) => {
+    const rect = cta2Ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    setMagnet2({
+      x: (e.clientX - rect.left - rect.width / 2) * 0.2,
+      y: (e.clientY - rect.top - rect.height / 2) * 0.2,
+    });
+  };
+
+  const handleCta2MouseLeave = () => setMagnet2({ x: 0, y: 0 });
+
   return (
     <section className={styles.hero}>
       <canvas ref={canvasRef} className={styles.canvas} />
 
       <div className={styles.container}>
         <div className={styles.content}>
-          <h1 className={styles.headline}>{t('hero_headline')}</h1>
-          <p className={styles.subtitle}>{t('hero_subtitle')}</p>
+          <h1
+            className={styles.headline}
+            style={{
+              opacity: visible ? 1 : 0,
+              filter: visible ? 'blur(0)' : 'blur(12px)',
+              transform: visible ? 'translateY(0)' : 'translateY(30px)',
+              transition: 'all 1s cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
+          >
+            {t('hero_headline')}
+          </h1>
+          <p
+            className={styles.subtitle}
+            style={{
+              opacity: visible ? 1 : 0,
+              filter: visible ? 'blur(0)' : 'blur(8px)',
+              transform: visible ? 'translateY(0)' : 'translateY(20px)',
+              transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s',
+            }}
+          >
+            {t('hero_subtitle')}
+          </p>
 
           <div className={styles.ctas}>
-            <a href="#audit" className={styles.ctaPrimary}>
+            <a
+              ref={cta1Ref}
+              href="#lead"
+              className={styles.ctaPrimary}
+              style={{
+                transform: `translate(${magnet1.x}px, ${magnet1.y}px)`,
+                transition: magnet1.x === 0 && magnet1.y === 0 ? 'all 0.3s' : 'transform 0.1s ease-out',
+                opacity: visible ? 1 : 0,
+              }}
+              onMouseMove={handleCta1MouseMove}
+              onMouseLeave={handleCta1MouseLeave}
+            >
               {t('hero_cta_primary')}
             </a>
-            <a href="#work" className={styles.ctaSecondary}>
+            <a
+              ref={cta2Ref}
+              href="#work"
+              className={styles.ctaSecondary}
+              style={{
+                transform: `translate(${magnet2.x}px, ${magnet2.y}px)`,
+                transition: magnet2.x === 0 && magnet2.y === 0 ? 'all 0.3s' : 'transform 0.1s ease-out',
+                opacity: visible ? 1 : 0,
+              }}
+              onMouseMove={handleCta2MouseMove}
+              onMouseLeave={handleCta2MouseLeave}
+            >
               {t('hero_cta_secondary')}
             </a>
           </div>
         </div>
       </div>
 
-      <div className={styles.scrollIndicator}>
+      <div
+        className={styles.scrollIndicator}
+        style={{
+          opacity: visible ? 1 : 0,
+          transition: 'opacity 0.8s ease 0.6s',
+        }}
+      >
         <span />
       </div>
     </section>

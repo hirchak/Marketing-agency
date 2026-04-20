@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../../lib/i18n';
 import { TranslationKey } from '../../data/translations';
 import styles from './Method.module.css';
@@ -17,9 +18,56 @@ const steps: Step[] = [
 
 export default function Method() {
   const { t } = useI18n();
+  const [visibleSteps, setVisibleSteps] = useState<number[]>([]);
+  const [progressHeight, setProgressHeight] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+  const stepsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const section = sectionRef.current;
+      if (!section) return;
+
+      const sectionTop = section.getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
+
+      if (sectionTop < windowHeight * 0.7) {
+        steps.forEach((_, i) => {
+          setTimeout(() => {
+            setVisibleSteps((prev) => [...prev, i]);
+          }, i * 150);
+        });
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const updateProgress = () => {
+      const section = sectionRef.current;
+      if (!section) return;
+
+      const rect = section.getBoundingClientRect();
+      const sectionTop = rect.top;
+      const sectionHeight = rect.height;
+      const windowHeight = window.innerHeight;
+
+      if (sectionTop < windowHeight && sectionTop + sectionHeight > 0) {
+        const visibleProgress = Math.min(1, Math.max(0, (windowHeight - sectionTop) / (windowHeight + sectionHeight)));
+        setProgressHeight(visibleProgress * 100);
+      }
+    };
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+    return () => window.removeEventListener('scroll', updateProgress);
+  }, []);
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id="method" ref={sectionRef}>
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>{t('method_title')}</h2>
@@ -27,8 +75,21 @@ export default function Method() {
         </div>
 
         <div className={styles.steps}>
+          <div className={styles.progressLine}>
+            <div className={styles.progressFill} style={{ height: `${progressHeight}%` }} />
+          </div>
+
           {steps.map((step, i) => (
-            <div key={step.key} className={styles.step} style={{ animationDelay: `${i * 0.1}s` }}>
+            <div
+              key={step.key}
+              ref={(el) => { stepsRef.current[i] = el; }}
+              className={`${styles.step} ${visibleSteps.includes(i) ? styles.visible : ''}`}
+              style={{
+                opacity: visibleSteps.includes(i) ? 1 : 0,
+                transform: visibleSteps.includes(i) ? 'translateX(0)' : 'translateX(-30px)',
+                transition: `all 0.6s cubic-bezier(0.16, 1, 0.3, 1)`,
+              }}
+            >
               <div className={styles.stepNumber}>{String(i + 1).padStart(2, '0')}</div>
               <div className={styles.stepContent}>
                 <h3 className={styles.stepTitle}>{t(step.key)}</h3>

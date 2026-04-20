@@ -18,10 +18,10 @@ export default function Header() {
 
   const navItems = [
     { href: '#work', label: t('nav_work') },
-    { href: '#services', label: t('nav_services') },
+    { href: '#capabilities', label: t('nav_services') },
     { href: '#method', label: t('nav_method') },
     { href: '#pricing', label: t('nav_pricing') },
-    { href: '#audit', label: t('nav_audit') },
+    { href: '#lead', label: t('nav_audit') },
   ];
 
   return (
@@ -51,7 +51,7 @@ export default function Header() {
               </button>
             ))}
           </div>
-          <a href="#audit" className={styles.ctaBtn}>
+          <a href="#lead" className={styles.ctaBtn}>
             {t('cta_audit')}
           </a>
         </div>

@@ -19,7 +19,7 @@ export default function Footer() {
             <h4>{t('footer_nav')}</h4>
             <ul>
               <li><a href="#work">{t('nav_work')}</a></li>
-              <li><a href="#services">{t('nav_services')}</a></li>
+              <li><a href="#capabilities">{t('nav_services')}</a></li>
               <li><a href="#method">{t('nav_method')}</a></li>
               <li><a href="#pricing">{t('nav_pricing')}</a></li>
             </ul>
@@ -28,10 +28,10 @@ export default function Footer() {
           <div className={styles.section}>
             <h4>{t('footer_services')}</h4>
             <ul>
-              <li><a href="#services">Website Sprint</a></li>
-              <li><a href="#services">MVP Sprint</a></li>
-              <li><a href="#services">Growth Diagnostic</a></li>
-              <li><a href="#services">GTM Launch</a></li>
+              <li><a href="#pricing">Website Sprint</a></li>
+              <li><a href="#pricing">MVP Sprint</a></li>
+              <li><a href="#pricing">Growth Diagnostic</a></li>
+              <li><a href="#pricing">GTM Launch</a></li>
             </ul>
           </div>
 
@@ -40,7 +40,7 @@ export default function Footer() {
             <ul>
               <li><a href="https://t.me/andrisav" target="_blank" rel="noopener">{t('footer_telegram')}</a></li>
               <li><a href="mailto:info@sav.agency">{t('footer_email')}</a></li>
-              <li><a href="#audit">{t('cta_audit')}</a></li>
+              <li><a href="#lead">{t('cta_audit')}</a></li>
             </ul>
           </div>
         </div>

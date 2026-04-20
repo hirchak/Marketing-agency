@@ -35,8 +35,6 @@
   letter-spacing: -0.03em;
   color: var(--text-primary);
   margin-bottom: 24px;
-  animation: fadeUp 0.8s ease forwards;
-  opacity: 0;
 }
 
 .subtitle {
@@ -45,35 +43,32 @@
   line-height: 1.7;
   max-width: 560px;
   margin-bottom: 40px;
-  animation: fadeUp 0.8s ease 0.1s forwards;
-  opacity: 0;
 }
 
 .ctas {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
-  animation: fadeUp 0.8s ease 0.2s forwards;
-  opacity: 0;
 }
 
 .ctaPrimary {
+  display: inline-block;
   padding: 14px 28px;
   background: var(--accent);
   color: white;
   font-size: 0.95rem;
   font-weight: 600;
   border-radius: var(--radius-sm);
-  transition: all 0.3s;
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
 .ctaPrimary:hover {
   background: var(--accent-hover);
-  transform: translateY(-2px);
   box-shadow: var(--shadow-glow);
 }
 
 .ctaSecondary {
+  display: inline-block;
   padding: 14px 28px;
   background: transparent;
   color: var(--text-primary);
@@ -93,9 +88,7 @@
   position: absolute;
   bottom: 40px;
   left: 50%;
-  transform: translateX(-50%);
-  animation: fadeUp 0.8s ease 0.4s forwards, bounce 2s ease-in-out infinite 1s;
-  opacity: 0;
+  animation: bounce 2s ease-in-out infinite;
 }
 
 .scrollIndicator span {
@@ -103,17 +96,6 @@
   width: 1px;
   height: 60px;
   background: linear-gradient(to bottom, var(--accent), transparent);
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 @keyframes bounce {
@@ -145,5 +127,11 @@
 
   .scrollIndicator {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrollIndicator {
+    animation: none;
   }
 }

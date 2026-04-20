@@ -47,3 +47,10 @@
     font-size: 0.7rem;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

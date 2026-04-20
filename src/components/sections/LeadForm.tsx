@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useI18n } from '../../lib/i18n';
 import { TranslationKey } from '../../data/translations';
 import styles from './LeadForm.module.css';
@@ -7,6 +7,8 @@ const projectOptions: TranslationKey[] = ['option_website', 'option_mvp', 'optio
 
 export default function LeadForm() {
   const { t } = useI18n();
+  const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLElement>(null);
   const [formData, setFormData] = useState({
     website: '',
     what_build: '',
@@ -18,6 +20,24 @@ export default function LeadForm() {
     telegram: '',
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -55,7 +75,16 @@ export default function LeadForm() {
   };
 
   return (
-    <section className={styles.section} id="lead">
+    <section
+      className={styles.section}
+      id="lead"
+      ref={ref}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(30px)',
+        transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+      }}
+    >
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>{t('lead_title')}</h2>
