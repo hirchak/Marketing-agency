@@ -2,10 +2,31 @@ import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../../lib/i18n';
 import styles from './Hero.module.css';
 
+interface Node {
+  label: string;
+  angle: number;
+  size: number;
+}
+
+interface NodeWithPos extends Node {
+  x: number;
+  y: number;
+}
+
+const nodes: Node[] = [
+  { label: 'Market DNA', angle: 0, size: 24 },
+  { label: 'Intelligence', angle: 60, size: 16 },
+  { label: 'Conversion', angle: 120, size: 18 },
+  { label: 'MVP', angle: 180, size: 14 },
+  { label: 'Telegram', angle: 240, size: 16 },
+  { label: 'Analytics', angle: 300, size: 14 },
+];
+
 export default function Hero() {
   const { t } = useI18n();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [visible, setVisible] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [magnet1, setMagnet1] = useState({ x: 0, y: 0 });
   const [magnet2, setMagnet2] = useState({ x: 0, y: 0 });
   const cta1Ref = useRef<HTMLAnchorElement>(null);
@@ -21,133 +42,154 @@ export default function Hero() {
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    const canvasWidth = canvas.width;
-    const canvasHeight = canvas.height;
 
     let animationId: number;
-    const particles: Particle[] = [];
-    const nodeCount = 6;
-
-    class Particle {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      size: number;
-      alpha: number;
-
-      constructor() {
-        this.x = Math.random() * canvasWidth;
-        this.y = Math.random() * canvasHeight;
-        this.vx = (Math.random() - 0.5) * 0.3;
-        this.vy = (Math.random() - 0.5) * 0.3;
-        this.size = Math.random() * 1.5 + 0.5;
-        this.alpha = Math.random() * 0.5 + 0.1;
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        if (this.x < 0 || this.x > canvasWidth) this.vx *= -1;
-        if (this.y < 0 || this.y > canvasHeight) this.vy *= -1;
-      }
-
-      draw() {
-        if (!ctx) return;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 69, 0, ${this.alpha})`;
-        ctx.fill();
-      }
-    }
+    let time = 0;
 
     const resize = () => {
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
     };
 
-    const drawConnections = () => {
-      if (!ctx) return;
-      const centerX = canvas.width / 2;
-      const centerY = canvas.height / 2;
-      const radius = Math.min(canvas.width, canvas.height) * 0.3;
+    const getNodePositions = (offsetX = 0, offsetY = 0): NodeWithPos[] => {
+      const centerX = canvas.width / 2 + offsetX;
+      const centerY = canvas.height / 2 + offsetY;
+      const radius = Math.min(canvas.width, canvas.height) * 0.28;
 
-      ctx.strokeStyle = 'rgba(255, 69, 0, 0.1)';
-      ctx.lineWidth = 1;
+      return nodes.map((node) => ({
+        ...node,
+        x: centerX + Math.cos((node.angle * Math.PI) / 180) * radius,
+        y: centerY + Math.sin((node.angle * Math.PI) / 180) * radius,
+      }));
+    };
 
-      for (let i = 0; i < nodeCount; i++) {
-        const angle = (i / nodeCount) * Math.PI * 2;
-        const x = centerX + Math.cos(angle) * radius;
-        const y = centerY + Math.sin(angle) * radius;
-
-        ctx.beginPath();
-        ctx.moveTo(centerX, centerY);
-        ctx.lineTo(x, y);
-        ctx.stroke();
-      }
-
-      for (let i = 0; i < nodeCount; i++) {
-        for (let j = i + 1; j < nodeCount; j++) {
-          const angle1 = (i / nodeCount) * Math.PI * 2;
-          const angle2 = (j / nodeCount) * Math.PI * 2;
-          const x1 = centerX + Math.cos(angle1) * radius;
-          const y1 = centerY + Math.sin(angle1) * radius;
-          const x2 = centerX + Math.cos(angle2) * radius;
-          const y2 = centerY + Math.sin(angle2) * radius;
-
-          ctx.beginPath();
-          ctx.moveTo(x1, y1);
-          ctx.lineTo(x2, y2);
-          ctx.stroke();
-        }
+    const drawNode = (x: number, y: number, size: number, label: string, isCentral: boolean, alpha: number = 1) => {
+      const gradient = ctx.createRadialGradient(x, y, 0, x, y, size * 2);
+      if (isCentral) {
+        gradient.addColorStop(0, `rgba(255, 69, 0, ${0.4 * alpha})`);
+        gradient.addColorStop(0.5, `rgba(255, 69, 0, ${0.2 * alpha})`);
+        gradient.addColorStop(1, 'rgba(255, 69, 0, 0)');
+      } else {
+        gradient.addColorStop(0, `rgba(255, 255, 255, ${0.15 * alpha})`);
+        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
       }
 
       ctx.beginPath();
-      ctx.arc(centerX, centerY, 20, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255, 69, 0, 0.2)';
+      ctx.arc(x, y, size * 2, 0, Math.PI * 2);
+      ctx.fillStyle = gradient;
       ctx.fill();
-      ctx.strokeStyle = 'rgba(255, 69, 0, 0.5)';
-      ctx.lineWidth = 1;
+
+      ctx.beginPath();
+      ctx.arc(x, y, size, 0, Math.PI * 2);
+      ctx.strokeStyle = isCentral ? `rgba(255, 69, 0, ${0.8 * alpha})` : `rgba(255, 255, 255, ${0.3 * alpha})`;
+      ctx.lineWidth = isCentral ? 2 : 1;
       ctx.stroke();
 
-      for (let i = 0; i < nodeCount; i++) {
-        const angle = (i / nodeCount) * Math.PI * 2;
-        const x = centerX + Math.cos(angle) * radius;
-        const y = centerY + Math.sin(angle) * radius;
-
+      if (isCentral) {
         ctx.beginPath();
-        ctx.arc(x, y, 8, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+        ctx.arc(x, y, size * 0.4, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 69, 0, ${0.6 * alpha})`;
         ctx.fill();
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
-        ctx.stroke();
+      }
+
+      ctx.font = `${isCentral ? '600' : '500'} ${isCentral ? 11 : 9}px JetBrains Mono, monospace`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = isCentral ? `rgba(255, 69, 0, ${alpha})` : `rgba(255, 255, 255, ${0.7 * alpha})`;
+      ctx.fillText(label.toUpperCase(), x, y);
+    };
+
+    const drawLine = (x1: number, y1: number, x2: number, y2: number, alpha: number = 1) => {
+      const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
+      gradient.addColorStop(0, `rgba(255, 69, 0, ${0.4 * alpha})`);
+      gradient.addColorStop(1, `rgba(255, 69, 0, ${0.1 * alpha})`);
+
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.strokeStyle = gradient;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    };
+
+    const drawConnections = (nodePositions: NodeWithPos[], alpha: number = 1) => {
+      const central = nodePositions[0];
+
+      for (let i = 1; i < nodePositions.length; i++) {
+        const node = nodePositions[i];
+        drawLine(central.x, central.y, node.x, node.y, alpha);
+      }
+
+      for (let i = 1; i < nodePositions.length; i++) {
+        for (let j = i + 1; j < nodePositions.length; j++) {
+          const nodeA = nodePositions[i];
+          const nodeB = nodePositions[j];
+          const dist = Math.sqrt((nodeA.x - nodeB.x) ** 2 + (nodeA.y - nodeB.y) ** 2);
+          if (dist < canvas.width * 0.4) {
+            ctx.beginPath();
+            ctx.moveTo(nodeA.x, nodeA.y);
+            ctx.lineTo(nodeB.x, nodeB.y);
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.05 * alpha})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
       }
     };
 
+    const drawMetric = (x: number, y: number, value: string, alpha: number = 1) => {
+      ctx.font = `600 10px JetBrains Mono, monospace`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = `rgba(255, 69, 0, ${0.6 * alpha})`;
+      ctx.fillText(value, x, y);
+    };
+
     const animate = () => {
-      if (!ctx) return;
+      time += 0.01;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = 'rgba(10, 10, 10, 0.1)';
+      const bgGradient = ctx.createRadialGradient(
+        canvas.width / 2, canvas.height / 2, 0,
+        canvas.width / 2, canvas.height / 2, canvas.width * 0.6
+      );
+      bgGradient.addColorStop(0, 'rgba(20, 20, 20, 1)');
+      bgGradient.addColorStop(1, 'rgba(10, 10, 10, 1)');
+      ctx.fillStyle = bgGradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      drawConnections();
+      const mouseOffsetX = (mousePos.x - canvas.width / 2) * 0.01;
+      const mouseOffsetY = (mousePos.y - canvas.height / 2) * 0.01;
+      const nodePositions = getNodePositions(mouseOffsetX, mouseOffsetY);
 
-      particles.forEach((p) => {
-        p.update();
-        p.draw();
+      const pulseSize = Math.sin(time * 2) * 3;
+      drawNode(nodePositions[0].x, nodePositions[0].y, nodePositions[0].size + pulseSize, nodes[0].label, true, 0.7);
+
+      const influencedPositions: NodeWithPos[] = nodePositions.slice(1).map((node) => ({
+        ...node,
+        x: node.x + (mousePos.x - canvas.width / 2) * 0.02,
+        y: node.y + (mousePos.y - canvas.height / 2) * 0.02,
+      }));
+
+      drawConnections([nodePositions[0], ...influencedPositions], 0.6);
+
+      influencedPositions.forEach((node, i) => {
+        const pulse = Math.sin(time * 2 + i * 0.5) * 2;
+        drawNode(node.x, node.y, node.size + pulse, nodes[i + 1].label, false, 0.6);
       });
+
+      const metricY = nodePositions[0].y + 60;
+      drawMetric(nodePositions[0].x - 40, metricY, '↑ 24%');
+      drawMetric(nodePositions[0].x + 40, metricY, '↓ 3.2x');
 
       animationId = requestAnimationFrame(animate);
     };
 
     resize();
     window.addEventListener('resize', resize);
-
-    for (let i = 0; i < 30; i++) {
-      particles.push(new Particle());
-    }
+    window.addEventListener('mousemove', (e) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    });
 
     animate();
 
@@ -155,14 +197,14 @@ export default function Hero() {
       window.removeEventListener('resize', resize);
       cancelAnimationFrame(animationId);
     };
-  }, []);
+  }, [mousePos]);
 
   const handleCta1MouseMove = (e: React.MouseEvent) => {
     const rect = cta1Ref.current?.getBoundingClientRect();
     if (!rect) return;
     setMagnet1({
-      x: (e.clientX - rect.left - rect.width / 2) * 0.2,
-      y: (e.clientY - rect.top - rect.height / 2) * 0.2,
+      x: (e.clientX - rect.left - rect.width / 2) * 0.25,
+      y: (e.clientY - rect.top - rect.height / 2) * 0.25,
     });
   };
 
@@ -172,8 +214,8 @@ export default function Hero() {
     const rect = cta2Ref.current?.getBoundingClientRect();
     if (!rect) return;
     setMagnet2({
-      x: (e.clientX - rect.left - rect.width / 2) * 0.2,
-      y: (e.clientY - rect.top - rect.height / 2) * 0.2,
+      x: (e.clientX - rect.left - rect.width / 2) * 0.25,
+      y: (e.clientY - rect.top - rect.height / 2) * 0.25,
     });
   };
 
