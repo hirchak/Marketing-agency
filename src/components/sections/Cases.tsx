@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../../lib/i18n';
 import styles from './Cases.module.css';
+import AmbientBackground from '../ambient/AmbientBackground';
 
 interface CaseItem {
   id: string;
@@ -70,6 +71,7 @@ export default function Cases() {
 
   return (
     <section className={styles.section} id="work" ref={ref}>
+      <AmbientBackground variant="work" />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>{t('cases_title')}</h2>

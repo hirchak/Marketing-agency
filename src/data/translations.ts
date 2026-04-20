@@ -17,7 +17,7 @@ export const translations = {
     // Proof strip
     proof_1: 'SAV.AGENCY website',
     proof_2: 'Linkora працюючий MVP',
-    proof_3: 'Marketing Skill System',
+    proof_3: 'Маркетингова методологія',
     proof_4: 'React / Vite / Supabase / Telegram',
 
     // What we build
@@ -134,7 +134,7 @@ export const translations = {
 
     proof_1: 'SAV.AGENCY website',
     proof_2: 'Linkora working MVP',
-    proof_3: 'Marketing Skill System',
+    proof_3: 'Маркетингова методологія',
     proof_4: 'React / Vite / Supabase / Telegram',
 
     build_title: 'What We Build',
@@ -241,7 +241,7 @@ export const translations = {
 
     proof_1: 'SAV.AGENCY web',
     proof_2: 'Linkora working MVP',
-    proof_3: 'Marketing Skill System',
+    proof_3: 'Маркетингова методологія',
     proof_4: 'React / Vite / Supabase / Telegram',
 
     build_title: 'Co Stavíme',

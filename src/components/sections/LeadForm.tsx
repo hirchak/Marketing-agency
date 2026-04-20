@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useI18n } from '../../lib/i18n';
 import { TranslationKey } from '../../data/translations';
 import styles from './LeadForm.module.css';
+import AmbientBackground from '../ambient/AmbientBackground';
 
 const projectOptions: TranslationKey[] = ['option_website', 'option_mvp', 'option_strategy', 'option_audit', 'option_not_sure'];
 
@@ -85,6 +86,7 @@ export default function LeadForm() {
         transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
       }}
     >
+      <AmbientBackground variant="lead" />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>{t('lead_title')}</h2>

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../../lib/i18n';
 import { TranslationKey } from '../../data/translations';
 import styles from './Capabilities.module.css';
+import AmbientBackground from '../ambient/AmbientBackground';
 
 interface Capability {
   titleKey: TranslationKey;
@@ -138,6 +139,7 @@ export default function Capabilities() {
 
   return (
     <section className={styles.section} id="capabilities">
+      <AmbientBackground variant="services" />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>{t('build_title')}</h2>

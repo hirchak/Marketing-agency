@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../../lib/i18n';
 import { offers } from '../../data/offers';
 import styles from './Pricing.module.css';
+import AmbientBackground from '../ambient/AmbientBackground';
 
 export default function Pricing() {
   const { t } = useI18n();
@@ -28,6 +29,7 @@ export default function Pricing() {
 
   return (
     <section className={styles.section} id="pricing" ref={ref}>
+      <AmbientBackground variant="pricing" />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>{t('pricing_title')}</h2>
