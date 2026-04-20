@@ -83,8 +83,39 @@
   font-size: 0.8rem;
   color: var(--text-muted);
   line-height: 1.6;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   flex-grow: 0;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.metaItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.metaLabel {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.metaValue {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
 }
 
 .price {
@@ -153,7 +184,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .section {
     padding: 80px 0;
   }
@@ -164,9 +195,8 @@
     margin: 0 auto;
   }
 
-  .card {
-    opacity: 1 !important;
-    transform: none !important;
+  .meta {
+    padding: 12px;
   }
 }
 

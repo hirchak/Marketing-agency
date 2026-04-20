@@ -5,51 +5,43 @@ import styles from './Cases.module.css';
 interface CaseItem {
   id: string;
   title: string;
-  description: string;
-  tags: string[];
-  year: string;
-  featured?: boolean;
   challenge: string;
   build: string;
   stack: string[];
-  status: string;
+  year: string;
+  featured?: boolean;
+  statusKey: 'case_status_live' | 'case_status_progress' | 'case_status_proprietary';
 }
 
 const cases: CaseItem[] = [
   {
     id: 'sav-agency',
     title: 'SAV.AGENCY',
-    description: 'Full marketing website redesign with growth-focused messaging architecture and conversion-optimized structure.',
-    tags: ['React', 'Vite', 'TypeScript', 'Growth Strategy'],
-    year: '2026',
-    featured: true,
     challenge: 'Positioning as premium AI-native product studio with proven delivery capability.',
     build: 'Complete redesign with ecosystem map, bento grid, scroll animations, multilingual support.',
     stack: ['Vite + React', 'TypeScript', 'CSS Modules', 'Vercel'],
-    status: 'Live',
+    year: '2026',
+    featured: true,
+    statusKey: 'case_status_live',
   },
   {
     id: 'linkora',
     title: 'Linkora MVP',
-    description: 'Telegram-first social discovery platform with matching logic, onboarding flows, and real-time engagement.',
-    tags: ['Telegram', 'React', 'Supabase', 'MVP'],
-    year: '2025',
-    featured: true,
     challenge: 'Community needed fast onboarding and structured matching via Telegram.',
     build: 'Telegram bot with profile onboarding, Supabase-backed matching system, React dashboard.',
     stack: ['React + Vite', 'Supabase', 'Telegram Bot API', 'FSD'],
-    status: 'In Progress',
+    year: '2025',
+    featured: true,
+    statusKey: 'case_status_progress',
   },
   {
     id: 'marketing-skill',
     title: 'Marketing Skill System',
-    description: 'Proprietary strategy methodology combining market research, Client DNA, and growth frameworks.',
-    tags: ['Strategy', 'AI-Assisted', 'Research', 'Framework'],
-    year: '2025',
     challenge: 'Systematize marketing expertise into repeatable methodology for client work.',
     build: 'Market research framework, ICP mapping, funnel architecture, unit economics templates.',
     stack: ['Market Research', 'Client DNA', 'Funnel Architecture', 'Analytics'],
-    status: 'Proprietary',
+    year: '2025',
+    statusKey: 'case_status_proprietary',
   },
 ];
 
@@ -86,7 +78,7 @@ export default function Cases() {
 
         <div className={styles.grid}>
           {cases.map((caseItem, i) => (
-            <CaseCard key={caseItem.id} caseItem={caseItem} index={i} visible={visible} />
+            <CaseCard key={caseItem.id} caseItem={caseItem} index={i} visible={visible} t={t} />
           ))}
         </div>
       </div>
@@ -94,18 +86,18 @@ export default function Cases() {
   );
 }
 
-function CaseCard({ caseItem, index, visible }: { caseItem: CaseItem; index: number; visible: boolean }) {
+function CaseCard({ caseItem, index, visible, t }: { caseItem: CaseItem; index: number; visible: boolean; t: (key: import('../../data/translations').TranslationKey) => string }) {
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
+  const mockupRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isHovered || !cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
+    if (!isHovered || !mockupRef.current) return;
+    const rect = mockupRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    const x = (e.clientY - centerY) * 0.01;
-    const y = -(e.clientX - centerX) * 0.01;
+    const x = (e.clientY - centerY) * 0.015;
+    const y = -(e.clientX - centerX) * 0.015;
     setRotation({ x, y });
   };
 
@@ -117,27 +109,27 @@ function CaseCard({ caseItem, index, visible }: { caseItem: CaseItem; index: num
 
   return (
     <div
-      ref={cardRef}
       className={`${styles.card} ${caseItem.featured ? styles.featured : ''}`}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible
-          ? `perspective(1000px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) translateY(0)`
-          : 'translateY(40px)',
-        transition: isHovered ? 'transform 0.15s ease-out' : `all 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.1}s`,
+        transform: visible ? 'translateY(0)' : 'translateY(40px)',
+        transition: `all 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.1}s`,
       }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseMove={handleMouseMove}
     >
       <div className={styles.cardHeader}>
-        <div className={styles.statusBadge} data-status={caseItem.status.toLowerCase().replace(' ', '-')}>
-          {caseItem.status}
+        <div className={styles.statusBadge} data-status={caseItem.statusKey.replace('case_status_', '')}>
+          {t(caseItem.statusKey)}
         </div>
         <span className={styles.year}>{caseItem.year}</span>
       </div>
 
-      <div className={styles.mockup}>
+      <div ref={mockupRef} className={styles.mockup} style={{
+        transform: `perspective(800px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
+        transition: isHovered ? 'transform 0.1s ease-out' : 'transform 0.4s ease-out',
+      }}>
         {caseItem.id === 'sav-agency' && (
           <div className={styles.mockupWeb}>
             <div className={styles.mockupBar}>
@@ -188,11 +180,11 @@ function CaseCard({ caseItem, index, visible }: { caseItem: CaseItem; index: num
 
         <div className={styles.caseMeta}>
           <div className={styles.metaItem}>
-            <span className={styles.metaLabel}>Challenge</span>
+            <span className={styles.metaLabel}>{t('case_challenge')}</span>
             <span className={styles.metaValue}>{caseItem.challenge}</span>
           </div>
           <div className={styles.metaItem}>
-            <span className={styles.metaLabel}>Build</span>
+            <span className={styles.metaLabel}>{t('case_build')}</span>
             <span className={styles.metaValue}>{caseItem.build}</span>
           </div>
         </div>

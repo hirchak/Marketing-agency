@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useI18n } from '../../lib/i18n';
 import styles from './Hero.module.css';
 
@@ -12,32 +12,50 @@ const nodes = [
 ];
 
 export default function Hero() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [magnet1, setMagnet1] = useState({ x: 0, y: 0 });
-  const [magnet2, setMagnet2] = useState({ x: 0, y: 0 });
+  const heroRef = useRef<HTMLElement>(null);
   const cta1Ref = useRef<HTMLAnchorElement>(null);
   const cta2Ref = useRef<HTMLAnchorElement>(null);
 
+  // Mouse tracking refs - not React state, no re-renders
+  const targetMouse = useRef({ x: 0, y: 0 });
+  const currentMouse = useRef({ x: 0, y: 0 });
+  const isMobile = useRef(false);
+
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const hero = heroRef.current;
+    if (!canvas || !hero) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     let animationId: number;
     let time = 0;
+    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
     const resize = () => {
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
+      isMobile.current = window.innerWidth < 768;
+    };
+
+    const handlePointerMove = (e: PointerEvent) => {
+      if (isMobile.current) return;
+      const rect = hero.getBoundingClientRect();
+      targetMouse.current = {
+        x: e.clientX - rect.left - rect.width / 2,
+        y: e.clientY - rect.top - rect.height / 2,
+      };
     };
 
     const getNodePositions = (offsetX = 0, offsetY = 0) => {
-      const centerX = canvas.width * 0.75 + offsetX;
-      const centerY = canvas.height * 0.5 + offsetY;
-      const radius = Math.min(canvas.width, canvas.height) * 0.22;
+      const baseCenterX = canvas.width * (isMobile.current ? 0.5 : 0.72);
+      const baseCenterY = canvas.height * 0.5;
+      const centerX = baseCenterX + offsetX;
+      const centerY = baseCenterY + offsetY;
+      const radius = Math.min(canvas.width, canvas.height) * (isMobile.current ? 0.28 : 0.22);
 
       return nodes.map((node) => ({
         ...node,
@@ -99,7 +117,7 @@ export default function Hero() {
       ctx.stroke();
     };
 
-    const drawConnections = (nodePositions: typeof getNodePositions extends (x: number, y: number) => infer R ? R : never, alpha: number = 1) => {
+    const drawConnections = (nodePositions: ReturnType<typeof getNodePositions>, alpha: number = 1) => {
       const central = nodePositions[0];
       for (let i = 1; i < nodePositions.length; i++) {
         drawLine(central.x, central.y, nodePositions[i].x, nodePositions[i].y, alpha);
@@ -108,12 +126,22 @@ export default function Hero() {
 
     const animate = () => {
       time += 0.008;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+      // Lerp mouse for smooth following
+      if (!isMobile.current) {
+        currentMouse.current.x = lerp(currentMouse.current.x, targetMouse.current.x, 0.05);
+        currentMouse.current.y = lerp(currentMouse.current.y, targetMouse.current.y, 0.05);
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = '#0A0A0A';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      const nodePositions = getNodePositions();
+      // Parallax offset from mouse
+      const parallaxX = isMobile.current ? 0 : currentMouse.current.x * 0.03;
+      const parallaxY = isMobile.current ? 0 : currentMouse.current.y * 0.03;
+
+      const nodePositions = getNodePositions(parallaxX, parallaxY);
 
       drawConnections(nodePositions, 0.5);
 
@@ -130,38 +158,24 @@ export default function Hero() {
 
     resize();
     window.addEventListener('resize', resize);
+    hero.addEventListener('pointermove', handlePointerMove);
     animate();
 
     return () => {
       window.removeEventListener('resize', resize);
+      hero.removeEventListener('pointermove', handlePointerMove);
       cancelAnimationFrame(animationId);
     };
   }, []);
 
-  const handleCta1MouseMove = (e: React.MouseEvent) => {
-    const rect = cta1Ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    setMagnet1({
-      x: (e.clientX - rect.left - rect.width / 2) * 0.2,
-      y: (e.clientY - rect.top - rect.height / 2) * 0.2,
-    });
-  };
-
-  const handleCta1MouseLeave = () => setMagnet1({ x: 0, y: 0 });
-
-  const handleCta2MouseMove = (e: React.MouseEvent) => {
-    const rect = cta2Ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    setMagnet2({
-      x: (e.clientX - rect.left - rect.width / 2) * 0.2,
-      y: (e.clientY - rect.top - rect.height / 2) * 0.2,
-    });
-  };
-
-  const handleCta2MouseLeave = () => setMagnet2({ x: 0, y: 0 });
+  const proofChips = lang === 'uk'
+    ? ['Сайти', 'MVP', 'Telegram flows', 'Supabase', 'Growth стратегія']
+    : lang === 'cs'
+    ? ['weby', 'MVP', 'Telegram flows', 'Supabase', 'Growth strategie']
+    : ['Sites', 'MVP', 'Telegram flows', 'Supabase', 'Growth strategy'];
 
   return (
-    <section className={styles.hero}>
+    <section className={styles.hero} ref={heroRef}>
       <canvas ref={canvasRef} className={styles.canvas} />
 
       <div className={styles.container}>
@@ -174,12 +188,6 @@ export default function Hero() {
               ref={cta1Ref}
               href="#lead"
               className={styles.ctaPrimary}
-              style={{
-                transform: `translate(${magnet1.x}px, ${magnet1.y}px)`,
-                transition: magnet1.x === 0 && magnet1.y === 0 ? 'all 0.3s' : 'transform 0.1s ease-out',
-              }}
-              onMouseMove={handleCta1MouseMove}
-              onMouseLeave={handleCta1MouseLeave}
             >
               {t('hero_cta_primary')}
             </a>
@@ -187,22 +195,15 @@ export default function Hero() {
               ref={cta2Ref}
               href="#work"
               className={styles.ctaSecondary}
-              style={{
-                transform: `translate(${magnet2.x}px, ${magnet2.y}px)`,
-                transition: magnet2.x === 0 && magnet2.y === 0 ? 'all 0.3s' : 'transform 0.1s ease-out',
-              }}
-              onMouseMove={handleCta2MouseMove}
-              onMouseLeave={handleCta2MouseLeave}
             >
               {t('hero_cta_secondary')}
             </a>
           </div>
 
           <div className={styles.proofChips}>
-            <span className={styles.chip}>React</span>
-            <span className={styles.chip}>Vite</span>
-            <span className={styles.chip}>Supabase</span>
-            <span className={styles.chip}>Telegram</span>
+            {proofChips.map((chip) => (
+              <span key={chip} className={styles.chip}>{chip}</span>
+            ))}
           </div>
         </div>
       </div>

@@ -48,9 +48,24 @@ export default function Pricing() {
               {offer.featured && <span className={styles.popularBadge}>Most Popular</span>}
               <h3 className={styles.cardTitle}>{offer.title}</h3>
               <p className={styles.cardDesc}>{offer.description}</p>
+
+              <div className={styles.meta}>
+                <div className={styles.metaItem}>
+                  <span className={styles.metaLabel}>Для кого</span>
+                  <span className={styles.metaValue}>{offer.forWhom}</span>
+                </div>
+                <div className={styles.metaItem}>
+                  <span className={styles.metaLabel}>Результат</span>
+                  <span className={styles.metaValue}>{offer.result}</span>
+                </div>
+                <div className={styles.metaItem}>
+                  <span className={styles.metaLabel}>Термін</span>
+                  <span className={styles.metaValue}>{offer.term}</span>
+                </div>
+              </div>
+
               <div className={styles.price}>
                 <span className={styles.amount}>{offer.price}</span>
-                {offer.period && <span className={styles.period}>{offer.period}</span>}
               </div>
               <ul className={styles.features}>
                 {offer.features.map((feature) => (

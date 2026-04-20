@@ -10,7 +10,7 @@ export const translations = {
 
     // Hero
     hero_headline: 'Інженеримо цифрові системи росту.',
-    hero_subtitle: 'SAV.AGENCY — AI-native product studio, де market research, frontend engineering, Telegram-first flows і conversion architecture збираються в одну систему запуску.',
+    hero_subtitle: 'SAV.AGENCY — AI-native продуктова студія, де дослідження ринку, розробка інтерфейсів, Telegram-онбординг і логіка конверсії збираються в одну систему запуску.',
     hero_cta_primary: 'Запустити аудит',
     hero_cta_secondary: 'Дивитись що ми будуємо',
 
@@ -21,25 +21,25 @@ export const translations = {
     proof_4: 'React / Vite / Supabase / Telegram',
 
     // What we build
-    build_title: 'Що ми будуємо',
+    build_title: 'Послуги',
     build_subtitle: 'Все побудовано як система: ринковий сигнал, офер, інтерфейс, логіка продукту, шлях трафіку і петля зворотнього зв\'язку.',
 
     // Capabilities
-    cap_intelligence_title: 'Intelligence & DNA',
-    cap_intelligence_desc: 'Market research, конкурентний аналіз, ICP, Client DNA, стратегія оферу, unit economics.',
-    cap_conversion_title: 'Conversion Architecture',
-    cap_conversion_desc: 'Висококонверсійні сайти, лендінги, захоплення лідів, CTA логіка, основи CRO.',
-    cap_product_title: 'Product & MVP Engineering',
-    cap_product_desc: 'React, Vite, Tailwind, Supabase, дашборди, бази даних, стартап MVPs.',
-    cap_telegram_title: 'Telegram-First Ecosystems',
-    cap_telegram_desc: 'Telegram боти, онбординг, опитування, профілі, продуктові flows, безбар\'єрний вхід користувачів.',
-    cap_systems_title: 'Systems Integration',
-    cap_systems_desc: 'Логіка мatchmaking, профілі користувачів, структуровані дані flows, Supabase таблиці, стан продукту.',
-    cap_funnel_title: 'Funnel Physics',
-    cap_funnel_desc: 'Аудит аналітики, прогалини у воронці, діагностика кампаній, LTV:CAC мислення, roadmap оптимізації.',
-    cap_automation_title: 'Advanced Automations',
-    cap_automation_desc: 'n8n workflows, CRM синхронізації, reporting flows, операційна автоматизація.',
-    cap_video_title: 'Programmatic Video',
+    cap_intelligence_title: 'Маркетингова стратегія і Client DNA',
+    cap_intelligence_desc: 'Дослідження ринку, конкуренти, портрет клієнта, логіка оферу, економіка воронки.',
+    cap_conversion_title: 'Сайти і лендінги',
+    cap_conversion_desc: 'Структура, тексти, дизайн, frontend-розробка, lead capture, базова SEO-підготовка.',
+    cap_product_title: 'MVP і продуктова розробка',
+    cap_product_desc: 'React/Vite інтерфейси, Supabase, кабінети, анкети, бази даних, логіка продукту.',
+    cap_telegram_title: 'Telegram-онбординг і боти',
+    cap_telegram_desc: 'Telegram bot flows, анкети, профілі, швидкий вхід користувача, збір заявок.',
+    cap_systems_title: 'Воронка і аналітика',
+    cap_systems_desc: 'Аудит шляху клієнта, CTA, tracking checklist, точки втрати конверсії, план оптимізації.',
+    cap_funnel_title: 'Інтеграції і база даних',
+    cap_funnel_desc: 'Таблиці, профілі, matching logic, structured data flows, прості адмін-логіки.',
+    cap_automation_title: 'Автоматизації',
+    cap_automation_desc: 'n8n workflows, CRM sync, reporting flows.',
+    cap_video_title: 'Відео-автоматизація',
     cap_video_desc: 'Remotion/code-driven video генерація для персоналізованого креативу.',
 
     // Signature offers
@@ -73,6 +73,12 @@ export const translations = {
     // Cases
     cases_title: 'Роботи',
     cases_subtitle: 'Від виклику до виконання.',
+    case_challenge: 'Виклик',
+    case_build: 'Що зробили',
+    case_stack: 'Стек',
+    case_status_live: 'Працює',
+    case_status_progress: 'В процесі',
+    case_status_proprietary: 'Власна методологія',
 
     // Lead form
     lead_title: 'Отримайте 48-годинний growth snapshot',
@@ -176,6 +182,12 @@ export const translations = {
 
     cases_title: 'Work',
     cases_subtitle: 'From challenge to execution.',
+    case_challenge: 'Challenge',
+    case_build: 'What We Built',
+    case_stack: 'Stack',
+    case_status_live: 'Live',
+    case_status_progress: 'In Progress',
+    case_status_proprietary: 'Proprietary',
 
     lead_title: 'Get a 48-hour growth snapshot',
     lead_subtitle: 'If there is a fit, we will send 3 initial growth observations within 48 hours.',
@@ -276,6 +288,12 @@ export const translations = {
 
     cases_title: 'Práce',
     cases_subtitle: 'Od výzvy k realizaci.',
+    case_challenge: 'Challenge',
+    case_build: 'Co jsme postavili',
+    case_stack: 'Stack',
+    case_status_live: 'Live',
+    case_status_progress: 'In Progress',
+    case_status_proprietary: 'Proprietary',
 
     lead_title: 'Získejte 48-hodinový growth snapshot',
     lead_subtitle: 'Pokud je fit, pošleme 3 počáteční growth observations do 48 hodin.',
