@@ -6,3 +6,4 @@ package-lock.json
 dist
 .playwright-mcp
 Materials
+.DS_Store

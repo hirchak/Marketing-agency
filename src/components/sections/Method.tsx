@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useI18n } from '../../lib/i18n';
 import { TranslationKey } from '../../data/translations';
+import { gsap, ScrollTrigger, useGSAP } from '../../lib/gsap';
 import styles from './Method.module.css';
 import AmbientBackground from '../ambient/AmbientBackground';
 
@@ -24,29 +25,42 @@ export default function Method() {
   const sectionRef = useRef<HTMLElement>(null);
   const stepsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const section = sectionRef.current;
-      if (!section) return;
+  useGSAP(() => {
+    const section = sectionRef.current;
+    if (!section) return;
 
-      const rect = section.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const sectionHeight = rect.height;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) {
+      setProgressHeight(100);
+      setActiveStep(steps.length - 1);
+      gsap.set(stepsRef.current, { y: 0 });
+      return;
+    }
 
-      if (rect.top < windowHeight * 0.7 && rect.bottom > 0) {
-        const scrollProgress = Math.min(1, Math.max(0, (windowHeight * 0.7 - rect.top) / (sectionHeight - windowHeight * 0.3)));
-        const newProgress = scrollProgress * 100;
-        setProgressHeight(newProgress);
+    gsap.from(stepsRef.current, {
+      y: 36,
+      stagger: 0.12,
+      duration: 0.72,
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 72%',
+        once: true,
+      },
+    });
 
-        const newActiveStep = Math.min(steps.length - 1, Math.floor(scrollProgress * steps.length));
-        setActiveStep(newActiveStep);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top center',
+      end: 'bottom center',
+      scrub: 0.8,
+      onUpdate: (self) => {
+        const progress = Math.round(self.progress * 100);
+        const nextStep = Math.min(steps.length - 1, Math.floor(self.progress * steps.length));
+        setProgressHeight(progress);
+        setActiveStep(nextStep);
+      },
+    });
+  }, { scope: sectionRef });
 
   return (
     <section className={styles.section} id="method" ref={sectionRef}>

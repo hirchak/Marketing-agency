@@ -55,7 +55,7 @@ html {
 }
 
 body {
-  background: var(--bg-primary);
+  background: transparent;
   color: var(--text-primary);
   font-family: var(--font-body);
   font-size: 1rem;
@@ -69,6 +69,7 @@ body {
 #root {
   max-width: 100vw;
   overflow-x: hidden;
+  isolation: isolate;
 }
 
 ::selection {

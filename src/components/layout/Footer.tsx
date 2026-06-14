@@ -1,15 +1,15 @@
 import { useI18n } from '../../lib/i18n';
+import type { Language } from '../../data/translations';
 import styles from './Footer.module.css';
 
-const serviceNames: Record<string, string> = {
-  'website-sprint': 'Сайт / лендінг',
-  'mvp-sprint': 'MVP / продуктова система',
-  'growth-diagnostic': 'Growth-діагностика',
-  'gtm-launch': 'GTM-запуск',
+const serviceNames: Record<Language, string[]> = {
+  uk: ['Стратегія росту', 'Сайт для конверсії', 'Система запуску росту', 'Щомісячний супровід'],
+  en: ['Growth Intelligence', 'Conversion Website', 'Growth Launch System', 'Monthly Growth Ops'],
+  cs: ['Strategie růstu', 'Konverzní web', 'Růstový launch systém', 'Měsíční support'],
 };
 
 export default function Footer() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
 
   return (
     <footer className={styles.footer}>
@@ -35,10 +35,9 @@ export default function Footer() {
           <div className={styles.section}>
             <h4>{t('footer_services')}</h4>
             <ul>
-              <li><a href="#pricing">{serviceNames['website-sprint']}</a></li>
-              <li><a href="#pricing">{serviceNames['mvp-sprint']}</a></li>
-              <li><a href="#pricing">{serviceNames['growth-diagnostic']}</a></li>
-              <li><a href="#pricing">{serviceNames['gtm-launch']}</a></li>
+              {serviceNames[lang].map((service) => (
+                <li key={service}><a href="#pricing">{service}</a></li>
+              ))}
             </ul>
           </div>
 

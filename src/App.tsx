@@ -9,6 +9,7 @@ import Method from './components/sections/Method';
 import Cases from './components/sections/Cases';
 import Pricing from './components/sections/Pricing';
 import LeadForm from './components/sections/LeadForm';
+import AuroraVeil from './components/ambient/AuroraVeil';
 
 function AppContent() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -19,6 +20,7 @@ function AppContent() {
 
   return (
     <div className={`app ${isLoaded ? 'loaded' : ''}`}>
+      <AuroraVeil />
       <Header />
       <main>
         <Hero />

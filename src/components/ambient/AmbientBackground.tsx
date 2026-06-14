@@ -19,6 +19,8 @@ export default function AmbientBackground({ variant }: AmbientBackgroundProps) {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (window.innerWidth < 768) return;
 
+    let active = false;
+
     const resize = () => {
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
@@ -129,6 +131,7 @@ export default function AmbientBackground({ variant }: AmbientBackgroundProps) {
     };
 
     const animate = () => {
+      if (!active) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       switch (variant) {
@@ -158,15 +161,26 @@ export default function AmbientBackground({ variant }: AmbientBackgroundProps) {
       }
 
       animationRef.current += 16;
-      requestAnimationFrame(animate);
+      animationRef.current = requestAnimationFrame(animate);
     };
 
     resize();
     window.addEventListener('resize', resize);
-    animate();
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        active = entry.isIntersecting;
+        if (active) {
+          cancelAnimationFrame(animationRef.current);
+          animationRef.current = requestAnimationFrame(animate);
+        }
+      },
+      { rootMargin: '320px 0px' }
+    );
+    observer.observe(canvas);
 
     return () => {
       window.removeEventListener('resize', resize);
+      observer.disconnect();
       cancelAnimationFrame(animationRef.current);
     };
   }, [variant]);

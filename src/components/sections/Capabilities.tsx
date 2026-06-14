@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useI18n } from '../../lib/i18n';
 import { TranslationKey } from '../../data/translations';
+import { gsap, useGSAP } from '../../lib/gsap';
 import styles from './Capabilities.module.css';
 import AmbientBackground from '../ambient/AmbientBackground';
 
@@ -46,6 +47,7 @@ function SpotlightCard({ children, className = '', style = {} }: {
     <div
       ref={ref}
       className={className}
+      data-capability-card
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
@@ -68,27 +70,22 @@ function SpotlightCard({ children, className = '', style = {} }: {
   );
 }
 
-function CapabilityCard({ cap, index, t }: { cap: Capability; index: number; t: (key: TranslationKey) => string }) {
-  const [visible, setVisible] = useState(false);
+function CapabilityCard({
+  cap,
+  index,
+  t,
+  dnaChips,
+  dnaFlow,
+  dnaResult,
+}: {
+  cap: Capability;
+  index: number;
+  t: (key: TranslationKey) => string;
+  dnaChips: string[];
+  dnaFlow: string[];
+  dnaResult: string;
+}) {
   const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
 
   const isDNA = cap.titleKey === 'cap_intelligence_title';
 
@@ -97,8 +94,6 @@ function CapabilityCard({ cap, index, t }: { cap: Capability; index: number; t: 
       className={`${styles.card} ${cap.accent ? styles.accent : ''} ${cap.size === 'large' ? styles.large : ''}`}
       accent={cap.accent}
       style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(40px)',
         transitionDelay: `${index * 0.08}s`,
       }}
     >
@@ -109,21 +104,20 @@ function CapabilityCard({ cap, index, t }: { cap: Capability; index: number; t: 
         {isDNA && (
           <div className={styles.dnaContent}>
             <div className={styles.dnaChips}>
-              <span className={styles.dnaChip}>Ринок і конкуренти</span>
-              <span className={styles.dnaChip}>ICP / портрет клієнта</span>
-              <span className={styles.dnaChip}>Офер і позиціонування</span>
-              <span className={styles.dnaChip}>Економіка воронки</span>
+              {dnaChips.map((chip) => (
+                <span key={chip} className={styles.dnaChip}>{chip}</span>
+              ))}
             </div>
             <div className={styles.dnaFlow}>
-              <span>Ринок</span>
+              <span>{dnaFlow[0]}</span>
               <span className={styles.dnaArrow}>→</span>
-              <span>ICP</span>
+              <span>{dnaFlow[1]}</span>
               <span className={styles.dnaArrow}>→</span>
-              <span>Офер</span>
+              <span>{dnaFlow[2]}</span>
               <span className={styles.dnaArrow}>→</span>
-              <span>Воронка</span>
+              <span>{dnaFlow[3]}</span>
             </div>
-            <p className={styles.dnaResult}>Результат: стратегія перед дизайном, кодом і запуском.</p>
+            <p className={styles.dnaResult}>{dnaResult}</p>
           </div>
         )}
         {cap.size === 'large' && !isDNA && (
@@ -135,10 +129,45 @@ function CapabilityCard({ cap, index, t }: { cap: Capability; index: number; t: 
 }
 
 export default function Capabilities() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const sectionRef = useRef<HTMLElement>(null);
+  const dnaChips = lang === 'uk'
+    ? ['Ринок і конкуренти', 'Портрет клієнта / ICP', 'Офер і позиціонування', 'Базова економіка']
+    : lang === 'cs'
+    ? ['Trh a konkurence', 'Profil zákazníka / ICP', 'Nabídka a pozicování', 'Základní ekonomika']
+    : ['Market and competitors', 'Client DNA / ICP', 'Offer and positioning', 'Unit economics'];
+  const dnaFlow = lang === 'uk'
+    ? ['Ринок', 'ICP', 'Офер', 'Воронка']
+    : lang === 'cs'
+    ? ['Trh', 'ICP', 'Nabídka', 'Cesta']
+    : ['Market', 'ICP', 'Offer', 'Funnel'];
+  const dnaResult = lang === 'uk'
+    ? 'Результат: стратегія перед дизайном, кодом і запуском.'
+    : lang === 'cs'
+    ? 'Výsledek: strategie před designem, kódem a spuštěním.'
+    : 'Outcome: strategy before design, code and launch.';
+
+  useGSAP(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) {
+      gsap.set('[data-capability-card]', { y: 0 });
+      return;
+    }
+
+    gsap.from('[data-capability-card]', {
+      y: 42,
+      duration: 0.72,
+      stagger: { each: 0.07, from: 'start' },
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: 'top 68%',
+        once: true,
+      },
+    });
+  }, { scope: sectionRef });
 
   return (
-    <section className={styles.section} id="capabilities">
+    <section className={styles.section} id="capabilities" ref={sectionRef}>
       <AmbientBackground variant="services" />
       <div className={styles.container}>
         <div className={styles.header}>
@@ -148,7 +177,15 @@ export default function Capabilities() {
 
         <div className={styles.grid}>
           {capabilities.map((cap, i) => (
-            <CapabilityCard key={cap.titleKey} cap={cap} index={i} t={t} />
+            <CapabilityCard
+              key={cap.titleKey}
+              cap={cap}
+              index={i}
+              t={t}
+              dnaChips={dnaChips}
+              dnaFlow={dnaFlow}
+              dnaResult={dnaResult}
+            />
           ))}
         </div>
       </div>

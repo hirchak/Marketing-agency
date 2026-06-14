@@ -1,86 +1,46 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useI18n } from '../../lib/i18n';
+import { cases, type CaseItem } from '../../data/cases';
+import { gsap, useGSAP } from '../../lib/gsap';
 import styles from './Cases.module.css';
 import AmbientBackground from '../ambient/AmbientBackground';
 
-interface CaseItem {
-  id: string;
-  title: string;
-  challenge: string;
-  build: string;
-  stack: string[];
-  year: string;
-  featured?: boolean;
-  statusKey: 'case_status_live' | 'case_status_progress' | 'case_status_proprietary';
-}
-
-const cases: CaseItem[] = [
-  {
-    id: 'sav-agency',
-    title: 'SAV.AGENCY',
-    challenge: 'Показати агенцію як AI-native product studio з чіткими послугами, кейсами і преміальною подачею.',
-    build: 'Оновили структуру сайту, hero-секцію, ecosystem map, bento-блоки, анімації, мультимовність і форму заявки.',
-    stack: ['React', 'Vite', 'TypeScript', 'CSS Modules', 'Vercel'],
-    year: '2026',
-    featured: true,
-    statusKey: 'case_status_live',
-  },
-  {
-    id: 'linkora',
-    title: 'Linkora MVP',
-    challenge: 'Потрібен швидкий Telegram-онбординг і логіка парування для спільноти/платформи.',
-    build: 'Розробили Telegram-бота, анкети, профілі, Supabase-таблиці, логіку парування і React/Vite dashboard.',
-    stack: ['React', 'Vite', 'Supabase', 'Telegram Bot API'],
-    year: '2025',
-    featured: true,
-    statusKey: 'case_status_progress',
-  },
-  {
-    id: 'marketing-skill',
-    title: 'Маркетингова методологія',
-    challenge: 'Систематизувати маркетинговий досвід у повторювану методологію для клієнтських проєктів.',
-    build: 'Зібрали методологію для дослідження ринку, Client DNA, ICP, оферу, воронки, unit economics і аналітики.',
-    stack: ['Дослідження ринку', 'Client DNA', 'Архітектура воронки', 'Аналітика'],
-    year: '2025',
-    statusKey: 'case_status_proprietary',
-  },
-];
-
 export default function Cases() {
-  const { t } = useI18n();
-  const [visible, setVisible] = useState(false);
+  const { t, lang } = useI18n();
   const ref = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
+  useGSAP(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) {
+      gsap.set('[data-case-card]', { y: 0 });
+      return;
+    }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
+    gsap.from('[data-case-card]', {
+      y: 54,
+      duration: 0.82,
+      stagger: 0.12,
+      scrollTrigger: {
+        trigger: ref.current,
+        start: 'top 70%',
+        once: true,
       },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
+    });
+  }, { scope: ref });
 
   return (
     <section className={styles.section} id="work" ref={ref}>
       <AmbientBackground variant="work" />
       <div className={styles.container}>
         <div className={styles.header}>
+          <span className={styles.kicker}>{t('cases_kicker')}</span>
           <h2 className={styles.title}>{t('cases_title')}</h2>
           <p className={styles.subtitle}>{t('cases_subtitle')}</p>
         </div>
 
         <div className={styles.grid}>
           {cases.map((caseItem, i) => (
-            <CaseCard key={caseItem.id} caseItem={caseItem} index={i} visible={visible} t={t} />
+            <CaseCard key={caseItem.id} caseItem={caseItem} index={i} t={t} lang={lang} />
           ))}
         </div>
       </div>
@@ -88,107 +48,119 @@ export default function Cases() {
   );
 }
 
-function CaseCard({ caseItem, index, visible, t }: { caseItem: CaseItem; index: number; visible: boolean; t: (key: import('../../data/translations').TranslationKey) => string }) {
-  const [rotation, setRotation] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
+function CaseCard({
+  caseItem,
+  index,
+  t,
+  lang,
+}: {
+  caseItem: CaseItem;
+  index: number;
+  t: (key: import('../../data/translations').TranslationKey) => string;
+  lang: import('../../data/translations').Language;
+}) {
   const mockupRef = useRef<HTMLDivElement>(null);
+  const statusKey = `case_status_${caseItem.status}` as import('../../data/translations').TranslationKey;
+  const rotationX = useRef<gsap.QuickToFunc | null>(null);
+  const rotationY = useRef<gsap.QuickToFunc | null>(null);
+  const yTo = useRef<gsap.QuickToFunc | null>(null);
+
+  useGSAP(() => {
+    const target = mockupRef.current;
+    if (!target) return;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = window.matchMedia('(max-width: 767px)').matches;
+    if (reduceMotion || isMobile) return;
+
+    gsap.set(target, { transformPerspective: 900, transformOrigin: 'center center', willChange: 'transform' });
+    rotationX.current = gsap.quickTo(target, 'rotationX', { duration: 0.36, ease: 'power3.out' });
+    rotationY.current = gsap.quickTo(target, 'rotationY', { duration: 0.36, ease: 'power3.out' });
+    yTo.current = gsap.quickTo(target, 'y', { duration: 0.36, ease: 'power3.out' });
+  }, { scope: mockupRef });
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isHovered || !mockupRef.current) return;
+    if (!mockupRef.current || !rotationX.current || !rotationY.current) return;
     const rect = mockupRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    const x = (e.clientY - centerY) * 0.015;
-    const y = -(e.clientX - centerX) * 0.015;
-    setRotation({ x, y });
+    rotationX.current((e.clientY - centerY) * 0.012);
+    rotationY.current(-(e.clientX - centerX) * 0.012);
+    yTo.current?.(-8);
   };
 
-  const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => {
-    setIsHovered(false);
-    setRotation({ x: 0, y: 0 });
+    rotationX.current?.(0);
+    rotationY.current?.(0);
+    yTo.current?.(0);
   };
 
   return (
-    <div
+    <article
+      data-case-card
       className={`${styles.card} ${caseItem.featured ? styles.featured : ''}`}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(40px)',
-        transition: `all 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.1}s`,
-      }}
-      onMouseEnter={handleMouseEnter}
+      style={{ '--case-index': index } as React.CSSProperties}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
     >
       <div className={styles.cardHeader}>
-        <div className={styles.statusBadge} data-status={caseItem.statusKey.replace('case_status_', '')}>
-          {t(caseItem.statusKey)}
+        <div className={styles.statusBadge} data-status={caseItem.status}>
+          {t(statusKey)}
         </div>
         <span className={styles.year}>{caseItem.year}</span>
       </div>
 
-      <div ref={mockupRef} className={styles.mockup} style={{
-        transform: `perspective(800px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
-        transition: isHovered ? 'transform 0.1s ease-out' : 'transform 0.4s ease-out',
-      }}>
-        {caseItem.id === 'sav-agency' && (
-          <div className={styles.mockupWeb}>
+      <div
+        ref={mockupRef}
+        className={styles.mockup}
+      >
+        {caseItem.thumbnail ? (
+          <img src={caseItem.thumbnail} alt="" className={styles.thumbnail} />
+        ) : (
+          <div className={styles.browserMockup}>
             <div className={styles.mockupBar}>
               <span /><span /><span />
             </div>
             <div className={styles.mockupContent}>
-              <div className={styles.mockupHero} />
+              <div className={styles.mockupHero}>
+                <span>{caseItem.type[lang]}</span>
+              </div>
               <div className={styles.mockupGrid}>
                 <div /><div /><div />
               </div>
+              <div className={styles.mockupLine} />
             </div>
-          </div>
-        )}
-        {caseItem.id === 'linkora' && (
-          <div className={styles.mockupTelegram}>
-            <div className={styles.mockupPhone}>
-              <div className={styles.mockupScreen}>
-                <div className={styles.mockupAvatar} />
-                <div className={styles.mockupLines}>
-                  <div /><div /><div />
-                </div>
-              </div>
-            </div>
-            <div className={styles.mockupDb}>
-              <div className={styles.mockupTable}>
-                <div className={styles.mockupRow}><span />|<span />|<span /></div>
-                <div className={styles.mockupRow}><span />|<span />|<span /></div>
-                <div className={styles.mockupRow}><span />|<span />|<span /></div>
-              </div>
-            </div>
-          </div>
-        )}
-        {caseItem.id === 'marketing-skill' && (
-          <div className={styles.mockupFramework}>
-            <div className={styles.frameworkNode}>Market</div>
-            <div className={styles.frameworkArrow}>→</div>
-            <div className={styles.frameworkNode}>ICP</div>
-            <div className={styles.frameworkArrow}>→</div>
-            <div className={styles.frameworkNode}>Offer</div>
-            <div className={styles.frameworkArrow}>→</div>
-            <div className={styles.frameworkNode}>Funnel</div>
           </div>
         )}
       </div>
 
       <div className={styles.cardContent}>
-        <h3 className={styles.cardTitle}>{caseItem.title}</h3>
+        <div className={styles.titleRow}>
+          <div>
+            <span className={styles.caseType}>{caseItem.type[lang]}</span>
+            <h3 className={styles.cardTitle}>{caseItem.title}</h3>
+          </div>
+          {caseItem.url && (
+            <a href={caseItem.url} className={styles.liveLink} target="_blank" rel="noopener noreferrer">
+              {t('case_live_link')}
+            </a>
+          )}
+        </div>
 
         <div className={styles.caseMeta}>
           <div className={styles.metaItem}>
             <span className={styles.metaLabel}>{t('case_challenge')}</span>
-            <span className={styles.metaValue}>{caseItem.challenge}</span>
+            <span className={styles.metaValue}>{caseItem.challenge[lang]}</span>
           </div>
           <div className={styles.metaItem}>
-            <span className={styles.metaLabel}>{t('case_build')}</span>
-            <span className={styles.metaValue}>{caseItem.build}</span>
+            <span className={styles.metaLabel}>{t('case_result')}</span>
+            <span className={styles.metaValue}>{caseItem.result[lang]}</span>
           </div>
+        </div>
+
+        <div className={styles.services}>
+          {caseItem.services[lang].map((service) => (
+            <span key={service} className={styles.serviceItem}>{service}</span>
+          ))}
         </div>
 
         <div className={styles.stack}>
@@ -197,6 +169,6 @@ function CaseCard({ caseItem, index, visible, t }: { caseItem: CaseItem; index: 
           ))}
         </div>
       </div>
-    </div>
+    </article>
   );
 }
