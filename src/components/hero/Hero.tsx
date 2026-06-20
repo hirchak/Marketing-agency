@@ -374,6 +374,7 @@ export default function Hero() {
         eyebrow: 'SAV Система росту',
         title: 'Система запуску онлайн',
         status: 'Жива стратегічна петля',
+        flow: ['Research', 'Offer', 'Site', 'Growth'],
         modules: [
           ['01', 'Портрет клієнта', 'Сегменти, болі, кути оферу'],
           ['02', 'Сайт для заявок', 'Структура, тексти, frontend'],
@@ -391,6 +392,7 @@ export default function Hero() {
         eyebrow: 'SAV Systém růstu',
         title: 'Systém spuštění online',
         status: 'Živá strategická smyčka',
+        flow: ['Research', 'Offer', 'Web', 'Growth'],
         modules: [
           ['01', 'Profil zákazníka', 'Segmenty, potřeby, úhly nabídky'],
           ['02', 'Konverzní web', 'Struktura, texty, frontend'],
@@ -407,6 +409,7 @@ export default function Hero() {
         eyebrow: 'SAV Growth OS',
         title: 'Launch system online',
         status: 'Live strategy loop',
+        flow: ['Research', 'Offer', 'Site', 'Growth'],
         modules: [
           ['01', 'Client DNA', 'Segments, pains, offer angles'],
           ['02', 'Conversion Site', 'Structure, copy, frontend'],
@@ -427,6 +430,7 @@ export default function Hero() {
 
       <div className={styles.container}>
         <div className={styles.content}>
+          <span className={styles.eyebrow} data-hero-reveal>SAV.AGENCY / GROWTH SYSTEMS</span>
           <h1 className={styles.headline} data-hero-headline>{t('hero_headline')}</h1>
           <p className={styles.subtitle} data-hero-reveal>{t('hero_subtitle')}</p>
 
@@ -489,9 +493,13 @@ export default function Hero() {
               <div className={styles.consoleOrbit} aria-hidden="true" data-console-row>
                 <span className={styles.orbitCore}>SAV</span>
                 <span className={styles.orbitRing} />
-                <span className={styles.orbitNodeOne} />
-                <span className={styles.orbitNodeTwo} />
-                <span className={styles.orbitNodeThree} />
+                <div className={styles.systemPath}>
+                  {consoleCopy.flow.map((step) => (
+                    <span key={step}>
+                      {step}
+                    </span>
+                  ))}
+                </div>
               </div>
 
               <div className={styles.consoleModules}>

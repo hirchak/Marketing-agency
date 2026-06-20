@@ -57,11 +57,11 @@ function SpotlightCard({ children, className = '', style = {} }: {
       style={{
         ...style,
         background: isHovered
-          ? `radial-gradient(circle at ${spotlight.x}% ${spotlight.y}%, rgba(255, 69, 0, 0.15) 0%, transparent 60%), var(--bg-secondary)`
-          : 'var(--bg-secondary)',
-        borderColor: isHovered ? 'rgba(255, 69, 0, 0.4)' : 'var(--border)',
-        transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
-        boxShadow: isHovered ? '0 20px 40px rgba(0, 0, 0, 0.4)' : 'none',
+          ? `radial-gradient(circle at ${spotlight.x}% ${spotlight.y}%, rgba(255, 69, 0, 0.12) 0%, transparent 54%), rgba(18, 18, 18, 0.72)`
+          : 'rgba(18, 18, 18, 0.54)',
+        borderColor: isHovered ? 'rgba(255, 69, 0, 0.28)' : 'var(--border)',
+        transform: isHovered ? 'translateY(-3px)' : 'translateY(0)',
+        boxShadow: isHovered ? '0 18px 48px rgba(0, 0, 0, 0.34)' : 'none',
         transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
       }}
     >
@@ -99,6 +99,7 @@ function CapabilityCard({
     >
       <div ref={ref}>
         {cap.beta && <span className={styles.beta}>BETA</span>}
+        <span className={styles.cardNumber}>{String(index + 1).padStart(2, '0')}</span>
         <h3 className={styles.cardTitle}>{t(cap.titleKey)}</h3>
         <p className={styles.cardDesc}>{t(cap.descKey)}</p>
         {isDNA && (
