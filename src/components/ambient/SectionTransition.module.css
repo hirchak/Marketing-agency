@@ -1,112 +1,230 @@
 .transition {
+  --flow-progress: 0;
+  --flow-wash-alpha: 0.08;
+  --flow-grid-x: 0px;
+  --flow-grid-y: 0px;
+  --flow-shift: -14%;
+  --flow-band-scale: 0.86;
+  --flow-mesh-a: 18%;
+  --flow-mesh-b: 62%;
+  --flow-spin: 210deg;
+  --flow-mesh-opacity: 0.48;
+  --flow-sweep: -36%;
+  --flow-horizon-opacity: 0.3;
+  --flow-river-scale: 0.82;
+  --flow-river-opacity: 0.32;
+  --flow-thread: 0.36;
+  --flow-thread-opacity: 0.2;
+  --flow-node-a: 22%;
+  --flow-node-b: 24%;
+  --flow-node-c: 50%;
+  --flow-node-opacity: 0.12;
+  --flow-angle: -8deg;
+  --flow-accent: rgba(255, 69, 0, 0.92);
+  --flow-soft: rgba(255, 114, 54, 0.28);
+  --flow-cool: rgba(0, 255, 204, 0.055);
   position: relative;
   z-index: 2;
-  height: clamp(76px, 8vw, 116px);
-  margin: clamp(-26px, -2vw, -18px) 0;
-  display: grid;
-  place-items: center;
+  height: clamp(176px, 18vw, 292px);
+  margin: clamp(-112px, -7vw, -72px) 0;
   overflow: hidden;
   pointer-events: none;
+  isolation: isolate;
   background:
-    radial-gradient(ellipse at 50% 50%, rgba(255, 69, 0, 0.08), transparent 58%),
-    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.018), transparent);
+    radial-gradient(ellipse at 16% 50%, rgba(255, 69, 0, var(--flow-wash-alpha)), transparent 42%),
+    radial-gradient(ellipse at 84% 52%, var(--flow-cool), transparent 48%),
+    linear-gradient(180deg, transparent 0%, rgba(10, 10, 10, 0.36) 46%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
 }
 
 .transition::before,
-.transition::after {
-  content: '';
+.transition::after,
+.mesh,
+.horizon,
+.river,
+.sweep,
+.thread,
+.node {
   position: absolute;
-  left: 50%;
-  width: min(1040px, calc(100% - 48px));
-  transform: translateX(-50%);
   pointer-events: none;
 }
 
 .transition::before {
-  top: 50%;
-  height: 76px;
+  content: '';
+  inset: 7% -8%;
+  z-index: 0;
   background:
-    linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.08), rgba(255, 255, 255, 0.055), rgba(255, 69, 0, 0.08), transparent);
-  filter: blur(18px);
-  opacity: 0.8;
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 84px 84px;
+  transform: translate3d(var(--flow-grid-x), var(--flow-grid-y), 0) skewY(var(--flow-angle));
+  opacity: 0.22;
+  mask-image: radial-gradient(ellipse at 50% 50%, #000 0%, transparent 68%);
 }
 
 .transition::after {
-  top: calc(50% - 1px);
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.34), rgba(255, 255, 255, 0.16), rgba(255, 69, 0, 0.34), transparent);
-  opacity: 0.75;
-}
-
-.line {
-  position: absolute;
-  left: 50%;
-  top: calc(50% - 1px);
-  width: min(760px, calc(100% - 72px));
-  height: 2px;
-  transform: translateX(-50%) scaleX(0.18);
-  transform-origin: center;
-  background: linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.82), rgba(255, 255, 255, 0.42), rgba(255, 69, 0, 0.82), transparent);
-  box-shadow: 0 0 26px rgba(255, 69, 0, 0.18);
-}
-
-.pulse {
-  position: absolute;
-  left: 50%;
-  top: calc(50% - 18px);
-  width: min(260px, 42vw);
-  height: 36px;
-  transform: translateX(-50%);
-  background: radial-gradient(ellipse at 50% 50%, rgba(255, 69, 0, 0.26), transparent 66%);
-  filter: blur(8px);
-  opacity: 0.28;
-}
-
-.label {
-  position: relative;
+  content: '';
+  inset: 28% -12%;
   z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  min-height: 28px;
-  padding: 0 12px;
-  border: 1px solid rgba(255, 255, 255, 0.11);
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(255, 69, 0, 0.08) 22%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 69, 0, 0.08) 78%, transparent 100%);
+  transform: translate3d(var(--flow-shift), 0, 0) rotate(var(--flow-angle)) scaleX(var(--flow-band-scale));
+  filter: blur(22px);
+  opacity: 0.62;
+}
+
+.mesh {
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at var(--flow-mesh-a) 36%, rgba(255, 69, 0, 0.2), transparent 24%),
+    radial-gradient(circle at var(--flow-mesh-b) 64%, rgba(255, 154, 102, 0.14), transparent 30%),
+    conic-gradient(from var(--flow-spin) at 50% 52%, transparent, rgba(255, 69, 0, 0.12), transparent 24%, rgba(255, 255, 255, 0.04), transparent 56%, rgba(255, 69, 0, 0.1), transparent);
+  filter: blur(18px) saturate(1.16);
+  opacity: var(--flow-mesh-opacity);
+}
+
+.horizon {
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  width: min(1160px, calc(100% - 42px));
+  height: 1px;
+  transform: translate3d(-50%, -50%, 0) rotate(var(--flow-angle));
+  background: linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.24), rgba(255, 255, 255, 0.16), rgba(255, 69, 0, 0.24), transparent);
+  opacity: var(--flow-horizon-opacity);
+  box-shadow:
+    0 0 34px rgba(255, 69, 0, 0.18),
+    0 0 100px rgba(255, 69, 0, 0.08);
+}
+
+.river {
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  width: min(980px, calc(100% - 36px));
+  height: clamp(66px, 8vw, 126px);
   border-radius: 999px;
-  background: rgba(10, 10, 10, 0.72);
-  color: rgba(255, 255, 255, 0.54);
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  backdrop-filter: blur(14px);
+  transform: translate3d(-50%, -50%, 0) rotate(var(--flow-angle)) scaleX(var(--flow-river-scale));
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.2), rgba(255, 255, 255, 0.09), rgba(255, 69, 0, 0.18), transparent),
+    radial-gradient(ellipse at 50% 50%, rgba(255, 69, 0, 0.24), transparent 70%);
+  filter: blur(9px);
+  opacity: var(--flow-river-opacity);
+  mix-blend-mode: screen;
+}
+
+.sweep {
+  inset: 18% auto 18% 50%;
+  z-index: 3;
+  width: min(360px, 38vw);
+  transform: translate3d(calc(-50% + var(--flow-sweep)), 0, 0) rotate(var(--flow-angle));
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.13) 44%, rgba(255, 69, 0, 0.24) 50%, transparent 100%);
+  filter: blur(12px);
+  opacity: 0.56;
+  mix-blend-mode: screen;
+}
+
+.thread {
+  left: 50%;
+  top: 50%;
+  z-index: 4;
+  width: min(820px, calc(100% - 58px));
+  height: 2px;
+  transform: translate3d(-50%, -50%, 0) rotate(var(--flow-angle)) scaleX(var(--flow-thread));
+  transform-origin: center;
+  background: linear-gradient(90deg, transparent, var(--flow-accent), rgba(255, 255, 255, 0.56), var(--flow-accent), transparent);
+  opacity: var(--flow-thread-opacity);
+  box-shadow: 0 0 28px rgba(255, 69, 0, 0.28);
+}
+
+.node {
+  z-index: 5;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255, 69, 0, 0.78);
+  box-shadow:
+    0 0 18px rgba(255, 69, 0, 0.5),
+    0 0 58px rgba(255, 69, 0, 0.18);
+  opacity: var(--flow-node-opacity);
+}
+
+.nodeA {
+  left: var(--flow-node-a);
+  top: 44%;
+}
+
+.nodeB {
+  right: var(--flow-node-b);
+  top: 54%;
+  width: 5px;
+  height: 5px;
+}
+
+.nodeC {
+  left: var(--flow-node-c);
+  top: 66%;
+  width: 4px;
+  height: 4px;
+  opacity: 0.24;
+}
+
+.variantA {
+  --flow-angle: -8deg;
+}
+
+.variantB {
+  --flow-angle: 7deg;
+  --flow-cool: rgba(0, 255, 204, 0.075);
+}
+
+.variantB::after,
+.variantB .horizon,
+.variantB .river,
+.variantB .sweep,
+.variantB .thread {
+  transform-origin: center;
+}
+
+.variantC {
+  --flow-angle: -4deg;
+  --flow-soft: rgba(255, 130, 74, 0.22);
 }
 
 @media (max-width: 768px) {
   .transition {
-    height: 68px;
-    margin: -18px 0;
+    height: 132px;
+    margin: -54px 0;
   }
 
-  .transition::before,
-  .transition::after {
-    width: calc(100% - 28px);
+  .transition::before {
+    background-size: 54px 54px;
+    opacity: 0.16;
   }
 
-  .line {
-    width: calc(100% - 44px);
+  .river {
+    width: calc(100% - 22px);
+    height: 72px;
   }
 
-  .label {
-    font-size: 0.52rem;
-    letter-spacing: 0.09em;
+  .thread,
+  .horizon {
+    width: calc(100% - 34px);
+  }
+
+  .sweep {
+    width: 52vw;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .line,
-  .pulse,
-  .label {
-    transform: none !important;
-    opacity: 1 !important;
+  .transition {
+    --flow-progress: 0.62 !important;
+    --flow-wash-alpha: 0.13 !important;
+    --flow-shift: 0% !important;
+    --flow-sweep: 0% !important;
+    --flow-thread: 0.8 !important;
   }
 }
