@@ -1,0 +1,112 @@
+.transition {
+  position: relative;
+  z-index: 2;
+  height: clamp(76px, 8vw, 116px);
+  margin: clamp(-26px, -2vw, -18px) 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(255, 69, 0, 0.08), transparent 58%),
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.018), transparent);
+}
+
+.transition::before,
+.transition::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  width: min(1040px, calc(100% - 48px));
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.transition::before {
+  top: 50%;
+  height: 76px;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.08), rgba(255, 255, 255, 0.055), rgba(255, 69, 0, 0.08), transparent);
+  filter: blur(18px);
+  opacity: 0.8;
+}
+
+.transition::after {
+  top: calc(50% - 1px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.34), rgba(255, 255, 255, 0.16), rgba(255, 69, 0, 0.34), transparent);
+  opacity: 0.75;
+}
+
+.line {
+  position: absolute;
+  left: 50%;
+  top: calc(50% - 1px);
+  width: min(760px, calc(100% - 72px));
+  height: 2px;
+  transform: translateX(-50%) scaleX(0.18);
+  transform-origin: center;
+  background: linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.82), rgba(255, 255, 255, 0.42), rgba(255, 69, 0, 0.82), transparent);
+  box-shadow: 0 0 26px rgba(255, 69, 0, 0.18);
+}
+
+.pulse {
+  position: absolute;
+  left: 50%;
+  top: calc(50% - 18px);
+  width: min(260px, 42vw);
+  height: 36px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 69, 0, 0.26), transparent 66%);
+  filter: blur(8px);
+  opacity: 0.28;
+}
+
+.label {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 999px;
+  background: rgba(10, 10, 10, 0.72);
+  color: rgba(255, 255, 255, 0.54);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  backdrop-filter: blur(14px);
+}
+
+@media (max-width: 768px) {
+  .transition {
+    height: 68px;
+    margin: -18px 0;
+  }
+
+  .transition::before,
+  .transition::after {
+    width: calc(100% - 28px);
+  }
+
+  .line {
+    width: calc(100% - 44px);
+  }
+
+  .label {
+    font-size: 0.52rem;
+    letter-spacing: 0.09em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line,
+  .pulse,
+  .label {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

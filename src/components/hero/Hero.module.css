@@ -32,16 +32,16 @@
   z-index: 1;
   max-width: var(--container);
   margin: 0 auto;
-  padding: 96px 48px 72px;
+  padding: 104px 48px 76px;
   width: 100%;
   display: grid;
-  grid-template-columns: minmax(0, 720px) minmax(360px, 440px);
+  grid-template-columns: minmax(0, 625px) minmax(330px, 420px);
   align-items: center;
-  gap: clamp(32px, 5vw, 78px);
+  gap: clamp(44px, 7vw, 120px);
 }
 
 .content {
-  max-width: 680px;
+  max-width: 625px;
 }
 
 .eyebrow {
@@ -66,13 +66,14 @@
 
 .headline {
   font-family: var(--font-display);
-  font-size: clamp(4rem, 7.8vw, 8.7rem);
+  font-size: clamp(3.45rem, 5.65vw, 6.2rem);
   font-weight: 800;
-  line-height: 0.82;
+  line-height: 0.87;
   letter-spacing: 0;
   color: var(--text-primary);
   margin-bottom: 28px;
   text-wrap: balance;
+  max-width: 11.4ch;
   will-change: transform, opacity, clip-path;
 }
 
@@ -80,7 +81,7 @@
   font-size: clamp(1rem, 1.35vw, 1.12rem);
   color: var(--text-secondary);
   line-height: 1.65;
-  max-width: 560px;
+  max-width: 510px;
   margin-bottom: 34px;
 }
 
@@ -154,7 +155,7 @@
 }
 
 .signalStrip {
-  width: min(720px, 100%);
+  width: min(640px, 100%);
   margin-top: 38px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -209,10 +210,12 @@
 .showcase {
   position: relative;
   justify-self: end;
-  width: min(430px, 100%);
-  min-height: 590px;
+  width: min(410px, 100%);
+  min-height: 552px;
   perspective: 1200px;
   pointer-events: none;
+  transform: scale(0.96);
+  transform-origin: center right;
   will-change: transform, opacity;
 }
 
@@ -229,7 +232,7 @@
 
 .consoleFrame {
   position: relative;
-  min-height: 590px;
+  min-height: 552px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 24px;
@@ -309,8 +312,8 @@
   position: relative;
   z-index: 1;
   display: grid;
-  gap: 18px;
-  padding: 24px;
+  gap: 16px;
+  padding: 22px;
 }
 
 .consoleHeader {
@@ -325,7 +328,7 @@
   max-width: 250px;
   color: var(--text-primary);
   font-family: var(--font-display);
-  font-size: clamp(1.45rem, 2vw, 2.1rem);
+  font-size: clamp(1.35rem, 1.8vw, 1.88rem);
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: -0.03em;
@@ -354,7 +357,7 @@
 
 .consoleOrbit {
   position: relative;
-  height: 210px;
+  height: 188px;
   margin: 4px 0 2px;
   display: grid;
   place-items: center;
@@ -437,7 +440,7 @@
   font-size: 0.58rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  transform: rotate(var(--angle)) translateX(122px) rotate(var(--reverse-angle));
+  transform: rotate(var(--angle)) translateX(108px) rotate(var(--reverse-angle));
 }
 
 .systemPath span:first-child {
@@ -475,7 +478,7 @@
   grid-template-columns: 34px 1fr;
   gap: 12px;
   align-items: start;
-  padding: 14px 0;
+  padding: 12px 0;
   border-radius: 0;
   background: transparent;
   border: 0;
@@ -520,7 +523,7 @@
 }
 
 .consoleMetrics div {
-  min-height: 72px;
+  min-height: 66px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -581,6 +584,16 @@
   }
 }
 
+@media (min-width: 1500px) {
+  .container {
+    grid-template-columns: minmax(0, 640px) minmax(330px, 420px);
+  }
+
+  .headline {
+    font-size: clamp(3.55rem, 5.05vw, 6.15rem);
+  }
+}
+
 @media (max-width: 1024px) {
   .canvas {
     opacity: 0.4;
@@ -588,6 +601,7 @@
 
   .container {
     display: block;
+    padding-top: 120px;
   }
 
   .content {
@@ -636,8 +650,8 @@
   }
 
   .headline {
-    font-size: clamp(2.65rem, 13vw, 4.4rem);
-    line-height: 0.86;
+    font-size: clamp(2.85rem, 13.6vw, 4.65rem);
+    line-height: 0.88;
     margin-bottom: 18px;
     word-wrap: break-word;
     overflow-wrap: break-word;
