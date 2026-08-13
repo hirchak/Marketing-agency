@@ -3,9 +3,9 @@ import type { Language } from '../../data/translations';
 import styles from './Footer.module.css';
 
 const serviceNames: Record<Language, string[]> = {
-  uk: ['Стратегія росту', 'Сайт для конверсії', 'Система запуску росту', 'Щомісячний супровід'],
-  en: ['Growth Intelligence', 'Conversion Website', 'Growth Launch System', 'Monthly Growth Ops'],
-  cs: ['Strategie růstu', 'Konverzní web', 'Růstový launch systém', 'Měsíční support'],
+  uk: ['Маркетинг і зростання', 'Вебсайти', 'Медіа та контент', 'Цифрові продукти та AI'],
+  en: ['Marketing and Growth', 'Websites', 'Media and Content', 'Digital Products and AI'],
+  cs: ['Marketing a růst', 'Webové stránky', 'Média a obsah', 'Digitální produkty a AI'],
 };
 
 export default function Footer() {
@@ -28,6 +28,7 @@ export default function Footer() {
               <li><a href="#work">{t('nav_work')}</a></li>
               <li><a href="#capabilities">{t('nav_services')}</a></li>
               <li><a href="#method">{t('nav_method')}</a></li>
+              <li><a href="#studio">{t('nav_studio')}</a></li>
               <li><a href="#pricing">{t('nav_pricing')}</a></li>
             </ul>
           </div>

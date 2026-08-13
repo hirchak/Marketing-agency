@@ -8,6 +8,7 @@ import ProofStrip from './components/sections/ProofStrip';
 import Capabilities from './components/sections/Capabilities';
 import Method from './components/sections/Method';
 import Cases from './components/sections/Cases';
+import Studio from './components/sections/Studio';
 import Pricing from './components/sections/Pricing';
 import LeadForm from './components/sections/LeadForm';
 import AuroraVeil from './components/ambient/AuroraVeil';
@@ -31,7 +32,7 @@ function AppContent() {
       },
       (context) => {
         const { canAnimate, isMobile } = context.conditions || {};
-        const sections = gsap.utils.toArray<HTMLElement>('section:not(#lead)');
+        const sections = gsap.utils.toArray<HTMLElement>('main > section:not(#lead)');
 
         if (!canAnimate) {
           gsap.set(sections, { clearProps: 'all' });
@@ -75,6 +76,7 @@ function AppContent() {
         <Capabilities />
         <Method />
         <Cases />
+        <Studio />
         <Pricing />
         <LeadForm />
       </main>

@@ -4,11 +4,11 @@ import { gsap, useGSAP } from '../../lib/gsap';
 import styles from './Hero.module.css';
 
 const nodes = [
-  { label: 'Research', angle: 0, size: 20 },
+  { label: 'Product', angle: 0, size: 20 },
   { label: 'Website', angle: 60, size: 14 },
-  { label: 'Offer', angle: 120, size: 16 },
-  { label: 'Funnel', angle: 180, size: 12 },
-  { label: 'Creative', angle: 240, size: 14 },
+  { label: 'Platform', angle: 120, size: 16 },
+  { label: 'AI', angle: 180, size: 12 },
+  { label: 'Launch', angle: 240, size: 14 },
   { label: 'Growth', angle: 300, size: 12 },
 ];
 
@@ -346,81 +346,81 @@ export default function Hero() {
   }, []);
 
   const proofChips = lang === 'uk'
-    ? ['Маркетингова стратегія', 'Сайти', 'Воронки', 'Креативи', 'Аналітика']
+    ? ['Продуктова стратегія', 'UX/UI', 'Розробка', 'AI та автоматизація', 'Запуск і ріст']
     : lang === 'cs'
-    ? ['Marketingová strategie', 'Weby', 'Prodejní cesty', 'Kreativa', 'Analytika']
-    : ['Marketing strategy', 'Websites', 'Funnels', 'Creative', 'Analytics'];
+    ? ['Produktová strategie', 'UX/UI', 'Vývoj', 'AI a automatizace', 'Spuštění a růst']
+    : ['Product strategy', 'UX/UI', 'Software', 'AI & automation', 'Launch & growth'];
 
   const signalSteps = lang === 'uk'
     ? [
-        ['01', 'Дослідження', 'Ринок, конкуренти, портрет клієнта'],
-        ['02', 'Сайт', 'Офер, структура, frontend'],
-        ['03', 'Ріст', 'Воронка, креативи, аналітика'],
+        ['01', 'Відкрити', 'Проблема, користувачі, можливість'],
+        ['02', 'Створити', 'Стратегія, дизайн, технологія'],
+        ['03', 'Запустити', 'Тестування, аналітика, розвиток'],
       ]
     : lang === 'cs'
     ? [
-        ['01', 'Výzkum', 'Trh, konkurence, profil zákazníka'],
-        ['02', 'Web', 'Nabídka, struktura, frontend'],
-        ['03', 'Růst', 'Prodejní cesta, kreativa, analytika'],
+        ['01', 'Objevit', 'Problém, uživatelé, příležitost'],
+        ['02', 'Vytvořit', 'Strategie, design, technologie'],
+        ['03', 'Spustit', 'Testování, analytika, rozvoj'],
       ]
     : [
-        ['01', 'Research', 'Market, competitors, Client DNA'],
-        ['02', 'Website', 'Offer, structure, frontend'],
-        ['03', 'Growth', 'Funnel, creative, analytics'],
+        ['01', 'Discover', 'Problem, users, opportunity'],
+        ['02', 'Build', 'Strategy, design, technology'],
+        ['03', 'Launch', 'Testing, analytics, iteration'],
       ];
 
   const consoleCopy = lang === 'uk'
     ? {
-        eyebrow: 'SAV Система росту',
-        title: 'Система запуску онлайн',
-        status: 'Жива стратегічна петля',
-        flow: ['Research', 'Offer', 'Site', 'Growth'],
+        eyebrow: 'SAV Product Studio',
+        title: 'Від ідеї до робочого продукту',
+        status: 'Гнучка команда фахівців',
+        flow: ['Discover', 'Design', 'Build', 'Launch'],
         modules: [
-          ['01', 'Портрет клієнта', 'Сегменти, болі, кути оферу'],
-          ['02', 'Сайт для заявок', 'Структура, тексти, frontend'],
-          ['03', 'Петля росту', 'Креативи, воронка, аналітика'],
+          ['01', 'Напрям продукту', 'Проблема, користувачі, пріоритети'],
+          ['02', 'Створення продукту', 'UX, розробка, AI та автоматизація'],
+          ['03', 'Запуск і ріст', 'Тестування, аналітика, ітерації'],
         ],
         metrics: [
-          ['5-7 днів', 'дослідження'],
-          ['10-14 днів', 'сайт'],
-          ['4-6 тижнів', 'запуск'],
+          ['Стратегія', 'напрям'],
+          ['Продукт', 'робоча версія'],
+          ['Розвиток', 'постійно'],
         ],
-        liveLabel: 'Активно',
+        liveLabel: 'AI-native',
       }
     : lang === 'cs'
     ? {
-        eyebrow: 'SAV Systém růstu',
-        title: 'Systém spuštění online',
-        status: 'Živá strategická smyčka',
-        flow: ['Research', 'Offer', 'Web', 'Growth'],
+        eyebrow: 'SAV Product Studio',
+        title: 'Od nápadu k funkčnímu produktu',
+        status: 'Flexibilní tým specialistů',
+        flow: ['Discover', 'Design', 'Build', 'Launch'],
         modules: [
-          ['01', 'Profil zákazníka', 'Segmenty, potřeby, úhly nabídky'],
-          ['02', 'Konverzní web', 'Struktura, texty, frontend'],
-          ['03', 'Růstová smyčka', 'Kreativa, cesta, analytika'],
+          ['01', 'Směr produktu', 'Problém, uživatelé, priority'],
+          ['02', 'Tvorba produktu', 'UX, vývoj, AI a automatizace'],
+          ['03', 'Spuštění a růst', 'Testování, analytika, iterace'],
         ],
         metrics: [
-          ['5-7 dní', 'výzkum'],
-          ['10-14 dní', 'web'],
-          ['4-6 týdnů', 'spuštění'],
+          ['Strategie', 'směr'],
+          ['Produkt', 'funkční verze'],
+          ['Rozvoj', 'průběžně'],
         ],
-        liveLabel: 'Živě',
+        liveLabel: 'AI-native',
       }
     : {
-        eyebrow: 'SAV Growth OS',
-        title: 'Launch system online',
-        status: 'Live strategy loop',
-        flow: ['Research', 'Offer', 'Site', 'Growth'],
+        eyebrow: 'SAV Product Studio',
+        title: 'From idea to working product',
+        status: 'Flexible specialist team',
+        flow: ['Discover', 'Design', 'Build', 'Launch'],
         modules: [
-          ['01', 'Client DNA', 'Segments, pains, offer angles'],
-          ['02', 'Conversion Site', 'Structure, copy, frontend'],
-          ['03', 'Growth Loop', 'Creative, funnel, analytics'],
+          ['01', 'Product direction', 'Problem, users, priorities'],
+          ['02', 'Product build', 'UX, software, AI and automation'],
+          ['03', 'Launch and growth', 'Testing, analytics, iteration'],
         ],
         metrics: [
-          ['5-7 days', 'research'],
-          ['10-14 days', 'website'],
-          ['4-6 weeks', 'launch'],
+          ['Strategy', 'direction'],
+          ['Product', 'working build'],
+          ['Growth', 'continuous'],
         ],
-        liveLabel: 'Live',
+        liveLabel: 'AI-native',
       };
 
   return (
@@ -430,7 +430,7 @@ export default function Hero() {
 
       <div className={styles.container}>
         <div className={styles.content}>
-          <span className={styles.eyebrow} data-hero-reveal>SAV.AGENCY / GROWTH SYSTEMS</span>
+          <span className={styles.eyebrow} data-hero-reveal>DIGITAL PRODUCTS / TECHNOLOGY / GROWTH</span>
           <h1 className={styles.headline} data-hero-headline>{t('hero_headline')}</h1>
           <p className={styles.subtitle} data-hero-reveal>{t('hero_subtitle')}</p>
 
@@ -444,7 +444,7 @@ export default function Hero() {
             </a>
             <a
               ref={cta2Ref}
-              href="#work"
+              href="#capabilities"
               className={styles.ctaSecondary}
             >
               {t('hero_cta_secondary')}

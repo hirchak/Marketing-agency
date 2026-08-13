@@ -11,11 +11,12 @@ interface Step {
 }
 
 const steps: Step[] = [
-  { key: 'step_extract', descKey: 'step_extract_desc' },
-  { key: 'step_architect', descKey: 'step_architect_desc' },
-  { key: 'step_build', descKey: 'step_build_desc' },
-  { key: 'step_launch', descKey: 'step_launch_desc' },
-  { key: 'step_scale', descKey: 'step_scale_desc' },
+  { key: 'step_understand', descKey: 'step_understand_desc' },
+  { key: 'step_prioritize', descKey: 'step_prioritize_desc' },
+  { key: 'step_plan', descKey: 'step_plan_desc' },
+  { key: 'step_produce', descKey: 'step_produce_desc' },
+  { key: 'step_verify', descKey: 'step_verify_desc' },
+  { key: 'step_improve', descKey: 'step_improve_desc' },
 ];
 
 export default function Method() {

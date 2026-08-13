@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
 import { translations, type Language, type TranslationKey } from '../data/translations';
 
 interface I18nContextType {
@@ -21,10 +21,13 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     return 'uk';
   });
 
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
+
   const handleSetLang = useCallback((newLang: Language) => {
     setLang(newLang);
     localStorage.setItem('lang', newLang);
-    document.documentElement.lang = newLang;
   }, []);
 
   const t = useCallback((key: TranslationKey): string => {

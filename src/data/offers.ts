@@ -1,191 +1,642 @@
-export type OfferType = 'core' | 'addon';
 export type OfferLocale = 'uk' | 'en' | 'cs';
+export type OfferCategoryId =
+  | 'marketing-growth'
+  | 'websites'
+  | 'media-content'
+  | 'digital-products-ai';
 
-type LocalizedText = Record<OfferLocale, string>;
-type LocalizedList = Record<OfferLocale, string[]>;
+export type LocalizedText = Record<OfferLocale, string>;
+export type LocalizedList = Record<OfferLocale, string[]>;
+
+export interface OfferScopeSection {
+  label: LocalizedText;
+  items: LocalizedList;
+}
 
 export interface PricingOffer {
   id: string;
-  type: OfferType;
+  category: OfferCategoryId;
   title: LocalizedText;
   description: LocalizedText;
-  priceFrom: LocalizedText;
-  duration: LocalizedText;
-  bestFor: LocalizedText;
-  outcome: LocalizedText;
-  deliverables: LocalizedList;
-  cta: LocalizedText;
-  featured?: boolean;
+  price: LocalizedText;
+  timeline: LocalizedText;
+  suitableFor?: LocalizedList;
+  scopes: OfferScopeSection[];
+  outcome: LocalizedList;
+  notes?: LocalizedList;
 }
 
-export const offers: PricingOffer[] = [
-  {
-    id: 'growth-intelligence-sprint',
-    type: 'core',
-    title: {
-      uk: 'Стратегічний спринт росту',
-      en: 'Growth Intelligence Sprint',
-      cs: 'Strategický růstový sprint',
-    },
-    description: {
-      uk: 'Дослідження ринку, портрет клієнта та архітектура оферу до того, як ви витратите бюджет на дизайн, трафік чи розробку.',
-      en: 'Market research, Client DNA and offer architecture before you spend on design, traffic or development.',
-      cs: 'Průzkum trhu, profil zákazníka a architektura nabídky ještě před investicí do designu, návštěvnosti nebo vývoje.',
-    },
-    priceFrom: { uk: '€900', en: '€900', cs: '22 000 Kč' },
-    duration: { uk: '5-7 днів', en: '5-7 days', cs: '5-7 dní' },
-    bestFor: {
-      uk: 'Для фаундерів і сервісних бізнесів, яким потрібна ясність перед запуском або масштабуванням.',
-      en: 'Founders and service businesses that need clarity before launch or scaling.',
-      cs: 'Pro zakladatele a servisní firmy, které potřebují jasno před spuštěním nebo škálováním.',
-    },
-    outcome: {
-      uk: 'Практична карта росту: ринок, ICP, офер, кути комунікації та пріоритети воронки.',
-      en: 'A practical growth map: market signal, ICP, offer angles and funnel priorities.',
-      cs: 'Praktická mapa růstu: trh, ICP, nabídka, komunikační úhly a priority prodejní cesty.',
-    },
-    deliverables: {
-      uk: ['Аналіз ринку і конкурентів', 'Портрет клієнта та ICP', 'Позиціонування й кути оферу', 'Зріз базової економіки', 'Дорожня карта воронки й дій'],
-      en: ['Market and competitor scan', 'Client DNA and ICP profile', 'Offer angles and positioning', 'Unit economics snapshot', 'Funnel/action roadmap'],
-      cs: ['Analýza trhu a konkurence', 'Profil zákazníka a ICP', 'Pozicování a úhly nabídky', 'Základní ekonomika projektu', 'Plán prodejní cesty a kroků'],
-    },
-    cta: { uk: 'Спланувати спринт', en: 'Plan the sprint', cs: 'Naplánovat sprint' },
+export interface OfferCategory {
+  id: OfferCategoryId;
+  title: LocalizedText;
+  description: LocalizedText;
+  examplesLabel?: LocalizedText;
+  examples?: LocalizedList;
+  offers: PricingOffer[];
+}
+
+export interface PricingSectionCopy {
+  kicker: string;
+  title: string;
+  subtitle: string;
+  priceLabel: string;
+  timelineLabel: string;
+  suitableForLabel: string;
+  outcomeLabel: string;
+  notesLabel: string;
+  scopeSummary: string;
+  categoryLabel: string;
+  fitCheck: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    clarifiesLabel: string;
+    clarifies: string[];
+    preparation: string;
+    startingOptionsLabel: string;
+    startingOptions: string[];
+    cta: string;
+  };
+  conditions: {
+    eyebrow: string;
+    title: string;
+    items: string[];
+  };
+}
+
+const samePrice = (value: string): LocalizedText => ({ uk: value, en: value, cs: value });
+
+const marketingGrowth: OfferCategory = {
+  id: 'marketing-growth',
+  title: {
+    uk: 'Маркетинг і зростання',
+    en: 'Marketing and Growth',
+    cs: 'Marketing a růst',
   },
-  {
-    id: 'conversion-website-sprint',
-    type: 'core',
-    title: {
-      uk: 'Спринт конверсійного сайту',
-      en: 'Conversion Website Sprint',
-      cs: 'Sprint konverzního webu',
-    },
-    description: {
-      uk: 'Маркетинговий сайт або лендінг, побудований навколо дослідження, сильного повідомлення і збору заявок.',
-      en: 'A marketing website or landing page built around research, message clarity and lead capture.',
-      cs: 'Marketingový web nebo landing page postavená na výzkumu, jasném sdělení a sběru poptávek.',
-    },
-    priceFrom: { uk: '€1,800', en: '€1,800', cs: '45 000 Kč' },
-    duration: { uk: '10-14 днів', en: '10-14 days', cs: '10-14 dní' },
-    bestFor: {
-      uk: 'Для малого бізнесу, агенцій і стартапів у Європі, яким потрібна сильніша онлайн-присутність.',
-      en: 'European small businesses, agencies and startups that need a sharper online presence.',
-      cs: 'Pro malé firmy, agentury a startupy v Evropě, které potřebují silnější online prezentaci.',
-    },
-    outcome: {
-      uk: 'Живий сайт з чітким позиціонуванням, адаптивним UI, формою заявки і деплоєм.',
-      en: 'A live conversion-focused website with clear positioning, responsive UI and deployment.',
-      cs: 'Živý web zaměřený na konverzi, s jasným pozicováním, responzivním UI a nasazením.',
-    },
-    deliverables: {
-      uk: ['Структура і конверсійний копірайтинг', 'Візуальний напрям і адаптивний дизайн', 'React/Vite frontend', 'Форма збору заявок', 'SEO-база і деплой на Vercel'],
-      en: ['Structure and conversion copy', 'Visual direction and responsive design', 'React/Vite frontend build', 'Lead capture form', 'SEO basics and Vercel deploy'],
-      cs: ['Struktura a konverzní texty', 'Vizuální směr a responzivní design', 'React/Vite frontend', 'Formulář pro poptávky', 'SEO základ a nasazení na Vercel'],
-    },
-    cta: { uk: 'Побудувати сайт', en: 'Build the website', cs: 'Postavit web' },
-    featured: true,
+  description: {
+    uk: 'Ми досліджуємо ринок і покупця, визначаємо головний пріоритет зростання та готуємо практичні матеріали для реалізації.',
+    en: 'We research the market and buyer, identify the main growth priority and prepare practical materials for implementation.',
+    cs: 'Zkoumáme trh a zákazníka, určujeme hlavní prioritu růstu a připravujeme praktické podklady pro realizaci.',
   },
-  {
-    id: 'growth-launch-system',
-    type: 'core',
-    title: { uk: 'Система запуску та росту', en: 'Growth Launch System', cs: 'Systém spuštění a růstu' },
-    description: {
-      uk: 'Повний go-to-market пакет, який з’єднує дослідження, сайт, воронку, креативи й аналітику.',
-      en: 'A complete go-to-market package that connects research, website, funnel, creative and analytics.',
-      cs: 'Kompletní go-to-market balíček propojující výzkum, web, prodejní cestu, kreativu a analytiku.',
+  offers: [
+    {
+      id: 'growth-audit',
+      category: 'marketing-growth',
+      title: { uk: 'Аудит зростання', en: 'Growth Audit', cs: 'Audit růstu' },
+      description: {
+        uk: 'Сфокусована діагностика ринку, пропозиції, шляху клієнта та місць, де бізнес втрачає потенційних замовників.',
+        en: 'A focused diagnosis of the market, offer, customer inquiry path and the points where potential clients are lost.',
+        cs: 'Cílená diagnostika trhu, nabídky, poptávkové cesty a míst, kde firma ztrácí potenciální klienty.',
+      },
+      price: samePrice('EUR 600–900'),
+      timeline: {
+        uk: '5–7 робочих днів',
+        en: '5–7 working days',
+        cs: '5–7 pracovních dnů',
+      },
+      scopes: [
+        {
+          label: { uk: 'Діагностика охоплює', en: 'Diagnosis covers', cs: 'Diagnostika zahrnuje' },
+          items: {
+            uk: [
+              'Ринок і цільового покупця',
+              'Поточне позиціонування та пропозицію',
+              'Шлях клієнта до звернення',
+              'Процес подальшої комунікації',
+              'Вузькі місця воронки',
+              'Точки втрати потенційних клієнтів',
+            ],
+            en: [
+              'The market and target buyer',
+              'Current positioning and offer',
+              'Customer inquiry path',
+              'Follow-up process',
+              'Funnel bottlenecks',
+              'Points where potential clients are lost',
+            ],
+            cs: [
+              'Trh a cílového zákazníka',
+              'Současný positioning a nabídku',
+              'Cestu zákazníka k poptávce',
+              'Proces následné komunikace',
+              'Úzká místa ve funnelu',
+              'Místa, kde se ztrácejí potenciální klienti',
+            ],
+          },
+        },
+      ],
+      outcome: {
+        uk: ['Карта вузьких місць', 'Одна пріоритетна гіпотеза зростання', 'Рекомендовані дії', '30-денний план реалізації'],
+        en: ['Bottleneck map', 'One priority growth hypothesis', 'Recommended actions', '30-day implementation plan'],
+        cs: ['Mapa úzkých míst', 'Jedna prioritní hypotéza růstu', 'Doporučené kroky', '30denní realizační plán'],
+      },
+      notes: {
+        uk: ['Якщо протягом 30 днів починається більша співпраця, вартість аудиту зростання зараховується до її бюджету.'],
+        en: ['If a larger engagement begins within 30 days, the Growth Audit fee is credited toward that work.'],
+        cs: ['Pokud do 30 dnů začne větší spolupráce, cena auditu růstu se započítá do této práce.'],
+      },
     },
-    priceFrom: { uk: '€4,500', en: '€4,500', cs: '110 000 Kč' },
-    duration: { uk: '4-6 тижнів', en: '4-6 weeks', cs: '4-6 týdnů' },
-    bestFor: {
-      uk: 'Для команд, які запускають новий офер, продукт або ринок і хочуть одну цілісну систему росту.',
-      en: 'Teams launching a new offer, product or market with one coherent growth system.',
-      cs: 'Pro týmy, které spouštějí novou nabídku, produkt nebo trh a chtějí jeden ucelený růstový systém.',
+    {
+      id: 'strategy-sprint',
+      category: 'marketing-growth',
+      title: { uk: 'Стратегічний спринт', en: 'Strategy Sprint', cs: 'Strategický sprint' },
+      description: {
+        uk: 'Поглиблена стратегічна робота над ринком, аудиторією, позиціонуванням, пропозицією, повідомленнями та архітектурою воронки.',
+        en: 'A deeper strategic engagement covering the market, audience, positioning, offer, messaging and funnel architecture.',
+        cs: 'Hlubší strategická spolupráce zaměřená na trh, publikum, positioning, nabídku, sdělení a architekturu funnelu.',
+      },
+      price: samePrice('EUR 1,500–3,500'),
+      timeline: { uk: '2–3 тижні', en: '2–3 weeks', cs: '2–3 týdny' },
+      scopes: [
+        {
+          label: { uk: 'Робота охоплює', en: 'Engagement covers', cs: 'Spolupráce zahrnuje' },
+          items: {
+            uk: ['Сегмент ринку', 'Цільову аудиторію', 'Позиціонування', 'Структуру пропозиції', 'Шлях клієнта', 'Архітектуру повідомлень', 'Архітектуру воронки', 'Пріоритети запуску'],
+            en: ['Market segment', 'Target audience', 'Positioning', 'Offer structure', 'Customer journey', 'Message architecture', 'Funnel architecture', 'Launch priorities'],
+            cs: ['Segment trhu', 'Cílové publikum', 'Positioning', 'Strukturu nabídky', 'Cestu zákazníka', 'Architekturu sdělení', 'Architekturu funnelu', 'Priority spuštění'],
+          },
+        },
+      ],
+      outcome: {
+        uk: ['Дослідження та стратегічні висновки', 'Визначене позиціонування', 'Структурована пропозиція', 'Архітектура повідомлень', 'Структура воронки', 'Пріоритетний план запуску', 'Готова до реалізації система для маркетингу, контенту, продажів або створення сайту'],
+        en: ['Research and strategic findings', 'Defined positioning', 'Structured offer', 'Message architecture', 'Funnel structure', 'Prioritized launch plan', 'Implementation-ready system for marketing, content, sales or website production'],
+        cs: ['Výzkum a strategická zjištění', 'Definovaný positioning', 'Strukturovaná nabídka', 'Architektura sdělení', 'Struktura funnelu', 'Prioritizovaný plán spuštění', 'Systém připravený k realizaci marketingu, obsahu, prodeje nebo webu'],
+      },
     },
-    outcome: {
-      uk: 'Система, готова до запуску: стратегія, посадкова сторінка, логіка воронки, чеклист трекінгу і пакет креативів.',
-      en: 'A launch-ready system: strategy, landing experience, funnel logic, tracking checklist and creative pack.',
-      cs: 'Systém připravený ke spuštění: strategie, landing experience, logika prodejní cesty, checklist měření a balíček kreativy.',
+    {
+      id: 'optimization-partner',
+      category: 'marketing-growth',
+      title: { uk: 'Партнер з оптимізації', en: 'Optimization Partner', cs: 'Partner pro optimalizaci' },
+      description: {
+        uk: 'Постійна робота над одним узгодженим бізнес-пріоритетом у межах кожного місячного циклу.',
+        en: 'Ongoing work focused on one agreed business priority during each monthly cycle.',
+        cs: 'Průběžná práce zaměřená na jednu dohodnutou obchodní prioritu v každém měsíčním cyklu.',
+      },
+      price: {
+        uk: 'EUR 1,500–4,500 на місяць',
+        en: 'EUR 1,500–4,500 per month',
+        cs: 'EUR 1,500–4,500 měsíčně',
+      },
+      timeline: { uk: 'Щомісячна співпраця', en: 'Monthly engagement', cs: 'Měsíční spolupráce' },
+      scopes: [
+        {
+          label: { uk: 'Можливі напрями роботи', en: 'Possible areas of work', cs: 'Možné oblasti práce' },
+          items: {
+            uk: ['Залучення клієнтів', 'Оптимізація воронки', 'Покращення конверсії', 'Покращення сайту', 'Аналітика', 'CRM і подальша комунікація', 'Контент-системи', 'Операційні покращення', 'Підтримка реалізації'],
+            en: ['Customer acquisition', 'Funnel optimization', 'Conversion improvement', 'Website improvements', 'Analytics', 'CRM and follow-up', 'Content systems', 'Operational improvements', 'Implementation support'],
+            cs: ['Získávání zákazníků', 'Optimalizace funnelu', 'Zlepšování konverze', 'Úpravy webu', 'Analytika', 'CRM a následná komunikace', 'Obsahové systémy', 'Provozní zlepšení', 'Podpora realizace'],
+          },
+        },
+      ],
+      outcome: {
+        uk: ['Безперервна реалізація та вдосконалення', 'Аналітика й оцінка результативності', 'Практична виробнича робота', 'Стратегічний огляд на рівні засновника', 'Наступні рішення на основі реальних сигналів клієнтів і бізнесу'],
+        en: ['Continuous implementation and improvement', 'Analytics and performance review', 'Practical production work', 'Founder-level strategic review', 'Next decisions based on real customer and business signals'],
+        cs: ['Průběžná realizace a zlepšování', 'Analytika a vyhodnocení výkonu', 'Praktická produkční práce', 'Strategické zhodnocení na úrovni zakladatele', 'Další rozhodnutí podle skutečných signálů zákazníků a firmy'],
+      },
+      notes: {
+        uk: ['Пріоритет і критерії оцінювання узгоджуються на початку кожного циклу.'],
+        en: ['The priority and measurement criteria are agreed at the beginning of each cycle.'],
+        cs: ['Priorita a kritéria měření se dohodnou na začátku každého cyklu.'],
+      },
     },
-    deliverables: {
-      uk: ['Стратегічний спринт росту включено', 'Сайт або лендінг', 'Архітектура воронки', 'Чеклист аналітики й трекінгу', 'Пакет креативів для запуску', '30 днів підтримки запуску'],
-      en: ['Growth Intelligence Sprint included', 'Website or landing page', 'Funnel architecture', 'Analytics and tracking checklist', 'Creative launch pack', '30-day launch support'],
-      cs: ['Strategický růstový sprint v ceně', 'Web nebo landing page', 'Architektura prodejní cesty', 'Checklist analytiky a měření', 'Balíček kreativy pro spuštění', '30 dní podpory po spuštění'],
+  ],
+};
+
+const websites: OfferCategory = {
+  id: 'websites',
+  title: { uk: 'Вебсайти', en: 'Websites', cs: 'Webové stránky' },
+  description: {
+    uk: 'Сайти проєктуються навколо однієї чіткої дії клієнта. До початку дизайну ми вивчаємо покупця, пропозицію, ринковий контекст, вимоги до довіри та шлях до конверсії.',
+    en: 'Websites are designed around one clear customer action. Before designing the page, we examine the buyer, offer, market context, trust requirements and conversion path.',
+    cs: 'Weby navrhujeme kolem jedné jasné akce zákazníka. Před návrhem stránky zkoumáme zákazníka, nabídku, kontext trhu, požadavky na důvěryhodnost a konverzní cestu.',
+  },
+  offers: [
+    {
+      id: 'starter-website',
+      category: 'websites',
+      title: { uk: 'Стартовий сайт', en: 'Starter Website', cs: 'Startovací web' },
+      description: {
+        uk: 'Лендінг або компактний сайт із базовим аналізом, чітким повідомленням і прямим шляхом до контакту.',
+        en: 'A landing page or compact website with foundational analysis, clear messaging and a direct path to contact.',
+        cs: 'Landing page nebo kompaktní web se základní analýzou, jasným sdělením a přímou cestou ke kontaktu.',
+      },
+      price: samePrice('EUR 350–900'),
+      timeline: { uk: '5–12 робочих днів', en: '5–12 working days', cs: '5–12 pracovních dnů' },
+      suitableFor: {
+        uk: ['Експертів', 'Малий бізнес', 'Події', 'Нові послуги', 'Запуски нових продуктів', 'Прості сторінки для перевірки ідеї'],
+        en: ['Experts', 'Small businesses', 'Events', 'New services', 'New product launches', 'Simple validation pages'],
+        cs: ['Odborníky', 'Malé firmy', 'Události', 'Nové služby', 'Spuštění nových produktů', 'Jednoduché validační stránky'],
+      },
+      scopes: [
+        {
+          label: { uk: 'Робота включає', en: 'Work includes', cs: 'Práce zahrnuje' },
+          items: {
+            uk: ['Лендінг або компактний сайт', 'Базовий аналіз пропозиції та аудиторії', 'Структуру сайту', 'Основні тексти сайту', 'Адаптивний дизайн', 'Розробку', 'Базове SEO-налаштування', 'Підключення аналітики', 'Чіткий шлях до контакту або звернення', 'Запуск і передачу проєкту'],
+            en: ['Landing page or compact website', 'Basic offer and audience analysis', 'Website structure', 'Core website copy', 'Responsive design', 'Development', 'Basic SEO setup', 'Analytics connection', 'Clear contact or inquiry path', 'Launch and handoff'],
+            cs: ['Landing page nebo kompaktní web', 'Základní analýzu nabídky a publika', 'Strukturu webu', 'Hlavní texty webu', 'Responzivní design', 'Vývoj', 'Základní SEO nastavení', 'Napojení analytiky', 'Jasnou cestu ke kontaktu nebo poptávce', 'Spuštění a předání'],
+          },
+        },
+      ],
+      outcome: {
+        uk: ['Адаптивний живий сайт із чітким повідомленням і прямим шляхом від уваги відвідувача до контакту.'],
+        en: ['A responsive live website with clear messaging and a direct path from visitor attention to contact.'],
+        cs: ['Responzivní živý web s jasným sdělením a přímou cestou od pozornosti návštěvníka ke kontaktu.'],
+      },
+      notes: {
+        uk: ['Маркетинговий аналіз використовується всередині виробничого процесу. Окремий пакет стратегії або дослідження не входить у вартість.'],
+        en: ['Marketing analysis is used internally during production. A separate strategy or research package is not included.'],
+        cs: ['Marketingová analýza se používá interně během realizace. Samostatný strategický nebo výzkumný balíček není součástí.'],
+      },
     },
-    cta: { uk: 'Запустити систему', en: 'Launch the system', cs: 'Spustit systém' },
-  },
-  {
-    id: 'client-dna-deep-dive',
-    type: 'addon',
-    title: { uk: 'Глибокий портрет клієнта', en: 'Client DNA Deep Dive', cs: 'Hloubkový profil zákazníka' },
-    description: {
-      uk: 'Глибока психологія аудиторії: болі, тригери, бар’єри, заперечення і моменти покупки.',
-      en: 'Deep audience psychology, pains, triggers, objections and buying moments.',
-      cs: 'Hloubková psychologie zákazníka: potřeby, spouštěče, námitky a momenty nákupu.',
+    {
+      id: 'conversion-website',
+      category: 'websites',
+      title: { uk: 'Конверсійний сайт', en: 'Conversion Website', cs: 'Konverzní web' },
+      description: {
+        uk: 'Повноцінний сайт зі сильнішим позиціонуванням, розвиненою пропозицією та продуманим шляхом від першого екрана до звернення.',
+        en: 'A complete website with stronger positioning, a more developed offer and a deliberate journey from the first screen to an inquiry.',
+        cs: 'Kompletní web se silnějším positioningem, rozvinutější nabídkou a promyšlenou cestou od první obrazovky k poptávce.',
+      },
+      price: samePrice('EUR 1,800–4,500'),
+      timeline: { uk: '2–4 тижні', en: '2–4 weeks', cs: '2–4 týdny' },
+      suitableFor: {
+        uk: ['Бізнеси, яким потрібні сильніше позиціонування, розвиненіша пропозиція та продуманий шлях до звернення'],
+        en: ['Businesses that require stronger positioning, a more developed offer and a deliberate journey from the first screen to an inquiry'],
+        cs: ['Firmy, které potřebují silnější positioning, propracovanější nabídku a promyšlenou cestu od první obrazovky k poptávce'],
+      },
+      scopes: [
+        {
+          label: { uk: 'Робота включає', en: 'Work includes', cs: 'Práce zahrnuje' },
+          items: {
+            uk: ['Дослідження ринку та аудиторії', 'Уточнення позиціонування', 'Архітектуру пропозиції', 'Архітектуру повідомлень', 'Шлях клієнта', 'Інформаційну архітектуру сайту', 'Вайрфрейми', 'Тексти сайту', 'Візуальний дизайн', 'Адаптивну розробку', 'Шлях CTA та форми', 'План відстеження', 'Перевірку конверсії та мобільної версії', 'Запуск і передачу проєкту'],
+            en: ['Market and audience research', 'Positioning clarification', 'Offer architecture', 'Message architecture', 'Customer journey', 'Website information architecture', 'Wireframes', 'Website copy', 'Visual design', 'Responsive development', 'CTA and form journey', 'Tracking plan', 'Conversion and mobile review', 'Launch and handoff'],
+            cs: ['Výzkum trhu a publika', 'Upřesnění positioningu', 'Architekturu nabídky', 'Architekturu sdělení', 'Cestu zákazníka', 'Informační architekturu webu', 'Wireframy', 'Texty webu', 'Vizuální design', 'Responzivní vývoj', 'Cestu CTA a formuláře', 'Plán měření', 'Kontrolu konverzí a mobilní verze', 'Spuštění a předání'],
+          },
+        },
+      ],
+      outcome: {
+        uk: ['Повноцінний живий сайт із компактною маркетинговою основою, яку також можна використовувати для реклами, контенту, продажів і майбутніх воронок.'],
+        en: ['A complete live website supported by a compact marketing foundation that can also guide advertising, content, sales and future funnels.'],
+        cs: ['Kompletní živý web podpořený kompaktním marketingovým základem, který může řídit také reklamu, obsah, prodej a budoucí funnely.'],
+      },
     },
-    priceFrom: { uk: '€700', en: '€700', cs: '17 000 Kč' },
-    duration: { uk: '3-5 днів', en: '3-5 days', cs: '3-5 dní' },
-    bestFor: { uk: 'Для точнішого повідомлення і кращого fit між офером та ринком.', en: 'Teams that need sharper messaging and offer-market fit.', cs: 'Pro týmy, které potřebují přesnější sdělení a lepší fit mezi nabídkou a trhem.' },
-    outcome: { uk: 'Профіль аудиторії для текстів, реклами, лендінгів і sales-скриптів.', en: 'A detailed audience profile that feeds copy, ads, landing pages and sales scripts.', cs: 'Detailní profil zákazníka pro texty, reklamy, landing pages a prodejní skripty.' },
-    deliverables: { uk: ['Ідентичність аудиторії', 'Тригери болю', 'Бар’єри й міфи', 'Механіка покупки'], en: ['Audience identity', 'Pain triggers', 'Barriers and myths', 'Buying mechanics'], cs: ['Identita zákazníka', 'Spouštěče bolesti', 'Bariéry a mýty', 'Mechanika nákupu'] },
-    cta: { uk: 'Додати портрет клієнта', en: 'Add Client DNA', cs: 'Přidat profil zákazníka' },
+  ],
+};
+
+const mediaContent: OfferCategory = {
+  id: 'media-content',
+  title: { uk: 'Медіа та контент', en: 'Media and Content', cs: 'Média a obsah' },
+  description: {
+    uk: 'Ми будуємо цілісну систему від контент-стратегії та ідей до виробництва, публікації, вимірювання й наступної дії клієнта. Мета — не окремі пости, а послідовна система охоплення, довіри, попиту та конверсії.',
+    en: 'We build a complete system from content strategy and ideas to production, publication, measurement and the next customer action. The objective is not disconnected posts, but a consistent system that develops reach, trust, demand and conversion.',
+    cs: 'Budujeme ucelený systém od obsahové strategie a nápadů přes produkci, publikaci a měření až po další krok zákazníka. Cílem nejsou izolované příspěvky, ale konzistentní systém pro dosah, důvěru, poptávku a konverzi.',
   },
-  {
-    id: 'funnel-cro-audit',
-    type: 'addon',
-    title: { uk: 'Аудит воронки і CRO', en: 'Funnel / CRO Audit', cs: 'Audit prodejní cesty a CRO' },
-    description: { uk: 'Знаходимо, де губляться заявки, демо або продажі, і що виправити першим.', en: 'Find where leads, checkouts or demos are leaking and what to fix first.', cs: 'Najdeme, kde unikají poptávky, demo nebo prodeje, a co opravit jako první.' },
-    priceFrom: { uk: '€900', en: '€900', cs: '22 000 Kč' },
-    duration: { uk: '5-7 днів', en: '5-7 days', cs: '5-7 dní' },
-    bestFor: { uk: 'Для бізнесів із трафіком, але слабкою конверсією.', en: 'Businesses with traffic but weak conversion.', cs: 'Pro firmy s návštěvností, ale slabší konverzí.' },
-    outcome: { uk: 'Пріоритетні правки для CTA, структури, оферу, checkout і follow-up.', en: 'Prioritized fixes across CTA, page structure, offer, checkout and follow-up.', cs: 'Prioritní úpravy CTA, struktury stránky, nabídky, checkoutu a follow-upu.' },
-    deliverables: { uk: ['Розбір воронки', 'CRO-чеклист', 'Пріоритетний список дій', 'Рекомендації для швидких перемог'], en: ['Funnel teardown', 'CRO checklist', 'Priority action list', 'Quick-win recommendations'], cs: ['Rozbor prodejní cesty', 'CRO checklist', 'Prioritní seznam kroků', 'Doporučení pro rychlé zlepšení'] },
-    cta: { uk: 'Аудит воронки', en: 'Audit the funnel', cs: 'Audit prodejní cesty' },
+  offers: [
+    {
+      id: 'content-channel-system',
+      category: 'media-content',
+      title: { uk: 'Система контенту та каналів', en: 'Content and Channel System', cs: 'Systém obsahu a kanálů' },
+      description: {
+        uk: 'Стратегічна та операційна основа для послідовного планування, виробництва, публікації й оцінювання контенту.',
+        en: 'A strategic and operational foundation for planning, producing, publishing and evaluating content consistently.',
+        cs: 'Strategický a provozní základ pro konzistentní plánování, tvorbu, publikaci a vyhodnocování obsahu.',
+      },
+      price: {
+        uk: 'Визначається після Fit Check',
+        en: 'Defined after Fit Check',
+        cs: 'Stanoví se po Fit Checku',
+      },
+      timeline: { uk: '2–3 тижні', en: '2–3 weeks', cs: '2–3 týdny' },
+      suitableFor: {
+        uk: ['Бізнеси, експерти, персональні бренди та продукти, які вже мають експертизу, але не мають структурованої контент-системи'],
+        en: ['Businesses, experts, personal brands and products that already have expertise but lack a structured content system'],
+        cs: ['Firmy, odborníky, osobní značky a produkty, které již mají expertizu, ale chybí jim strukturovaný obsahový systém'],
+      },
+      scopes: [
+        {
+          label: { uk: 'Робота включає', en: 'Work includes', cs: 'Práce zahrnuje' },
+          items: {
+            uk: ['Визначення аудиторії', 'Бізнес-цілі та комунікаційні цілі', 'Пріоритети платформ', 'Ролі охоплення, довіри та конверсії', 'Контентні напрями', 'Повторювані формати та серії', 'Систему тем та ідей', 'Структуру CTA', 'Контентний процес', 'Відповідальність за виробництво', 'Календар публікацій', 'Систему вимірювання'],
+            en: ['Audience definition', 'Business and communication goals', 'Platform priorities', 'Reach, trust and conversion roles', 'Content pillars', 'Recurring formats and series', 'Topic and idea system', 'CTA structure', 'Content workflow', 'Production responsibilities', 'Publishing calendar', 'Measurement framework'],
+            cs: ['Definici publika', 'Obchodní a komunikační cíle', 'Priority platforem', 'Role dosahu, důvěry a konverze', 'Obsahové pilíře', 'Opakující se formáty a série', 'Systém témat a nápadů', 'Strukturu CTA', 'Obsahový workflow', 'Odpovědnosti za produkci', 'Publikační kalendář', 'Rámec měření'],
+          },
+        },
+        {
+          label: { uk: 'Можливі платформи', en: 'Possible platforms', cs: 'Možné platformy' },
+          items: {
+            uk: ['YouTube', 'Instagram', 'TikTok', 'Кросплатформні контент-системи'],
+            en: ['YouTube', 'Instagram', 'TikTok', 'Cross-platform content systems'],
+            cs: ['YouTube', 'Instagram', 'TikTok', 'Multiplatformní obsahové systémy'],
+          },
+        },
+      ],
+      outcome: {
+        uk: ['Стратегічна та операційна контент-основа, за допомогою якої команда може послідовно планувати, виробляти, публікувати та оцінювати контент.'],
+        en: ['A strategic and operational content foundation that the team can use to plan, produce, publish and evaluate content consistently.'],
+        cs: ['Strategický a provozní obsahový základ, se kterým může tým konzistentně plánovat, tvořit, publikovat a vyhodnocovat obsah.'],
+      },
+      notes: {
+        uk: ['Зйомка та повне виробництво контент-серії оцінюються окремо.'],
+        en: ['Filming and full production of a content series are scoped separately.'],
+        cs: ['Natáčení a kompletní produkce obsahové série se naceňují samostatně.'],
+      },
+    },
+    {
+      id: 'video-production-sprint',
+      category: 'media-content',
+      title: { uk: 'Спринт відеовиробництва', en: 'Video Production Sprint', cs: 'Sprint videoprodukce' },
+      description: {
+        uk: 'Визначений виробничий цикл для відеосерії, епізоду, кампанії, запуску продукту чи послуги або конкретної контентної ініціативи.',
+        en: 'A defined production cycle for a video series, episode, campaign, product or service launch, or a specific content initiative.',
+        cs: 'Definovaný produkční cyklus pro videosérii, epizodu, kampaň, spuštění produktu či služby nebo konkrétní obsahovou iniciativu.',
+      },
+      price: {
+        uk: 'Визначається після Fit Check',
+        en: 'Defined after Fit Check',
+        cs: 'Stanoví se po Fit Checku',
+      },
+      timeline: {
+        uk: 'Визначається після Fit Check',
+        en: 'Defined after Fit Check',
+        cs: 'Stanoví se po Fit Checku',
+      },
+      suitableFor: {
+        uk: ['Серії коротких відео', 'Довгого епізоду', 'Кампанії', 'Запуску продукту', 'Запуску послуги', 'Конкретної контентної ініціативи'],
+        en: ['A short-form video series', 'A long-form episode', 'A campaign', 'A product launch', 'A service launch', 'A specific content initiative'],
+        cs: ['Sérii krátkých videí', 'Dlouhou epizodu', 'Kampaň', 'Spuštění produktu', 'Spuštění služby', 'Konkrétní obsahovou iniciativu'],
+      },
+      scopes: [
+        {
+          label: { uk: 'Робота може включати', en: 'Work may include', cs: 'Práce může zahrnovat' },
+          items: {
+            uk: ['Дослідження', 'Креативний напрям', 'Контентні ідеї', 'Пакування контенту', 'Сценарії', 'Сторіборди або структуру кадрів', 'Планування виробництва', 'План зйомки', 'Координацію команди', 'Координацію локації', 'Зйомку', 'Монтаж', 'Субтитри', 'Адаптації для окремих платформ', 'Пакет для публікації'],
+            en: ['Research', 'Creative direction', 'Content ideas', 'Content packaging', 'Scripts', 'Storyboards or shot structure', 'Production planning', 'Shoot plan', 'Crew coordination', 'Location coordination', 'Filming', 'Editing', 'Captions', 'Platform-specific adaptations', 'Publication package'],
+            cs: ['Výzkum', 'Kreativní vedení', 'Obsahové nápady', 'Zpracování obsahu', 'Scénáře', 'Storyboardy nebo strukturu záběrů', 'Plánování produkce', 'Plán natáčení', 'Koordinaci štábu', 'Koordinaci lokace', 'Natáčení', 'Střih', 'Titulky', 'Adaptace pro konkrétní platformy', 'Publikační balíček'],
+          },
+        },
+      ],
+      outcome: {
+        uk: ['Завершений набір готових до публікації відеоматеріалів для обраних платформ і бізнес-цілі.'],
+        en: ['A completed set of publication-ready video assets prepared for the selected platforms and business objective.'],
+        cs: ['Dokončená sada video materiálů připravených k publikaci pro vybrané platformy a obchodní cíl.'],
+      },
+      notes: {
+        uk: ['Обсяг виробництва, формати, локації, команда, подорожі, учасники зйомки, кількість раундів правок, ліцензування та відповідальність за публікацію підтверджуються під час визначення обсягу робіт.'],
+        en: ['Production volume, formats, locations, crew, travel, talent, revision rounds, licensing and publication responsibilities are confirmed during scoping.'],
+        cs: ['Objem produkce, formáty, lokace, štáb, cestování, účinkující, kola revizí, licence a odpovědnost za publikaci se potvrzují při vymezení rozsahu.'],
+      },
+    },
+    {
+      id: 'full-cycle-media-partner',
+      category: 'media-content',
+      title: { uk: 'Медіапартнер повного циклу', en: 'Full-Cycle Media Partner', cs: 'Mediální partner pro celý cyklus' },
+      description: {
+        uk: 'Постійна система медіа та контенту, якою ми керуємо від планування до публікації й навчання на результатах.',
+        en: 'An ongoing media and content system managed from planning to publication and learning.',
+        cs: 'Průběžný systém médií a obsahu řízený od plánování přes publikaci až po vyhodnocení a učení.',
+      },
+      price: {
+        uk: 'Визначається після Fit Check',
+        en: 'Defined after Fit Check',
+        cs: 'Stanoví se po Fit Checku',
+      },
+      timeline: { uk: 'Щомісячна співпраця', en: 'Monthly engagement', cs: 'Měsíční spolupráce' },
+      scopes: [
+        {
+          label: { uk: 'Робота може включати', en: 'Work may include', cs: 'Práce může zahrnovat' },
+          items: {
+            uk: ['Щомісячне планування контенту', 'Дослідження та розробку ідей', 'Сценарії', 'Підготовку виробництва', 'Зйомку', 'Монтаж', 'Адаптації для платформ', 'Публікацію', 'Аналітику', 'Щомісячний огляд', 'Наступну ітерацію на основі реальних сигналів'],
+            en: ['Monthly content planning', 'Research and ideation', 'Scripts', 'Production preparation', 'Filming', 'Editing', 'Platform adaptations', 'Publishing', 'Analytics', 'Monthly review', 'Next iteration based on real signals'],
+            cs: ['Měsíční plánování obsahu', 'Výzkum a tvorbu nápadů', 'Scénáře', 'Přípravu produkce', 'Natáčení', 'Střih', 'Adaptace pro platformy', 'Publikaci', 'Analytiku', 'Měsíční vyhodnocení', 'Další iteraci podle skutečných signálů'],
+          },
+        },
+      ],
+      outcome: {
+        uk: ['Послідовний щомісячний цикл контенту та відео з чіткими обов’язками, ритмом виробництва, процесом публікації та безперервним удосконаленням.'],
+        en: ['A consistent monthly content and video cycle with clear responsibilities, production rhythm, publication process and continuous improvement.'],
+        cs: ['Konzistentní měsíční cyklus obsahu a videa s jasnými odpovědnostmi, rytmem produkce, publikačním procesem a průběžným zlepšováním.'],
+      },
+      notes: {
+        uk: ['Медіабюджет, подорожі та зовнішні виробничі витрати розраховуються окремо.'],
+        en: ['Media spend, travel and external production costs are calculated separately.'],
+        cs: ['Mediální rozpočet, cestování a externí produkční náklady se počítají samostatně.'],
+      },
+    },
+  ],
+};
+
+const digitalProductsAi: OfferCategory = {
+  id: 'digital-products-ai',
+  title: { uk: 'Цифрові продукти та ШІ', en: 'Digital Products and AI', cs: 'Digitální produkty a AI' },
+  description: {
+    uk: 'Ми проєктуємо шляхи користувачів, ролі, дані, автоматизацію та операційну логіку до початку розробки.',
+    en: 'We design the user journeys, roles, data, automation and operational logic before development begins.',
+    cs: 'Než začne vývoj, navrhujeme uživatelské cesty, role, data, automatizaci a provozní logiku.',
   },
-  {
-    id: 'creative-strategy-pack',
-    type: 'addon',
-    title: { uk: 'Пакет креативної стратегії', en: 'Creative Strategy Pack', cs: 'Balíček kreativní strategie' },
-    description: { uk: 'Хуки, комунікаційні кути і production-брифи для платної реклами в соцмережах або запускових кампаній.', en: 'Hooks, angles and production briefs for paid social or launch campaigns.', cs: 'Hooky, komunikační úhly a produkční briefy pro placené sociální sítě nebo spouštěcí kampaně.' },
-    priceFrom: { uk: '€600', en: '€600', cs: '15 000 Kč' },
-    duration: { uk: '3-5 днів', en: '3-5 days', cs: '3-5 dní' },
-    bestFor: { uk: 'Для підготовки креативних тестів у Meta, TikTok або YouTube.', en: 'Teams preparing Meta, TikTok or YouTube creative tests.', cs: 'Pro týmy připravující kreativní testy na Meta, TikToku nebo YouTube.' },
-    outcome: { uk: 'Карта тестування креативів на основі аудиторії та кутів оферу.', en: 'A ready-to-produce creative testing map based on audience and offer angles.', cs: 'Mapa testování kreativy postavená na zákazníkovi a úhlech nabídky.' },
-    deliverables: { uk: ['10+ хуків', 'Креативні кути', 'Напрями рекламних текстів', 'Production-бриф'], en: ['10+ hooks', 'Creative angles', 'Ad copy directions', 'Production brief'], cs: ['10+ hooků', 'Kreativní úhly', 'Směry reklamních textů', 'Produkční brief'] },
-    cta: { uk: 'Спланувати креативи', en: 'Plan creatives', cs: 'Naplánovat kreativu' },
+  examplesLabel: { uk: 'Можливі рішення', en: 'Possible solutions', cs: 'Možná řešení' },
+  examples: {
+    uk: ['Боти', 'ШІ-асистенти', 'Системи автоматизації', 'Дашборди', 'Клієнтські портали', 'Внутрішні робочі простори', 'Цифрові платформи', 'MVP'],
+    en: ['Bots', 'AI assistants', 'Automation systems', 'Dashboards', 'Client portals', 'Internal workspaces', 'Digital platforms', 'MVPs'],
+    cs: ['Boti', 'AI asistenti', 'Automatizační systémy', 'Dashboardy', 'Klientské portály', 'Interní pracovní prostředí', 'Digitální platformy', 'MVP'],
   },
-  {
-    id: 'analytics-tracking-audit',
-    type: 'addon',
-    title: { uk: 'Аудит аналітики і трекінгу', en: 'Analytics & Tracking Audit', cs: 'Audit analytiky a měření' },
-    description: { uk: 'GA4, події, UTM-логіка і вимірювання кампаній перед масштабуванням.', en: 'GA4, events, UTM logic and campaign measurement reviewed before scaling.', cs: 'GA4, události, UTM logika a měření kampaní před škálováním.' },
-    priceFrom: { uk: '€800', en: '€800', cs: '20 000 Kč' },
-    duration: { uk: '3-5 днів', en: '3-5 days', cs: '3-5 dní' },
-    bestFor: { uk: 'Для команд, яким потрібні чистіші рішення на основі даних кампаній і воронки.', en: 'Teams that need cleaner decisions from campaign and funnel data.', cs: 'Pro týmy, které potřebují čistší rozhodování z dat kampaní a prodejní cesty.' },
-    outcome: { uk: 'Звіт про стан трекінгу з прогалинами, правками і пріоритетами вимірювання.', en: 'A tracking health report with gaps, fixes and measurement priorities.', cs: 'Zpráva o stavu měření s mezerami, opravami a prioritami.' },
-    deliverables: { uk: ['Аудит трекінгу', 'Карта подій', 'UTM-структура', 'Рекомендації для dashboard'], en: ['Tracking audit', 'Event map', 'UTM structure', 'Dashboard recommendations'], cs: ['Audit měření', 'Mapa událostí', 'UTM struktura', 'Doporučení pro dashboard'] },
-    cta: { uk: 'Аудит трекінгу', en: 'Audit tracking', cs: 'Audit měření' },
-  },
-  {
-    id: 'monthly-growth-ops',
-    type: 'addon',
-    title: { uk: 'Щомісячний супровід росту', en: 'Monthly Growth Ops', cs: 'Měsíční podpora růstu' },
-    description: { uk: 'Постійна оптимізація, звітність, експерименти й ітерації системи росту.', en: 'Ongoing optimization, reporting, experiments and growth system iteration.', cs: 'Průběžná optimalizace, reporty, experimenty a iterace růstového systému.' },
-    priceFrom: { uk: '€1,200/mo', en: '€1,200/mo', cs: '30 000 Kč/měs.' },
-    duration: { uk: 'Щомісяця', en: 'Monthly', cs: 'Měsíčně' },
-    bestFor: { uk: 'Для компаній, яким потрібен партнер з росту після запуску.', en: 'Companies that want a steady growth partner after launch.', cs: 'Pro firmy, které chtějí stabilního partnera pro růst po spuštění.' },
-    outcome: { uk: 'Місячний ритм аналізу, рішень і експериментів замість випадкових задач.', en: 'A monthly rhythm of analysis, decisions and experiments instead of random tasks.', cs: 'Měsíční rytmus analýzy, rozhodnutí a experimentů místo náhodných úkolů.' },
-    deliverables: { uk: ['Щомісячний огляд', 'Дорожня карта експериментів', 'Фідбек по креативах і воронці', 'Процес звітності'], en: ['Monthly review', 'Experiment roadmap', 'Creative/funnel feedback', 'Reporting flow'], cs: ['Měsíční review', 'Plán experimentů', 'Zpětná vazba ke kreativě a prodejní cestě', 'Proces reportingu'] },
-    cta: { uk: 'Обговорити супровід', en: 'Discuss retainer', cs: 'Probrat support' },
-  },
-  {
-    id: 'mvp-product-system',
-    type: 'addon',
-    title: { uk: 'MVP і продуктова система', en: 'MVP / Product System', cs: 'MVP a produktový systém' },
-    description: { uk: 'Продуктовий інтерфейс, логіка бази даних і легкі workflow для early-stage MVP.', en: 'Product interface, database logic and lightweight workflows for early-stage MVPs.', cs: 'Produktové rozhraní, databázová logika a lehké workflow pro early-stage MVP.' },
-    priceFrom: { uk: '€3,500', en: '€3,500', cs: '85 000 Kč' },
-    duration: { uk: '3-5 тижнів', en: '3-5 weeks', cs: '3-5 týdnů' },
-    bestFor: { uk: 'Для фаундерів, яким потрібен робочий продукт, а не тільки маркетинговий сайт.', en: 'Founders who need a functional product surface, not only a marketing site.', cs: 'Pro foundery, kteří potřebují funkční produkt, nejen marketingový web.' },
-    outcome: { uk: 'Робоча продуктова система з frontend, потоками даних і базовою операційною логікою.', en: 'A working product system with frontend, data flows and basic operational logic.', cs: 'Funkční produktový systém s frontendem, datovými toky a základní provozní logikou.' },
-    deliverables: { uk: ['Продуктова архітектура', 'React/Vite frontend', 'Сценарії на базі даних', 'Логіка адміна або користувача'], en: ['Product architecture', 'React/Vite frontend', 'Database-backed flows', 'Admin or user logic'], cs: ['Produktová architektura', 'React/Vite frontend', 'Scénáře napojené na databázi', 'Admin nebo uživatelská logika'] },
-    cta: { uk: 'Оцінити MVP', en: 'Scope MVP', cs: 'Nacenit MVP' },
-  },
+  offers: [
+    {
+      id: 'ai-business-system-discovery',
+      category: 'digital-products-ai',
+      title: { uk: 'Дослідження бізнес-системи зі ШІ', en: 'AI Business System Discovery', cs: 'Discovery AI business systému' },
+      description: {
+        uk: 'Обов’язковий етап для продуктів або процесів зі ШІ, автоматизацією, приватними даними, інтеграціями чи складною операційною логікою.',
+        en: 'Required for products or processes involving AI, automation, private data, integrations or complex operational logic.',
+        cs: 'Povinná fáze pro produkty nebo procesy zahrnující AI, automatizaci, soukromá data, integrace nebo složitou provozní logiku.',
+      },
+      price: samePrice('EUR 900–2,500'),
+      timeline: { uk: '1–2 тижні', en: '1–2 weeks', cs: '1–2 týdny' },
+      scopes: [
+        {
+          label: { uk: 'Робота включає', en: 'Work includes', cs: 'Práce zahrnuje' },
+          items: {
+            uk: ['Аналіз бізнес-процесів', 'Ролі користувачів і команди', 'Пріоритетні шляхи користувачів', 'Вимоги до даних', 'Можливості автоматизації', 'Сценарії використання ШІ', 'Операційні контрольні точки', 'Ризики та залежності', 'Технічний напрям', 'Етапи реалізації', 'Обсяг першої версії'],
+            en: ['Business-process analysis', 'User and team roles', 'Priority user journeys', 'Data requirements', 'Automation opportunities', 'AI use cases', 'Operational checkpoints', 'Risks and dependencies', 'Technical direction', 'Implementation phases', 'First-build scope'],
+            cs: ['Analýzu obchodních procesů', 'Role uživatelů a týmu', 'Prioritní uživatelské cesty', 'Požadavky na data', 'Možnosti automatizace', 'Případy využití AI', 'Provozní kontrolní body', 'Rizika a závislosti', 'Technický směr', 'Fáze realizace', 'Rozsah první verze'],
+          },
+        },
+      ],
+      outcome: {
+        uk: ['Архітектура системи', 'Пріоритетні сценарії', 'Оцінка ризиків', 'Поетапна дорожня карта реалізації', 'Точний обсяг першого етапу розробки', 'Чітка основа для інвестиційного рішення'],
+        en: ['System architecture', 'Priority scenarios', 'Risk assessment', 'Phased implementation roadmap', 'Precise scope for the first build stage', 'Clear basis for the investment decision'],
+        cs: ['Architektura systému', 'Prioritní scénáře', 'Posouzení rizik', 'Fázovaný plán realizace', 'Přesný rozsah první fáze vývoje', 'Jasný podklad pro investiční rozhodnutí'],
+      },
+    },
+    {
+      id: 'product-build',
+      category: 'digital-products-ai',
+      title: { uk: 'Розробка продукту', en: 'Product Build', cs: 'Vývoj produktu' },
+      description: {
+        uk: 'Розробка відповідно до архітектури та пріоритетів, визначених на етапі Discovery.',
+        en: 'The build follows the architecture and priorities established during Discovery.',
+        cs: 'Vývoj navazuje na architekturu a priority stanovené během Discovery.',
+      },
+      price: {
+        uk: 'Від EUR 2,500',
+        en: 'From EUR 2,500',
+        cs: 'Od EUR 2,500',
+      },
+      timeline: {
+        uk: 'Визначається після Discovery',
+        en: 'Defined after Discovery',
+        cs: 'Stanoví se po Discovery',
+      },
+      scopes: [
+        {
+          label: { uk: 'Можливі продукти', en: 'Possible products', cs: 'Možné produkty' },
+          items: {
+            uk: ['Telegram-бот або веббот', 'ШІ-асистент', 'Аналітичний дашборд', 'Клієнтський портал', 'Внутрішній робочий простір', 'Система автоматизації', 'Платформа спільноти', 'Платформа для пошуку відповідностей', 'Вебзастосунок', 'MVP'],
+            en: ['Telegram or web bot', 'AI assistant', 'Analytics dashboard', 'Client portal', 'Internal workspace', 'Automation system', 'Community platform', 'Matching platform', 'Web application', 'MVP'],
+            cs: ['Telegramový nebo webový bot', 'AI asistent', 'Analytický dashboard', 'Klientský portál', 'Interní pracovní prostředí', 'Automatizační systém', 'Komunitní platforma', 'Matchingová platforma', 'Webová aplikace', 'MVP'],
+          },
+        },
+        {
+          label: { uk: 'Робота може включати', en: 'Work may include', cs: 'Práce může zahrnovat' },
+          items: {
+            uk: ['Продуктову й технічну архітектуру', 'Шляхи користувачів', 'Дизайн інтерфейсу', 'Frontend- і backend-розробку', 'Автентифікацію та ролі користувачів', 'Налаштування бази даних', 'ШІ-процеси', 'Автоматизації', 'Інтеграції', 'Тестування та перевірку', 'Розгортання', 'Передачу команді'],
+            en: ['Product and technical architecture', 'User journeys', 'Interface design', 'Frontend and backend development', 'Authentication and user roles', 'Database configuration', 'AI workflows', 'Automations', 'Integrations', 'Testing and verification', 'Deployment', 'Team handoff'],
+            cs: ['Produktovou a technickou architekturu', 'Uživatelské cesty', 'Návrh rozhraní', 'Frontendový a backendový vývoj', 'Autentizaci a uživatelské role', 'Nastavení databáze', 'AI workflow', 'Automatizace', 'Integrace', 'Testování a ověření', 'Nasazení', 'Předání týmu'],
+          },
+        },
+      ],
+      outcome: {
+        uk: ['Робочий цифровий продукт із налаштованими шляхами користувачів, перевіреною функціональністю, підтримкою запуску та планом наступних ітерацій.'],
+        en: ['A working digital product with configured user journeys, verified functionality, launch support and a plan for future iterations.'],
+        cs: ['Funkční digitální produkt s nastavenými uživatelskými cestami, ověřenou funkčností, podporou spuštění a plánem dalších iterací.'],
+      },
+      notes: {
+        uk: ['Розробка продукту поділяється на етапи з чітким обсягом, контрольними точками, відповідальністю та моментами затвердження.'],
+        en: ['Product development is divided into stages with clear scope, checkpoints, responsibilities and approval points.'],
+        cs: ['Vývoj produktu je rozdělen do fází s jasným rozsahem, kontrolními body, odpovědnostmi a schvalovacími body.'],
+      },
+    },
+  ],
+};
+
+export const offerCategories: OfferCategory[] = [
+  marketingGrowth,
+  websites,
+  mediaContent,
+  digitalProductsAi,
 ];
+
+export const offers: PricingOffer[] = offerCategories.flatMap((category) => category.offers);
+
+export const pricingCopy: Record<OfferLocale, PricingSectionCopy> = {
+  uk: {
+    kicker: 'Послуги та формати співпраці',
+    title: 'Послуги, ціни та спосіб роботи',
+    subtitle: 'Чотири пов’язані напрями — від діагностики зростання й створення сайту до медіасистем і цифрових продуктів. Кожна співпраця починається з чіткого завдання та узгодженого обсягу.',
+    priceLabel: 'Ціна',
+    timelineLabel: 'Термін',
+    suitableForLabel: 'Підходить для',
+    outcomeLabel: 'Результат',
+    notesLabel: 'Важливо',
+    scopeSummary: 'Повний обсяг і результат',
+    categoryLabel: 'Напрям',
+    fitCheck: {
+      eyebrow: 'Початок співпраці',
+      title: 'Почнімо з 15–20-хвилинного Fit Check',
+      description: 'Кожна співпраця починається зі сфокусованого Fit Check, щоб визначити завдання, бажаний результат і найкращий наступний крок.',
+      clarifiesLabel: 'Під час розмови уточнюємо',
+      clarifies: ['Бізнес-завдання', 'Бажаний результат', 'Аудиторію', 'Поточну ситуацію', 'Основні обмеження', 'Дедлайн', 'Доступний бюджет', 'Відповідний формат співпраці', 'Рекомендований наступний крок'],
+      preparation: 'До розмови надішліть сайт або посилання на проєкт, релевантні показники чи короткий опис поточного процесу.',
+      startingOptionsLabel: 'Основні варіанти старту',
+      startingOptions: ['Стартовий сайт — EUR 350–900', 'Аудит зростання — EUR 600–900', 'Дослідження бізнес-системи зі ШІ — EUR 900–2,500', 'Медіа та контент — визначається після Fit Check'],
+      cta: 'Запланувати Fit Check',
+    },
+    conditions: {
+      eyebrow: 'Умови',
+      title: 'Ціни та обсяг робіт',
+      items: [
+        'Усі ціни є стартовими діапазонами в EUR; фінальна ціна залежить від узгодженого обсягу та складності.',
+        'Вартість аудиту зростання може бути зарахована до більшої співпраці, розпочатої протягом 30 днів.',
+        'Стартовий сайт не включає окремий стратегічний пакет.',
+        'Медіавиробництво оцінюється після визначення платформ, форматів, обсягу, локацій і виробничої команди.',
+        'Медіабюджет і витрати сторонніх виробників оплачуються окремо.',
+        'Розробка продукту стартує від EUR 2,500, а точний обсяг визначається після Discovery.',
+        'Додаткові мови, інтеграції, складна автоматизація, ecommerce, custom backend, додаткові дні виробництва та раунди правок можуть збільшити обсяг.',
+        'Конкретні результати — дохід, кількість лідів, позиції, охоплення чи зростання конверсії — не гарантуються без окремо погодженої performance-моделі.',
+      ],
+    },
+  },
+  en: {
+    kicker: 'Services and engagements',
+    title: 'Services, pricing and working method',
+    subtitle: 'Four connected service areas—from diagnosing growth and building websites to media systems and digital products. Every engagement starts with a clear task and an agreed scope.',
+    priceLabel: 'Price',
+    timelineLabel: 'Timeline',
+    suitableForLabel: 'Suitable for',
+    outcomeLabel: 'Delivered result',
+    notesLabel: 'Important',
+    scopeSummary: 'Full scope and result',
+    categoryLabel: 'Service area',
+    fitCheck: {
+      eyebrow: 'Starting process',
+      title: 'Start with a 15–20 minute Fit Check',
+      description: 'Every engagement begins with a focused Fit Check to clarify the task, desired result and most suitable next step.',
+      clarifiesLabel: 'The Fit Check clarifies',
+      clarifies: ['The business task', 'Desired result', 'Audience', 'Current situation', 'Main constraints', 'Deadline', 'Available budget', 'Suitable engagement', 'Recommended next step'],
+      preparation: 'Before the conversation, provide a website or project link, relevant numbers or a short description of the current process.',
+      startingOptionsLabel: 'Main starting options',
+      startingOptions: ['Starter Website — EUR 350–900', 'Growth Audit — EUR 600–900', 'AI Business System Discovery — EUR 900–2,500', 'Media and Content — defined after Fit Check'],
+      cta: 'Book a Fit Check',
+    },
+    conditions: {
+      eyebrow: 'Conditions',
+      title: 'Pricing and scope',
+      items: [
+        'All prices are starting ranges in EUR; final pricing depends on the agreed scope and complexity.',
+        'Growth Audit fees can be credited toward a larger engagement started within 30 days.',
+        'Starter Website does not include a separate strategy package.',
+        'Media production is priced after the required platforms, formats, volume, locations and production team are defined.',
+        'Media spend and third-party production expenses are separate.',
+        'Product Build pricing starts from EUR 2,500, but its exact scope is defined after Discovery.',
+        'Additional languages, integrations, advanced automation, ecommerce, custom backend development, extra production days and additional revision rounds can increase the scope.',
+        'Specific results such as revenue, lead volume, rankings, reach or conversion improvement cannot be guaranteed without a separately agreed performance model.',
+      ],
+    },
+  },
+  cs: {
+    kicker: 'Služby a formy spolupráce',
+    title: 'Služby, ceny a způsob práce',
+    subtitle: 'Čtyři propojené oblasti služeb — od diagnostiky růstu a tvorby webů po mediální systémy a digitální produkty. Každá spolupráce začíná jasným úkolem a dohodnutým rozsahem.',
+    priceLabel: 'Cena',
+    timelineLabel: 'Termín',
+    suitableForLabel: 'Vhodné pro',
+    outcomeLabel: 'Výsledek',
+    notesLabel: 'Důležité',
+    scopeSummary: 'Celý rozsah a výsledek',
+    categoryLabel: 'Oblast služeb',
+    fitCheck: {
+      eyebrow: 'Začátek spolupráce',
+      title: 'Začněme 15–20minutovým Fit Checkem',
+      description: 'Každá spolupráce začíná cíleným Fit Checkem, který vyjasní úkol, požadovaný výsledek a nejvhodnější další krok.',
+      clarifiesLabel: 'Během Fit Checku vyjasníme',
+      clarifies: ['Obchodní úkol', 'Požadovaný výsledek', 'Publikum', 'Současnou situaci', 'Hlavní omezení', 'Termín', 'Dostupný rozpočet', 'Vhodnou formu spolupráce', 'Doporučený další krok'],
+      preparation: 'Před rozhovorem pošlete web nebo odkaz na projekt, relevantní čísla nebo krátký popis současného procesu.',
+      startingOptionsLabel: 'Hlavní možnosti začátku',
+      startingOptions: ['Startovací web — EUR 350–900', 'Audit růstu — EUR 600–900', 'Discovery AI business systému — EUR 900–2,500', 'Média a obsah — stanoví se po Fit Checku'],
+      cta: 'Naplánovat Fit Check',
+    },
+    conditions: {
+      eyebrow: 'Podmínky',
+      title: 'Ceny a rozsah',
+      items: [
+        'Všechny ceny jsou výchozí rozmezí v EUR; konečná cena závisí na dohodnutém rozsahu a složitosti.',
+        'Cena auditu růstu může být započtena do větší spolupráce zahájené během 30 dnů.',
+        'Startovací web nezahrnuje samostatný strategický balíček.',
+        'Mediální produkce se naceňuje po určení platforem, formátů, objemu, lokací a produkčního týmu.',
+        'Mediální rozpočet a náklady třetích stran jsou samostatné.',
+        'Vývoj produktu začíná od EUR 2,500, přesný rozsah se ale určí po Discovery.',
+        'Další jazyky, integrace, pokročilá automatizace, ecommerce, vlastní backend, další produkční dny a kola revizí mohou rozsah navýšit.',
+        'Konkrétní výsledky jako tržby, počet leadů, pozice, dosah nebo zlepšení konverze nelze garantovat bez samostatně dohodnutého výkonnostního modelu.',
+      ],
+    },
+  },
+};

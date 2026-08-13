@@ -23,10 +23,10 @@ function escapeHtml(value: unknown) {
 function formatLeadMessage(body: LeadBody) {
   const rows = [
     ['Website/product', body.website],
-    ['Build request', body.what_build],
-    ['Market/niche', body.niche],
-    ['Stage', body.stage],
-    ['Friction', body.friction],
+    ['Starting option', body.what_build],
+    ['Market/audience', body.niche],
+    ['Desired deadline', body.stage],
+    ['Project task', body.friction],
     ['Budget', body.budget],
     ['Email', body.email],
     ['Telegram', body.telegram],
@@ -111,7 +111,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Origin', '*');
   if (!telegram.configured) {
-    res.status(200).json({ success: true, notification: 'skipped' });
+    res.status(503).json({ error: 'Lead notification is not configured' });
     return;
   }
 

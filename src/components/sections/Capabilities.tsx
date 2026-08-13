@@ -1,6 +1,6 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useI18n } from '../../lib/i18n';
-import { TranslationKey } from '../../data/translations';
+import type { TranslationKey } from '../../data/translations';
 import { gsap, useGSAP } from '../../lib/gsap';
 import styles from './Capabilities.module.css';
 import AmbientBackground from '../ambient/AmbientBackground';
@@ -8,145 +8,89 @@ import AmbientBackground from '../ambient/AmbientBackground';
 interface Capability {
   titleKey: TranslationKey;
   descKey: TranslationKey;
+  offersKey: TranslationKey;
   accent: boolean;
-  beta?: boolean;
-  size?: 'normal' | 'large';
 }
 
 const capabilities: Capability[] = [
-  { titleKey: 'cap_intelligence_title', descKey: 'cap_intelligence_desc', accent: true, size: 'large' },
-  { titleKey: 'cap_conversion_title', descKey: 'cap_conversion_desc', accent: false, size: 'normal' },
-  { titleKey: 'cap_product_title', descKey: 'cap_product_desc', accent: false, size: 'normal' },
-  { titleKey: 'cap_telegram_title', descKey: 'cap_telegram_desc', accent: true, size: 'normal' },
-  { titleKey: 'cap_systems_title', descKey: 'cap_systems_desc', accent: false, size: 'normal' },
-  { titleKey: 'cap_funnel_title', descKey: 'cap_funnel_desc', accent: false, size: 'normal' },
-  { titleKey: 'cap_automation_title', descKey: 'cap_automation_desc', accent: true, beta: true, size: 'normal' },
-  { titleKey: 'cap_video_title', descKey: 'cap_video_desc', accent: true, beta: true, size: 'normal' },
+  {
+    titleKey: 'cap_marketing_title',
+    descKey: 'cap_marketing_desc',
+    offersKey: 'cap_marketing_offers',
+    accent: false,
+  },
+  {
+    titleKey: 'cap_websites_title',
+    descKey: 'cap_websites_desc',
+    offersKey: 'cap_websites_offers',
+    accent: true,
+  },
+  {
+    titleKey: 'cap_media_title',
+    descKey: 'cap_media_desc',
+    offersKey: 'cap_media_offers',
+    accent: false,
+  },
+  {
+    titleKey: 'cap_products_title',
+    descKey: 'cap_products_desc',
+    offersKey: 'cap_products_offers',
+    accent: true,
+  },
 ];
 
-function SpotlightCard({ children, className = '', style = {} }: {
-  children: React.ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
-  accent?: boolean;
+function CapabilityCard({
+  capability,
+  index,
+  t,
+}: {
+  capability: Capability;
+  index: number;
+  t: (key: TranslationKey) => string;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [spotlight, setSpotlight] = useState({ x: 50, y: 50 });
-  const [isHovered, setIsHovered] = useState(false);
+  const cardRef = useRef<HTMLElement>(null);
+  const titleId = `capability-${index + 1}`;
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    setSpotlight({
-      x: ((e.clientX - rect.left) / rect.width) * 100,
-      y: ((e.clientY - rect.top) / rect.height) * 100,
-    });
+  const handlePointerMove = (event: React.PointerEvent<HTMLElement>) => {
+    const card = cardRef.current;
+    if (!card || event.pointerType === 'touch') return;
+    const rect = card.getBoundingClientRect();
+    card.style.setProperty('--spotlight-x', `${((event.clientX - rect.left) / rect.width) * 100}%`);
+    card.style.setProperty('--spotlight-y', `${((event.clientY - rect.top) / rect.height) * 100}%`);
+  };
+
+  const resetSpotlight = () => {
+    cardRef.current?.style.setProperty('--spotlight-x', '50%');
+    cardRef.current?.style.setProperty('--spotlight-y', '50%');
   };
 
   return (
-    <div
-      ref={ref}
-      className={className}
+    <article
+      ref={cardRef}
       data-capability-card
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => {
-        setIsHovered(false);
-        setSpotlight({ x: 50, y: 50 });
-      }}
-      style={{
-        ...style,
-        background: isHovered
-          ? `radial-gradient(circle at ${spotlight.x}% ${spotlight.y}%, rgba(255, 69, 0, 0.12) 0%, transparent 54%), rgba(18, 18, 18, 0.72)`
-          : 'rgba(18, 18, 18, 0.54)',
-        borderColor: isHovered ? 'rgba(255, 69, 0, 0.28)' : 'var(--border)',
-        transform: isHovered ? 'translateY(-3px)' : 'translateY(0)',
-        boxShadow: isHovered ? '0 18px 48px rgba(0, 0, 0, 0.34)' : 'none',
-        transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-      }}
+      className={`${styles.card} ${capability.accent ? styles.accent : ''}`}
+      aria-labelledby={titleId}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={resetSpotlight}
     >
-      {children}
-    </div>
-  );
-}
-
-function CapabilityCard({
-  cap,
-  index,
-  t,
-  dnaChips,
-  dnaFlow,
-  dnaResult,
-}: {
-  cap: Capability;
-  index: number;
-  t: (key: TranslationKey) => string;
-  dnaChips: string[];
-  dnaFlow: string[];
-  dnaResult: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  const isDNA = cap.titleKey === 'cap_intelligence_title';
-
-  return (
-    <SpotlightCard
-      className={`${styles.card} ${cap.accent ? styles.accent : ''} ${cap.size === 'large' ? styles.large : ''}`}
-      accent={cap.accent}
-      style={{
-        transitionDelay: `${index * 0.08}s`,
-      }}
-    >
-      <div ref={ref}>
-        {cap.beta && <span className={styles.beta}>BETA</span>}
-        <span className={styles.cardNumber}>{String(index + 1).padStart(2, '0')}</span>
-        <h3 className={styles.cardTitle}>{t(cap.titleKey)}</h3>
-        <p className={styles.cardDesc}>{t(cap.descKey)}</p>
-        {isDNA && (
-          <div className={styles.dnaContent}>
-            <div className={styles.dnaChips}>
-              {dnaChips.map((chip) => (
-                <span key={chip} className={styles.dnaChip}>{chip}</span>
-              ))}
-            </div>
-            <div className={styles.dnaFlow}>
-              <span>{dnaFlow[0]}</span>
-              <span className={styles.dnaArrow}>→</span>
-              <span>{dnaFlow[1]}</span>
-              <span className={styles.dnaArrow}>→</span>
-              <span>{dnaFlow[2]}</span>
-              <span className={styles.dnaArrow}>→</span>
-              <span>{dnaFlow[3]}</span>
-            </div>
-            <p className={styles.dnaResult}>{dnaResult}</p>
-          </div>
-        )}
-        {cap.size === 'large' && !isDNA && (
-          <div className={styles.cardGlow} />
-        )}
+      <span className={styles.cardNumber}>{String(index + 1).padStart(2, '0')}</span>
+      <h3 className={styles.cardTitle} id={titleId}>{t(capability.titleKey)}</h3>
+      <p className={styles.cardDesc}>{t(capability.descKey)}</p>
+      <div className={styles.offerList}>
+        <span className={styles.offerLabel}>{t('cap_offers_label')}</span>
+        <div className={styles.offerChips}>
+          {t(capability.offersKey).split(' · ').map((offer) => (
+            <span className={styles.offerChip} key={offer}>{offer}</span>
+          ))}
+        </div>
       </div>
-    </SpotlightCard>
+    </article>
   );
 }
 
 export default function Capabilities() {
-  const { t, lang } = useI18n();
+  const { t } = useI18n();
   const sectionRef = useRef<HTMLElement>(null);
-  const dnaChips = lang === 'uk'
-    ? ['Ринок і конкуренти', 'Портрет клієнта / ICP', 'Офер і позиціонування', 'Базова економіка']
-    : lang === 'cs'
-    ? ['Trh a konkurence', 'Profil zákazníka / ICP', 'Nabídka a pozicování', 'Základní ekonomika']
-    : ['Market and competitors', 'Client DNA / ICP', 'Offer and positioning', 'Unit economics'];
-  const dnaFlow = lang === 'uk'
-    ? ['Ринок', 'ICP', 'Офер', 'Воронка']
-    : lang === 'cs'
-    ? ['Trh', 'ICP', 'Nabídka', 'Cesta']
-    : ['Market', 'ICP', 'Offer', 'Funnel'];
-  const dnaResult = lang === 'uk'
-    ? 'Результат: стратегія перед дизайном, кодом і запуском.'
-    : lang === 'cs'
-    ? 'Výsledek: strategie před designem, kódem a spuštěním.'
-    : 'Outcome: strategy before design, code and launch.';
 
   useGSAP(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -158,7 +102,7 @@ export default function Capabilities() {
     gsap.from('[data-capability-card]', {
       y: 42,
       duration: 0.72,
-      stagger: { each: 0.07, from: 'start' },
+      stagger: { each: 0.08, from: 'start' },
       scrollTrigger: {
         trigger: sectionRef.current,
         start: 'top 68%',
@@ -177,15 +121,12 @@ export default function Capabilities() {
         </div>
 
         <div className={styles.grid}>
-          {capabilities.map((cap, i) => (
+          {capabilities.map((capability, index) => (
             <CapabilityCard
-              key={cap.titleKey}
-              cap={cap}
-              index={i}
+              key={capability.titleKey}
+              capability={capability}
+              index={index}
               t={t}
-              dnaChips={dnaChips}
-              dnaFlow={dnaFlow}
-              dnaResult={dnaResult}
             />
           ))}
         </div>

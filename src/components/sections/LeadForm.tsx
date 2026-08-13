@@ -4,7 +4,13 @@ import { TranslationKey } from '../../data/translations';
 import styles from './LeadForm.module.css';
 import AmbientBackground from '../ambient/AmbientBackground';
 
-const projectOptions: TranslationKey[] = ['option_website', 'option_mvp', 'option_strategy', 'option_audit', 'option_not_sure'];
+const projectOptions: Array<{ value: string; labelKey: TranslationKey }> = [
+  { value: 'Starter Website', labelKey: 'option_starter_website' },
+  { value: 'Growth Audit', labelKey: 'option_growth_audit' },
+  { value: 'AI Business System Discovery', labelKey: 'option_ai_discovery' },
+  { value: 'Media and Content', labelKey: 'option_media_content' },
+  { value: 'Recommendation needed', labelKey: 'option_not_sure' },
+];
 
 export default function LeadForm() {
   const { t } = useI18n();
@@ -13,7 +19,6 @@ export default function LeadForm() {
   const [formData, setFormData] = useState({
     website: '',
     what_build: '',
-    niche: '',
     stage: '',
     friction: '',
     budget: '',
@@ -60,7 +65,6 @@ export default function LeadForm() {
         setFormData({
           website: '',
           what_build: '',
-          niche: '',
           stage: '',
           friction: '',
           budget: '',
@@ -94,7 +98,7 @@ export default function LeadForm() {
         </div>
 
         {status === 'success' ? (
-          <div className={styles.success}>
+          <div className={styles.success} role="status" aria-live="polite">
             <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
               <circle cx="24" cy="24" r="23" stroke="var(--accent)" strokeWidth="2"/>
               <path d="M15 24L21 30L33 18" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -105,8 +109,9 @@ export default function LeadForm() {
           <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.row}>
               <div className={styles.field}>
-                <label className={styles.label}>{t('field_website')}</label>
+                <label className={styles.label} htmlFor="lead-website">{t('field_website')}</label>
                 <input
+                  id="lead-website"
                   type="url"
                   name="website"
                   value={formData.website}
@@ -116,36 +121,42 @@ export default function LeadForm() {
                 />
               </div>
               <div className={styles.field}>
-                <label className={styles.label}>{t('field_what_build')}</label>
+                <label className={styles.label} htmlFor="lead-service">{t('field_what_build')}</label>
                 <select
+                  id="lead-service"
                   name="what_build"
                   value={formData.what_build}
                   onChange={handleChange}
                   className={styles.select}
+                  required
                 >
-                  <option value="">{t('field_what_build')}</option>
-                  {projectOptions.map((opt) => (
-                    <option key={opt} value={opt}>{t(opt)}</option>
+                  <option value="" disabled>{t('field_what_build')}</option>
+                  {projectOptions.map((option) => (
+                    <option key={option.value} value={option.value}>{t(option.labelKey)}</option>
                   ))}
                 </select>
               </div>
             </div>
 
+            <div className={styles.field}>
+              <label className={styles.label} htmlFor="lead-task">{t('field_friction')}</label>
+              <textarea
+                id="lead-task"
+                name="friction"
+                value={formData.friction}
+                onChange={handleChange}
+                placeholder={t('field_friction_placeholder')}
+                className={styles.textarea}
+                rows={4}
+                required
+              />
+            </div>
+
             <div className={styles.row}>
               <div className={styles.field}>
-                <label className={styles.label}>{t('field_niche')}</label>
+                <label className={styles.label} htmlFor="lead-deadline">{t('field_stage')}</label>
                 <input
-                  type="text"
-                  name="niche"
-                  value={formData.niche}
-                  onChange={handleChange}
-                  placeholder={t('field_niche_placeholder')}
-                  className={styles.input}
-                />
-              </div>
-              <div className={styles.field}>
-                <label className={styles.label}>{t('field_stage')}</label>
-                <input
+                  id="lead-deadline"
                   type="text"
                   name="stage"
                   value={formData.stage}
@@ -154,29 +165,15 @@ export default function LeadForm() {
                   className={styles.input}
                 />
               </div>
-            </div>
-
-            <div className={styles.field}>
-              <label className={styles.label}>{t('field_friction')}</label>
-              <textarea
-                name="friction"
-                value={formData.friction}
-                onChange={handleChange}
-                placeholder={t('field_friction_placeholder')}
-                className={styles.textarea}
-                rows={3}
-              />
-            </div>
-
-            <div className={styles.row}>
               <div className={styles.field}>
-                <label className={styles.label}>{t('field_budget')}</label>
+                <label className={styles.label} htmlFor="lead-budget">{t('field_budget')}</label>
                 <input
+                  id="lead-budget"
                   type="text"
                   name="budget"
                   value={formData.budget}
                   onChange={handleChange}
-                  placeholder="$1,000 - $5,000"
+                  placeholder="EUR 1,000–5,000"
                   className={styles.input}
                 />
               </div>
@@ -184,8 +181,9 @@ export default function LeadForm() {
 
             <div className={styles.row}>
               <div className={styles.field}>
-                <label className={styles.label}>{t('field_email')}</label>
+                <label className={styles.label} htmlFor="lead-email">{t('field_email')}</label>
                 <input
+                  id="lead-email"
                   type="email"
                   name="email"
                   value={formData.email}
@@ -196,8 +194,9 @@ export default function LeadForm() {
                 />
               </div>
               <div className={styles.field}>
-                <label className={styles.label}>{t('field_telegram')}</label>
+                <label className={styles.label} htmlFor="lead-telegram">{t('field_telegram')}</label>
                 <input
+                  id="lead-telegram"
                   type="text"
                   name="telegram"
                   value={formData.telegram}
@@ -219,7 +218,7 @@ export default function LeadForm() {
             <p className={styles.note}>{t('form_note')}</p>
 
             {status === 'error' && (
-              <p className={styles.error}>{t('form_error')}</p>
+              <p className={styles.error} role="alert">{t('form_error')}</p>
             )}
           </form>
         )}
