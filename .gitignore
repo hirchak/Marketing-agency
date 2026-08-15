@@ -7,3 +7,4 @@ dist
 .playwright-mcp
 Materials
 .DS_Store
+.env*
