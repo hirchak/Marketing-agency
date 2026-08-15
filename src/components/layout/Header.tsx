@@ -1,37 +1,22 @@
 import { useState, useEffect, useRef } from 'react';
 import { useI18n } from '../../lib/i18n';
-import type { Language } from '../../data/translations';
 import styles from './Header.module.css';
 
-const accessibilityCopy: Record<Language, {
+const accessibilityCopy: {
   primaryNavigation: string;
-  language: string;
   toggleMenu: string;
-}> = {
-  uk: {
-    primaryNavigation: 'Основна навігація',
-    language: 'Мова',
-    toggleMenu: 'Відкрити або закрити меню',
-  },
-  en: {
-    primaryNavigation: 'Primary navigation',
-    language: 'Language',
-    toggleMenu: 'Open or close menu',
-  },
-  cs: {
-    primaryNavigation: 'Hlavní navigace',
-    language: 'Jazyk',
-    toggleMenu: 'Otevřít nebo zavřít menu',
-  },
+} = {
+  primaryNavigation: 'Primary navigation',
+  toggleMenu: 'Open or close menu',
 };
 
 export default function Header() {
-  const { t, lang, setLang } = useI18n();
+  const { t } = useI18n();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const mobileToggleRef = useRef<HTMLButtonElement>(null);
   const navRef = useRef<HTMLElement>(null);
-  const a11y = accessibilityCopy[lang];
+  const a11y = accessibilityCopy;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -109,19 +94,6 @@ export default function Header() {
             </a>
           ))}
           <div className={styles.mobileActions}>
-            <div className={styles.langSwitch} aria-label={a11y.language}>
-              {(['uk', 'en', 'cs'] as Language[]).map((language) => (
-                <button
-                  key={language}
-                  type="button"
-                  className={`${styles.langBtn} ${lang === language ? styles.active : ''}`}
-                  onClick={() => setLang(language)}
-                  aria-pressed={lang === language}
-                >
-                  {language.toUpperCase()}
-                </button>
-              ))}
-            </div>
             <a href="#lead" className={styles.ctaBtn} onClick={closeMenu}>
               {t('cta_audit')}
             </a>
@@ -129,19 +101,6 @@ export default function Header() {
         </nav>
 
         <div className={styles.actions}>
-          <div className={styles.langSwitch}>
-            {(['uk', 'en', 'cs'] as Language[]).map((l) => (
-              <button
-                key={l}
-                type="button"
-                className={`${styles.langBtn} ${lang === l ? styles.active : ''}`}
-                onClick={() => setLang(l)}
-                aria-pressed={lang === l}
-              >
-                {l.toUpperCase()}
-              </button>
-            ))}
-          </div>
           <a href="#lead" className={styles.ctaBtn}>
             {t('cta_audit')}
           </a>
