@@ -5,6 +5,7 @@ import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Hero from './components/hero/Hero';
 import ProofStrip from './components/sections/ProofStrip';
+import AgencyStory from './components/sections/AgencyStory';
 import Capabilities from './components/sections/Capabilities';
 import Method from './components/sections/Method';
 import Cases from './components/sections/Cases';
@@ -73,6 +74,7 @@ function AppContent() {
       <main ref={mainRef}>
         <Hero />
         <ProofStrip />
+        <AgencyStory />
         <Capabilities />
         <Method />
         <Cases />

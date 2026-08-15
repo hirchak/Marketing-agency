@@ -25,10 +25,10 @@ export default function Footer() {
           <div className={styles.section}>
             <h4>{t('footer_nav')}</h4>
             <ul>
+              <li><a href="#agency">{t('nav_studio')}</a></li>
               <li><a href="#work">{t('nav_work')}</a></li>
               <li><a href="#capabilities">{t('nav_services')}</a></li>
               <li><a href="#method">{t('nav_method')}</a></li>
-              <li><a href="#studio">{t('nav_studio')}</a></li>
               <li><a href="#pricing">{t('nav_pricing')}</a></li>
             </ul>
           </div>

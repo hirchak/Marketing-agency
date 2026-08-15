@@ -15,89 +15,123 @@ interface StudioCopy {
     title: string;
     body: string;
   }>;
+  networkLabel: string;
+  networkTitle: string;
+  networkItems: Array<{
+    title: string;
+    body: string;
+  }>;
   ecosystemLabel: string;
   ecosystemTitle: string;
   ecosystemBody: string;
+  ecosystemPartners: string[];
 }
 
 const copy: Record<Language, StudioCopy> = {
   uk: {
-    kicker: 'Студія / Мережа',
-    title: 'Невелике ядро.',
-    titleAccent: 'Ширші можливості.',
-    intro: 'SAV.AGENCY використовує AI-native підхід, щоб невеликі проєктні команди могли швидко створювати амбітні цифрові продукти. Спосіб роботи формується навколо задачі, а не фіксованого складу.',
+    kicker: 'Студія / Мережа / Ventures',
+    title: 'Продуктова студія.',
+    titleAccent: 'Мережа творців. Venture layer.',
+    intro: 'SAV.AGENCY знаходить здібних творців і перспективні проєкти, об’єднує потрібних людей навколо задачі та формує гнучкі команди з внутрішніх спеціалістів, незалежних професіоналів, партнерів, засновників і зовнішніх експертів.',
     principles: [
       {
-        label: 'Ядро',
-        title: 'AI-native продуктова студія',
-        body: 'Дослідження, дизайн і розробка працюють як один процес — від першого напряму до робочого продукту.',
+        label: 'Створення',
+        title: 'AI-native продуктова розробка',
+        body: 'Сучасні AI-інструменти допомагають малим командам швидше прототипувати, автоматизувати роботу, тестувати більше ідей і створювати складні спеціалізовані системи.',
       },
       {
-        label: 'Команда',
-        title: 'Склад під конкретний проєкт',
-        body: 'Коли цього потребує задача, до гнучкої проєктної команди долучаються профільні спеціалісти з релевантним досвідом.',
+        label: 'Мережа',
+        title: 'Сильні люди навколо задачі',
+        body: 'Розробники, AI-білдери, дизайнери, product-менеджери, дослідники й growth-фахівці можуть обмінюватися знаннями, формувати команди та запускати експерименти разом.',
       },
       {
-        label: 'Потенціал',
-        title: 'Можливість спільного venture',
-        body: 'Окремі перспективні ідеї можуть вирости зі співпраці у спільні продукти — за взаємної зацікавленості та чіткого fit.',
+        label: 'Ventures',
+        title: 'Від співпраці до спільного продукту',
+        body: 'Окремі перспективні ідеї від клієнтів, засновників, спеціалістів, спільнот або екосистеми можуть стати спільними ventures — за взаємної зацікавленості й чіткого fit.',
       },
+    ],
+    networkLabel: 'Мережа в дії',
+    networkTitle: 'Інфраструктура для співпраці та навчання через реальні проєкти',
+    networkItems: [
+      { title: 'Пошук через Linkora', body: 'У міру розвитку мережі Linkora може допомагати знаходити людей, навички, ідеї, команди й можливості для співпраці.' },
+      { title: 'Навчання разом', body: 'Воркшопи, хакатони, продуктові розбори, AI-експерименти та робочі сесії допомагають людям навчатися через створення реальних речей.' },
+      { title: 'Технології суспільної користі', body: 'Агенція може створювати цифрову інфраструктуру для громад, освіти, екології, культури, NGO, муніципалітетів і державних сервісів.' },
+      { title: 'Гнучка проєктна команда', body: 'Кожен проєкт отримує власну комбінацію product, design, engineering, growth та галузевої експертизи.' },
     ],
     ecosystemLabel: 'Ширша екосистема',
-    ecosystemTitle: 'Technology & digital product',
-    ecosystemBody: 'У ширшій екосистемі 34ForFree7 SAV.AGENCY є технологічною та digital-product компетенцією.',
+    ecosystemTitle: 'Технологічна спроможність 34ForFree7',
+    ecosystemBody: 'Коли інша агенція або спільнота знаходить проблему, яку можна розв’язати технологією, SAV.AGENCY може дослідити потребу, визначити продуктову можливість, зібрати команду, створити й протестувати рішення та за потреби перетворити його на повторно використовуваний продукт.',
+    ecosystemPartners: ['Personal Growth & Brand', 'Business', 'Impact'],
   },
   en: {
-    kicker: 'Studio / Network',
-    title: 'Small core.',
-    titleAccent: 'Wider capability.',
-    intro: 'SAV.AGENCY uses an AI-native approach so small project teams can build ambitious digital products quickly. The way we work is shaped around the project rather than a fixed roster.',
+    kicker: 'Studio / Network / Ventures',
+    title: 'Product studio.',
+    titleAccent: 'Creator network. Venture layer.',
+    intro: 'SAV.AGENCY discovers capable creators and promising projects, brings the right people around the task and forms flexible teams from agency specialists, independent professionals, partners, founders and external experts.',
     principles: [
       {
-        label: 'Core',
-        title: 'AI-native product studio',
-        body: 'Research, design and engineering move as one product process—from early direction to a working product.',
+        label: 'Build',
+        title: 'AI-native product development',
+        body: 'Modern AI tools help small teams prototype faster, automate work, test more ideas and build sophisticated, highly specialized systems.',
       },
       {
-        label: 'Team',
-        title: 'Built around the project',
-        body: 'When the work calls for it, relevant specialists join a flexible team shaped around the brief.',
+        label: 'Network',
+        title: 'Strong people around the task',
+        body: 'Developers, AI builders, designers, product managers, researchers and growth specialists can share knowledge, form teams and launch experiments together.',
       },
       {
-        label: 'Potential',
-        title: 'A path to shared ventures',
-        body: 'A select number of promising ideas may grow from client work into shared ventures—where there is clear mutual fit.',
+        label: 'Ventures',
+        title: 'From collaboration to shared product',
+        body: 'Selected ideas from clients, founders, specialists, communities or the ecosystem may become shared ventures—where there is clear mutual fit.',
       },
+    ],
+    networkLabel: 'The network in practice',
+    networkTitle: 'Infrastructure for collaboration and learning through real projects',
+    networkItems: [
+      { title: 'Discovery through Linkora', body: 'As the network develops, Linkora can help surface people, skills, ideas, teams and opportunities for collaboration.' },
+      { title: 'Learning together', body: 'Workshops, hackathons, product reviews, AI experiments and building sessions help people learn by making real things.' },
+      { title: 'Public-interest technology', body: 'The agency can build digital infrastructure for communities, education, ecology, culture, NGOs, municipalities and public services.' },
+      { title: 'Flexible project teams', body: 'Each project gets its own combination of product, design, engineering, growth and relevant industry expertise.' },
     ],
     ecosystemLabel: 'Wider ecosystem',
-    ecosystemTitle: 'Technology & digital product',
-    ecosystemBody: 'Within the wider 34ForFree7 ecosystem, SAV.AGENCY provides the technology and digital-product capability.',
+    ecosystemTitle: 'The technology capability of 34ForFree7',
+    ecosystemBody: 'When another agency or community identifies a problem that technology can solve, SAV.AGENCY can explore the need, define the product opportunity, assemble a team, build and test the solution, and—where useful—turn it into a reusable product.',
+    ecosystemPartners: ['Personal Growth & Brand', 'Business', 'Impact'],
   },
   cs: {
-    kicker: 'Studio / Síť',
-    title: 'Malé jádro.',
-    titleAccent: 'Širší možnosti.',
-    intro: 'SAV.AGENCY využívá AI-native přístup, aby malé projektové týmy mohly rychle tvořit ambiciózní digitální produkty. Způsob práce přizpůsobujeme projektu, ne pevnému složení týmu.',
+    kicker: 'Studio / Síť / Ventures',
+    title: 'Produktové studio.',
+    titleAccent: 'Síť tvůrců. Venture vrstva.',
+    intro: 'SAV.AGENCY vyhledává schopné tvůrce a perspektivní projekty, spojuje správné lidi kolem zadání a skládá flexibilní týmy z agenturních specialistů, nezávislých profesionálů, partnerů, zakladatelů a externích expertů.',
     principles: [
       {
-        label: 'Jádro',
-        title: 'AI-native produktové studio',
-        body: 'Výzkum, design a vývoj tvoří jeden produktový proces — od prvního směru k funkčnímu produktu.',
+        label: 'Tvorba',
+        title: 'AI-native produktový vývoj',
+        body: 'Moderní AI nástroje pomáhají malým týmům rychleji prototypovat, automatizovat práci, testovat více nápadů a tvořit sofistikované specializované systémy.',
       },
       {
-        label: 'Tým',
-        title: 'Složení podle projektu',
-        body: 'Když to zadání vyžaduje, zapojujeme relevantní specialisty do flexibilního týmu sestaveného pro daný projekt.',
+        label: 'Síť',
+        title: 'Silní lidé kolem zadání',
+        body: 'Vývojáři, AI tvůrci, designéři, produktoví manažeři, výzkumníci a growth specialisté mohou sdílet znalosti, skládat týmy a společně spouštět experimenty.',
       },
       {
-        label: 'Potenciál',
-        title: 'Cesta ke společným ventures',
-        body: 'Vybrané perspektivní nápady mohou přerůst z klientské spolupráce ve společné projekty — pokud existuje jasná shoda na obou stranách.',
+        label: 'Ventures',
+        title: 'Od spolupráce ke společnému produktu',
+        body: 'Vybrané nápady od klientů, zakladatelů, specialistů, komunit nebo ekosystému se mohou stát společnými ventures — pokud existuje jasná shoda na obou stranách.',
       },
     ],
+    networkLabel: 'Síť v praxi',
+    networkTitle: 'Infrastruktura pro spolupráci a učení prostřednictvím reálných projektů',
+    networkItems: [
+      { title: 'Objevování přes Linkoru', body: 'S rozvojem sítě může Linkora pomáhat nacházet lidi, dovednosti, nápady, týmy a příležitosti ke spolupráci.' },
+      { title: 'Společné učení', body: 'Workshopy, hackathony, produktové rozbory, AI experimenty a pracovní setkání pomáhají lidem učit se tvorbou skutečných věcí.' },
+      { title: 'Technologie ve veřejném zájmu', body: 'Agentura může tvořit digitální infrastrukturu pro komunity, vzdělávání, ekologii, kulturu, neziskové organizace, obce a veřejné služby.' },
+      { title: 'Flexibilní projektové týmy', body: 'Každý projekt dostává vlastní kombinaci produktové, designové, technické, růstové a oborové expertizy.' },
+    ],
     ecosystemLabel: 'Širší ekosystém',
-    ecosystemTitle: 'Technology & digital product',
-    ecosystemBody: 'V širším ekosystému 34ForFree7 představuje SAV.AGENCY technologickou a digitálně-produktovou kapacitu.',
+    ecosystemTitle: 'Technologická kapacita 34ForFree7',
+    ecosystemBody: 'Když jiná agentura nebo komunita objeví problém řešitelný technologií, SAV.AGENCY může prozkoumat potřebu, definovat produktovou příležitost, sestavit tým, řešení vytvořit a otestovat a tam, kde to dává smysl, z něj udělat znovu použitelný produkt.',
+    ecosystemPartners: ['Personal Growth & Brand', 'Business', 'Impact'],
   },
 };
 
@@ -124,7 +158,7 @@ export default function Studio() {
     });
 
     return () => media.revert();
-  }, { scope: sectionRef });
+  }, { scope: sectionRef, dependencies: [lang], revertOnUpdate: true });
 
   return (
     <section
@@ -160,6 +194,21 @@ export default function Studio() {
           ))}
         </ol>
 
+        <div className={styles.network} data-studio-reveal>
+          <header className={styles.networkHeader}>
+            <span className={styles.ecosystemLabel}>{content.networkLabel}</span>
+            <h3>{content.networkTitle}</h3>
+          </header>
+          <div className={styles.networkGrid}>
+            {content.networkItems.map((item) => (
+              <article key={item.title}>
+                <h4>{item.title}</h4>
+                <p>{item.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+
         <div className={styles.ecosystem} data-studio-reveal>
           <div className={styles.ecosystemMark} aria-hidden="true">
             <span className={styles.pulse} />
@@ -168,7 +217,12 @@ export default function Studio() {
           <div className={styles.ecosystemContent}>
             <span className={styles.ecosystemLabel}>{content.ecosystemLabel}</span>
             <h3>{content.ecosystemTitle}</h3>
-            <p>{content.ecosystemBody}</p>
+            <div>
+              <p>{content.ecosystemBody}</p>
+              <ul className={styles.ecosystemPartners} aria-label={content.ecosystemLabel}>
+                {content.ecosystemPartners.map((partner) => <li key={partner}>{partner}</li>)}
+              </ul>
+            </div>
           </div>
         </div>
       </div>

@@ -80,10 +80,10 @@ export default function Header() {
   }, [menuOpen]);
 
   const navItems = [
+    { href: '#agency', label: t('nav_studio') },
     { href: '#capabilities', label: t('nav_services') },
     { href: '#method', label: t('nav_method') },
     { href: '#work', label: t('nav_work') },
-    { href: '#studio', label: t('nav_studio') },
     { href: '#pricing', label: t('nav_pricing') },
     { href: '#lead', label: t('nav_audit') },
   ];
