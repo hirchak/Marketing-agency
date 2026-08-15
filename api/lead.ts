@@ -1,5 +1,12 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+declare const process: {
+  env: {
+    TELEGRAM_BOT_TOKEN?: string;
+    TELEGRAM_CHAT_IDS?: string;
+  };
+};
+
 const TELEGRAM_API = 'https://api.telegram.org';
 
 type LeadBody = {
