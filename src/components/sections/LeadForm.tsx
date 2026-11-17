@@ -12,20 +12,27 @@ const projectOptions: Array<{ value: string; labelKey: TranslationKey }> = [
   { value: 'Recommendation needed', labelKey: 'option_not_sure' },
 ];
 
+const emptyForm = {
+  website: '',
+  what_build: '',
+  stage: '',
+  friction: '',
+  budget: '',
+  email: '',
+  telegram: '',
+};
+
 export default function LeadForm() {
   const { t } = useI18n();
   const [visible, setVisible] = useState(false);
   const ref = useRef<HTMLElement>(null);
-  const [formData, setFormData] = useState({
-    website: '',
-    what_build: '',
-    stage: '',
-    friction: '',
-    budget: '',
-    email: '',
-    telegram: '',
-  });
+  const [formData, setFormData] = useState(emptyForm);
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const successRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (status === 'success') successRef.current?.focus();
+  }, [status]);
 
   useEffect(() => {
     const element = ref.current;
@@ -49,28 +56,22 @@ export default function LeadForm() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (status === 'submitting') return;
     setStatus('submitting');
+    const honeypot = (new FormData(e.currentTarget).get('company') as string | null) || '';
 
     try {
       const response = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, company: honeypot }),
       });
 
       if (response.ok) {
         setStatus('success');
-        setFormData({
-          website: '',
-          what_build: '',
-          stage: '',
-          friction: '',
-          budget: '',
-          email: '',
-          telegram: '',
-        });
+        setFormData(emptyForm);
       } else {
         setStatus('error');
       }
@@ -98,26 +99,34 @@ export default function LeadForm() {
         </div>
 
         {status === 'success' ? (
-          <div className={styles.success} role="status" aria-live="polite">
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <div className={styles.success} role="status" aria-live="polite" ref={successRef} tabIndex={-1}>
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
               <circle cx="24" cy="24" r="23" stroke="var(--accent)" strokeWidth="2"/>
               <path d="M15 24L21 30L33 18" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             <p>{t('form_success')}</p>
           </div>
         ) : (
-          <form className={styles.form} onSubmit={handleSubmit}>
+          <form className={styles.form} onSubmit={handleSubmit} aria-busy={status === 'submitting'}>
+            <div className={styles.honeypot} aria-hidden="true">
+              <label htmlFor="lead-company">Company</label>
+              <input id="lead-company" type="text" name="company" tabIndex={-1} autoComplete="off" />
+            </div>
+
             <div className={styles.row}>
               <div className={styles.field}>
                 <label className={styles.label} htmlFor="lead-website">{t('field_website')}</label>
                 <input
                   id="lead-website"
-                  type="url"
+                  type="text"
+                  inputMode="url"
+                  autoComplete="url"
                   name="website"
                   value={formData.website}
                   onChange={handleChange}
                   placeholder={t('field_website_placeholder')}
                   className={styles.input}
+                  maxLength={300}
                 />
               </div>
               <div className={styles.field}>
@@ -148,6 +157,7 @@ export default function LeadForm() {
                 placeholder={t('field_friction_placeholder')}
                 className={styles.textarea}
                 rows={4}
+                maxLength={2000}
                 required
               />
             </div>
@@ -163,6 +173,7 @@ export default function LeadForm() {
                   onChange={handleChange}
                   placeholder={t('field_stage_placeholder')}
                   className={styles.input}
+                  maxLength={160}
                 />
               </div>
               <div className={styles.field}>
@@ -175,6 +186,7 @@ export default function LeadForm() {
                   onChange={handleChange}
                   placeholder="EUR 1,000–5,000"
                   className={styles.input}
+                  maxLength={160}
                 />
               </div>
             </div>
@@ -186,10 +198,12 @@ export default function LeadForm() {
                   id="lead-email"
                   type="email"
                   name="email"
+                  autoComplete="email"
                   value={formData.email}
                   onChange={handleChange}
                   placeholder={t('field_email_placeholder')}
                   className={styles.input}
+                  maxLength={254}
                   required
                 />
               </div>
@@ -203,13 +217,17 @@ export default function LeadForm() {
                   onChange={handleChange}
                   placeholder={t('field_telegram_placeholder')}
                   className={styles.input}
+                  maxLength={64}
                 />
               </div>
             </div>
 
             <button type="submit" className={styles.submit} disabled={status === 'submitting'}>
               {status === 'submitting' ? (
-                <span className={styles.spinner} />
+                <>
+                  <span className={styles.spinner} aria-hidden="true" />
+                  <span>Sending…</span>
+                </>
               ) : (
                 t('btn_submit')
               )}

@@ -3,9 +3,9 @@ import type { Language } from '../../data/translations';
 import styles from './Footer.module.css';
 
 const serviceNames: Record<Language, string[]> = {
-  uk: ['Маркетинг і зростання', 'Вебсайти', 'Медіа та контент', 'Цифрові продукти та AI'],
-  en: ['Marketing and Growth', 'Websites', 'Media and Content', 'Digital Products and AI'],
-  cs: ['Marketing a růst', 'Webové stránky', 'Média a obsah', 'Digitální produkty a AI'],
+  uk: ['Цифрові продукти та AI', 'Вебсайти', 'Маркетинг і зростання', 'Медіа та контент'],
+  en: ['Digital Products and AI', 'Websites', 'Marketing and Growth', 'Media and Content'],
+  cs: ['Digitální produkty a AI', 'Webové stránky', 'Marketing a růst', 'Média a obsah'],
 };
 
 export default function Footer() {
@@ -16,7 +16,7 @@ export default function Footer() {
       <div className={styles.container}>
         <div className={styles.grid}>
           <div className={styles.brand}>
-            <a href="#" className={styles.logo}>
+            <a href="#main" className={styles.logo}>
               SAV<span className={styles.accent}>.</span>AGENCY
             </a>
             <p className={styles.tagline}>{t('footer_tagline')}</p>
@@ -45,8 +45,6 @@ export default function Footer() {
           <div className={styles.section}>
             <h4>{t('footer_contact')}</h4>
             <ul>
-              <li><a href="https://t.me/andrisav" target="_blank" rel="noopener">{t('footer_telegram')}</a></li>
-              <li><a href="mailto:info@sav.agency">{t('footer_email')}</a></li>
               <li><a href="#lead">{t('cta_audit')}</a></li>
             </ul>
           </div>

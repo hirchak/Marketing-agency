@@ -122,8 +122,8 @@
   font-weight: 800;
   color: white;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 42%),
-    var(--accent);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 38%),
+    var(--accent-fill);
   border: none;
   border-radius: var(--radius-sm);
   cursor: pointer;
@@ -133,9 +133,21 @@
 }
 
 .submit:hover:not(:disabled) {
-  background: var(--accent-hover);
+  background: var(--accent-fill-hover);
   transform: translateY(-2px);
   box-shadow: var(--shadow-glow);
+}
+
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.success:focus {
+  outline: none;
 }
 
 .submit:disabled {

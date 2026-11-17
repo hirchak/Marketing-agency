@@ -1,6 +1,7 @@
 .hero {
   position: relative;
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -99,8 +100,8 @@
   min-height: 52px;
   padding: 15px 30px;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.16), transparent 42%),
-    var(--accent);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 38%),
+    var(--accent-fill);
   color: white;
   font-size: 0.95rem;
   font-weight: 700;
@@ -110,7 +111,7 @@
 }
 
 .ctaPrimary:hover {
-  background: var(--accent-hover);
+  background: var(--accent-fill-hover);
   box-shadow: 0 0 30px rgba(255, 69, 0, 0.35);
   transform: translateY(-2px);
 }
@@ -287,7 +288,7 @@
 }
 
 .consoleTopbar em {
-  color: rgba(255, 255, 255, 0.44);
+  color: rgba(255, 255, 255, 0.56);
   font-style: normal;
 }
 
@@ -550,7 +551,14 @@
   position: absolute;
   bottom: 40px;
   left: 50%;
-  animation: bounce 2s ease-in-out infinite;
+  animation: scrollCue 2s ease-in-out infinite;
+}
+
+/* On phones and laptop-height screens the hero content reaches the fold, so the cue would sit on top of it */
+@media (max-width: 767px), (max-height: 980px) {
+  .scrollIndicator {
+    display: none;
+  }
 }
 
 .scrollIndicator span {
@@ -560,7 +568,7 @@
   background: linear-gradient(to bottom, var(--accent), transparent);
 }
 
-@keyframes bounce {
+@keyframes scrollCue {
   0%, 100% {
     transform: translateX(-50%) translateY(0);
   }

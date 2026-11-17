@@ -35,9 +35,9 @@ export const cases: CaseItem[] = [
       cs: 'Propojit pozicování digitálně-produktové agentury, čtyři oblasti služeb a jasné výchozí body do jednoho srozumitelného webu.',
     },
     result: {
-      uk: 'Зібрали мультимовний React/Vite сайт зі структурою послуг, формою заявки, деплоєм на Vercel і масштабованою секцією кейсів.',
-      en: 'Built a multilingual React/Vite site with service architecture, lead capture, Vercel deploy and a scalable cases section.',
-      cs: 'Postavili jsme vícejazyčný React/Vite web se strukturou služeb, formulářem pro poptávky, nasazením na Vercel a škálovatelnou sekcí případových studií.',
+      uk: 'Зібрали React/Vite сайт зі структурою послуг, формою заявки, деплоєм на Vercel і масштабованою секцією кейсів.',
+      en: 'Built a React/Vite site with a clear service structure, Fit Check lead capture, Vercel deployment and a scalable cases section.',
+      cs: 'Postavili jsme React/Vite web se strukturou služeb, formulářem pro poptávky, nasazením na Vercel a škálovatelnou sekcí případových studií.',
     },
     services: {
       uk: ['Продуктове позиціонування', 'Архітектура послуг', 'Frontend', 'Fit Check'],

@@ -192,6 +192,13 @@
   border-bottom: 1px solid var(--border);
 }
 
+/* The shared label spans the row in the ecosystem block; here it sits beside the heading */
+.networkHeader .ecosystemLabel {
+  grid-column: auto;
+  align-self: start;
+  padding-top: 6px;
+}
+
 .networkHeader h3 {
   max-width: 760px;
   color: var(--text-primary);

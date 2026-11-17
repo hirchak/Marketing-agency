@@ -3,15 +3,6 @@ import { useI18n } from '../../lib/i18n';
 import { gsap, useGSAP } from '../../lib/gsap';
 import styles from './Hero.module.css';
 
-const nodes = [
-  { label: 'Product', angle: 0, size: 20 },
-  { label: 'Website', angle: 60, size: 14 },
-  { label: 'Platform', angle: 120, size: 16 },
-  { label: 'AI', angle: 180, size: 12 },
-  { label: 'Launch', angle: 240, size: 14 },
-  { label: 'Growth', angle: 300, size: 12 },
-];
-
 interface Particle {
   x: number;
   y: number;
@@ -29,9 +20,6 @@ export default function Hero() {
   const cta1Ref = useRef<HTMLAnchorElement>(null);
   const cta2Ref = useRef<HTMLAnchorElement>(null);
 
-  // Mouse tracking refs - not React state, no re-renders
-  const targetMouse = useRef({ x: 0, y: 0 });
-  const currentMouse = useRef({ x: 0, y: 0 });
   const isMobile = useRef(false);
   const prefersReducedMotion = useRef(false);
 
@@ -108,7 +96,6 @@ export default function Hero() {
 
     let time = 0;
     let active = false;
-    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
     const resize = () => {
       canvas.width = canvas.offsetWidth;
@@ -134,89 +121,6 @@ export default function Hero() {
         size: Math.random() * 1.5 + 0.5,
         alpha: Math.random() * 0.1 + 0.12,
       }));
-    };
-
-    const handlePointerMove = (e: PointerEvent) => {
-      if (isMobile.current) return;
-      const rect = hero.getBoundingClientRect();
-      targetMouse.current = {
-        x: e.clientX - rect.left - rect.width / 2,
-        y: e.clientY - rect.top - rect.height / 2,
-      };
-    };
-
-    const getNodePositions = (offsetX = 0, offsetY = 0) => {
-      const baseCenterX = canvas.width * (isMobile.current ? 0.5 : 0.72);
-      const baseCenterY = canvas.height * 0.5;
-      const centerX = baseCenterX + offsetX;
-      const centerY = baseCenterY + offsetY;
-      const radius = Math.min(canvas.width, canvas.height) * (isMobile.current ? 0.28 : 0.22);
-
-      return nodes.map((node) => ({
-        ...node,
-        x: centerX + Math.cos((node.angle * Math.PI) / 180) * radius,
-        y: centerY + Math.sin((node.angle * Math.PI) / 180) * radius,
-      }));
-    };
-
-    const drawNode = (x: number, y: number, size: number, label: string, isCentral: boolean, alpha: number = 1) => {
-      if (isCentral) {
-        const gradient = ctx.createRadialGradient(x, y, 0, x, y, size * 2);
-        gradient.addColorStop(0, `rgba(255, 69, 0, ${0.5 * alpha})`);
-        gradient.addColorStop(0.5, `rgba(255, 69, 0, ${0.2 * alpha})`);
-        gradient.addColorStop(1, 'rgba(255, 69, 0, 0)');
-        ctx.beginPath();
-        ctx.arc(x, y, size * 2, 0, Math.PI * 2);
-        ctx.fillStyle = gradient;
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(x, y, size, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(255, 69, 0, ${0.9 * alpha})`;
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.arc(x, y, size * 0.4, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 69, 0, ${0.7 * alpha})`;
-        ctx.fill();
-      } else {
-        ctx.beginPath();
-        ctx.arc(x, y, size * 1.5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${0.08 * alpha})`;
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(x, y, size, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(255, 255, 255, ${0.25 * alpha})`;
-        ctx.lineWidth = 1;
-        ctx.stroke();
-      }
-
-      ctx.font = `${isCentral ? '600' : '500'} ${isCentral ? 10 : 8}px JetBrains Mono, monospace`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillStyle = isCentral ? `rgba(255, 69, 0, ${alpha})` : `rgba(255, 255, 255, ${0.6 * alpha})`;
-      ctx.fillText(label.toUpperCase(), x, y);
-    };
-
-    const drawLine = (x1: number, y1: number, x2: number, y2: number, alpha: number = 1) => {
-      const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
-      gradient.addColorStop(0, `rgba(255, 69, 0, ${0.5 * alpha})`);
-      gradient.addColorStop(1, `rgba(255, 69, 0, ${0.15 * alpha})`);
-      ctx.beginPath();
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
-      ctx.strokeStyle = gradient;
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    };
-
-    const drawConnections = (nodePositions: ReturnType<typeof getNodePositions>, alpha: number = 1) => {
-      const central = nodePositions[0];
-      for (let i = 1; i < nodePositions.length; i++) {
-        drawLine(central.x, central.y, nodePositions[i].x, nodePositions[i].y, alpha);
-      }
     };
 
     const drawOperatingGrid = () => {
@@ -283,15 +187,10 @@ export default function Hero() {
       });
     };
 
+    // The product console carries the system diagram; the canvas only adds a quiet moving grid and particles.
     const animate = () => {
       if (!active) return;
       time += 0.008;
-
-      // Lerp mouse for smooth following
-      if (!isMobile.current && !prefersReducedMotion.current) {
-        currentMouse.current.x = lerp(currentMouse.current.x, targetMouse.current.x, 0.05);
-        currentMouse.current.y = lerp(currentMouse.current.y, targetMouse.current.y, 0.05);
-      }
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = '#0A0A0A';
@@ -299,32 +198,14 @@ export default function Hero() {
       drawOperatingGrid();
       drawSignalRoutes();
 
-      // Parallax offset from mouse
-      const parallaxX = isMobile.current ? 0 : currentMouse.current.x * 0.03;
-      const parallaxY = isMobile.current ? 0 : currentMouse.current.y * 0.03;
+      if (prefersReducedMotion.current) return; // one static frame, no loop
 
-      const nodePositions = getNodePositions(parallaxX, parallaxY);
-
-      drawConnections(nodePositions, 0.5);
-
-      const pulseSize = Math.sin(time * 2) * 2;
-      drawNode(nodePositions[0].x, nodePositions[0].y, nodePositions[0].size + pulseSize, nodes[0].label, true, 0.8);
-
-      nodePositions.slice(1).forEach((node, i) => {
-        const pulse = Math.sin(time * 2 + i * 0.5) * 1.5;
-        drawNode(node.x, node.y, node.size + pulse, nodes[i + 1].label, false, 0.6);
-      });
-
-      if (!prefersReducedMotion.current) {
-        animateParticles();
-      }
-
+      animateParticles();
       animationId.current = requestAnimationFrame(animate);
     };
 
     resize();
     window.addEventListener('resize', resize);
-    hero.addEventListener('pointermove', handlePointerMove);
     const observer = new IntersectionObserver(
       ([entry]) => {
         active = entry.isIntersecting;
@@ -339,7 +220,6 @@ export default function Hero() {
 
     return () => {
       window.removeEventListener('resize', resize);
-      hero.removeEventListener('pointermove', handlePointerMove);
       observer.disconnect();
       cancelAnimationFrame(animationId.current);
     };

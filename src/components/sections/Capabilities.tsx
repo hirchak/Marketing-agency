@@ -12,7 +12,20 @@ interface Capability {
   accent: boolean;
 }
 
+// Order follows the agency positioning: digital products first, then websites, growth and media.
 const capabilities: Capability[] = [
+  {
+    titleKey: 'cap_products_title',
+    descKey: 'cap_products_desc',
+    offersKey: 'cap_products_offers',
+    accent: true,
+  },
+  {
+    titleKey: 'cap_websites_title',
+    descKey: 'cap_websites_desc',
+    offersKey: 'cap_websites_offers',
+    accent: false,
+  },
   {
     titleKey: 'cap_marketing_title',
     descKey: 'cap_marketing_desc',
@@ -20,21 +33,9 @@ const capabilities: Capability[] = [
     accent: false,
   },
   {
-    titleKey: 'cap_websites_title',
-    descKey: 'cap_websites_desc',
-    offersKey: 'cap_websites_offers',
-    accent: true,
-  },
-  {
     titleKey: 'cap_media_title',
     descKey: 'cap_media_desc',
     offersKey: 'cap_media_offers',
-    accent: false,
-  },
-  {
-    titleKey: 'cap_products_title',
-    descKey: 'cap_products_desc',
-    offersKey: 'cap_products_offers',
     accent: true,
   },
 ];

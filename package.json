@@ -11,7 +11,7 @@
   },
   "name": "agency-marketing",
   "version": "1.0.0",
-  "description": "## Файли",
+  "description": "SAV.AGENCY / Faura Digital marketing site: React, Vite and a Vercel lead function",
   "type": "module",
   "main": "index.js",
   "scripts": {

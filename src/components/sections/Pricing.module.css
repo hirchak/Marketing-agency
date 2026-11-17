@@ -445,9 +445,9 @@
   min-height: 46px;
   margin-top: 24px;
   padding: 12px 19px;
-  border: 1px solid var(--accent);
+  border: 1px solid var(--accent-fill);
   border-radius: var(--radius-sm);
-  background: var(--accent);
+  background: var(--accent-fill);
   font-size: 0.77rem;
   font-weight: 750;
   color: white;
@@ -455,7 +455,7 @@
 }
 
 .fitCheckCta:hover {
-  background: var(--accent-hover);
+  background: var(--accent-fill-hover);
   transform: translateY(-1px);
 }
 

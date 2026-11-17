@@ -78,7 +78,7 @@ export default function Header() {
   return (
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
       <div className={styles.container}>
-        <a href="#" className={styles.logo} onClick={closeMenu}>
+        <a href="#main" className={styles.logo} onClick={closeMenu} aria-label="SAV.AGENCY home">
           SAV<span className={styles.logoAccent}>.</span>AGENCY
         </a>
 

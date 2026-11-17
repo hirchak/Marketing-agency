@@ -519,10 +519,10 @@ const digitalProductsAi: OfferCategory = {
 };
 
 export const offerCategories: OfferCategory[] = [
-  marketingGrowth,
-  websites,
-  mediaContent,
   digitalProductsAi,
+  websites,
+  marketingGrowth,
+  mediaContent,
 ];
 
 export const offers: PricingOffer[] = offerCategories.flatMap((category) => category.offers);
@@ -568,7 +568,7 @@ export const pricingCopy: Record<OfferLocale, PricingSectionCopy> = {
   en: {
     kicker: 'Services and engagements',
     title: 'Services, pricing and working method',
-    subtitle: 'Four connected service areas—from diagnosing growth and building websites to media systems and digital products. Every engagement starts with a clear task and an agreed scope.',
+    subtitle: 'Four connected service areas—from digital products and websites to growth diagnosis and media systems. Every engagement starts with a clear task and an agreed scope.',
     priceLabel: 'Price',
     timelineLabel: 'Timeline',
     suitableForLabel: 'Suitable for',

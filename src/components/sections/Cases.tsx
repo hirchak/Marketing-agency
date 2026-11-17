@@ -33,8 +33,10 @@ export default function Cases() {
       <AmbientBackground variant="work" />
       <div className={styles.container}>
         <div className={styles.header}>
-          <span className={styles.kicker}>{t('cases_kicker')}</span>
-          <h2 className={styles.title}>{t('cases_title')}</h2>
+          <div>
+            <span className={styles.kicker}>{t('cases_kicker')}</span>
+            <h2 className={styles.title}>{t('cases_title')}</h2>
+          </div>
           <p className={styles.subtitle}>{t('cases_subtitle')}</p>
         </div>
 

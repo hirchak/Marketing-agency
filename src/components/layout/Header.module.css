@@ -83,7 +83,7 @@
 
 .ctaBtn {
   padding: 10px 20px;
-  background: var(--accent);
+  background: var(--accent-fill);
   color: white;
   font-size: 0.875rem;
   font-weight: 600;
@@ -92,7 +92,7 @@
 }
 
 .ctaBtn:hover {
-  background: var(--accent-hover);
+  background: var(--accent-fill-hover);
   transform: translateY(-1px);
 }
 

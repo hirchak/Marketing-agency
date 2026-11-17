@@ -68,10 +68,11 @@ function AppContent() {
 
   return (
     <div className={`app ${isLoaded ? 'loaded' : ''}`}>
+      <a href="#main" className="skip-link">Skip to content</a>
       <AuroraVeil />
       <MotionAtmosphere />
       <Header />
-      <main ref={mainRef}>
+      <main ref={mainRef} id="main" tabIndex={-1}>
         <Hero />
         <ProofStrip />
         <AgencyStory />
